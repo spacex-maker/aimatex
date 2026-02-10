@@ -409,12 +409,12 @@ const FooterSectionComponent = () => {
               <h4>{intl.formatMessage({ id: 'footer.legal.title', defaultMessage: '法律' })}</h4>
               <ul>
                 <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/privacy-policy'); }}>
+                  <a href="https://aimatex.com/privacy-policy" target="_blank" rel="noopener noreferrer">
                     {intl.formatMessage({ id: 'footer.legal.privacy', defaultMessage: '隐私政策' })}
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/terms-of-service'); }}>
+                  <a href="https://aimatex.com/terms-of-service" target="_blank" rel="noopener noreferrer">
                     {intl.formatMessage({ id: 'footer.legal.terms', defaultMessage: '服务条款' })}
                   </a>
                 </li>
