@@ -21,7 +21,7 @@ const { Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const BACKGROUND_VIDEO_URL =
-  'https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/47w9oml55hsav.mp4';
+  'https://public-1258150206.cos.accelerate.myqcloud.com/home/homevideo.mp4';
 
 // --- Animations ---
 const auroraAnim = keyframes`
@@ -496,7 +496,7 @@ const HomePage = () => {
                   <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
                     <FormattedMessage 
                       id="home.products.ai2obj.description" 
-                      defaultMessage="Generate production-ready 3D assets from text or images in seconds." 
+                      defaultMessage="AI-powered comprehensive generation platform for creating diverse digital content." 
                     />
                   </Paragraph>
                   <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#00d4aa', fontWeight: 600 }}>

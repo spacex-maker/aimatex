@@ -493,7 +493,7 @@ const FooterSectionComponent = () => {
                   {intl.formatMessage({ id: 'footer.ai2obj.title', defaultMessage: 'AI2Obj' })}
                 </h4>
                 <p className="link-description">
-                  {intl.formatMessage({ id: 'footer.ai2obj.description', defaultMessage: 'AI 驱动的 3D 对象生成与转换平台' })}
+                  {intl.formatMessage({ id: 'footer.ai2obj.description', defaultMessage: 'AI 综合生成平台，提供多样化的数字内容创作工具' })}
                 </p>
               </div>
               <RightOutlined className="link-arrow" />
