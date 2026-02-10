@@ -5,36 +5,36 @@
 
 const brandConfig = {
   // 品牌名称
-  name: 'Seedance',
-  nameLowercase: 'seedance',
-  nameUppercase: 'SEEDANCE',
+  name: 'AIMATEX',
+  nameLowercase: 'aimatex',
+  nameUppercase: 'AIMATEX',
   
   // 产品名称
-  productName: 'Seedance',
-  productNameFull: 'Seedance 图生视频',
+  productName: 'AIMATEX',
+  productNameFull: 'AIMATEX AI助手平台',
   
   // 网站信息
-  siteUrl: 'https://seedance.com',
-  supportEmail: 'support@seedance.com',
+  siteUrl: 'https://aimatex.com',
+  supportEmail: 'support@aimatex.com',
   
   // SEO 默认信息
   seo: {
-    defaultTitle: 'Seedance - AI 图生视频平台',
-    defaultDescription: 'Seedance 是一站式 AI 图生视频平台，提供专业的视频生成服务。',
-    defaultImage: 'https://seedance.com/landing.png',
+    defaultTitle: 'AIMATEX - AI助手、伴侣、伙伴',
+    defaultDescription: 'AIMATEX 是您的AI助手、学习伙伴、创作伴侣。我们提供全方位的AI解决方案，让AI成为您工作、学习、创作中的最佳伙伴。',
+    defaultImage: 'https://aimatex.com/landing.png',
   },
   
   // 版权信息
   copyright: {
-    company: 'Seedance',
+    company: 'AIMATEX',
     year: new Date().getFullYear(),
   },
   
   // 社交媒体链接（如果需要）
   social: {
-    github: 'https://github.com/seedance',
-    twitter: 'https://twitter.com/seedance',
-    discord: 'https://discord.gg/seedance',
+    github: 'https://github.com/aimatex',
+    twitter: 'https://twitter.com/aimatex',
+    discord: 'https://discord.gg/aimatex',
   },
 };
 

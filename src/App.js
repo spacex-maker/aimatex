@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import { LocaleProvider } from './contexts/LocaleContext';
 import { Helmet } from 'react-helmet';
 import SeedanceVideoPage from './pages/SeedanceVideoPage';
+import HomePage from './pages/Home';
 import brandConfig from './config/brand';
 import ProfilePage from './pages/Profile';
 import SettingsPage from './pages/Settings';
@@ -246,7 +247,8 @@ export default function App() {
           <GlobalStyles />
           <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
-              <Route path="/" element={<SeedanceVideoPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/seedance-video" element={<SeedanceVideoPage />} />
               {/* 认证页面 */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
