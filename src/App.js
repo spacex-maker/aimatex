@@ -230,6 +230,19 @@ export default function App() {
     root.style.setProperty('--ant-color-text', textColor);
   }, [isDark]);
 
+  // 百度统计跟踪代码 - 只需在根组件加载一次即可跟踪所有页面
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && !window._hmt) {
+      window._hmt = window._hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?573c5b751ae6d7086d0bf5bf059c55ae";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    }
+  }, []);
+
   return (
     <LocaleProvider>
       <Helmet>
