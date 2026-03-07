@@ -1410,6 +1410,10 @@ export default {
   'home.products.ai2obj.description': 'AI-powered 3D object generation and conversion platform, your 3D creation partner',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'Explore global humanoid robot companies, parameter comparisons and industry insights, your robotics research partner',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': 'Autonomous Agent platform — build and deploy intelligent agents with OpenForgeX.',
+  'home.products.openclaw4j.cta': 'Try Agent',
   'home.products.learnMore': 'Learn More',
   'home.hero.cta.demo': 'Watch film',
   // Home Features Section

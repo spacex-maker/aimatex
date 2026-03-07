@@ -1210,6 +1210,10 @@ export default {
   'home.products.ai2obj.description': 'Plataforma de generación y conversión de objetos 3D impulsada por IA, tu socio de creación 3D',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'Explora empresas globales de robots humanoides, comparaciones de parámetros e información de la industria, tu socio de investigación en robótica',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': 'Plataforma de agentes autónomos — construye y despliega agentes inteligentes con OpenForgeX.',
+  'home.products.openclaw4j.cta': 'Probar agente',
   'home.products.learnMore': 'Saber más',
   // Sección de características de la página de inicio
   'home.features.title': 'Taller creativo todo en uno.',

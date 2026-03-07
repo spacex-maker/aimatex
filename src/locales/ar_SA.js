@@ -1232,6 +1232,10 @@ export default {
   'home.products.ai2obj.description': 'منصة إنشاء وتحويل كائنات ثلاثية الأبعاد مدعومة بالذكاء الاصطناعي، شريكك في الإبداع ثلاثي الأبعاد',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'استكشف شركات الروبوتات البشرية العالمية، ومقارنات المعاملات ورؤى الصناعة، شريكك في أبحاث الروبوتات',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': 'منصة الوكلاء المستقلين — بناء ونشر وكلاء أذكياء مع OpenForgeX.',
+  'home.products.openclaw4j.cta': 'تجربة الوكيل',
   'home.products.learnMore': 'معرفة المزيد',
   // قسم ميزات الصفحة الرئيسية
   'home.features.title': 'ورشة إبداعية متكاملة.',

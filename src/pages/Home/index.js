@@ -15,6 +15,7 @@ import {
   RocketOutlined,
   ArrowRightOutlined,
   PlayCircleOutlined,
+  ThunderboltOutlined,
 } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -530,6 +531,35 @@ const HomePage = () => {
                   </Paragraph>
                   <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#ff6b6b', fontWeight: 600 }}>
                     <FormattedMessage id="home.products.openrobotx.cta" defaultMessage="Explore Community" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
+                  </div>
+                </ProductCard>
+              </Col>
+
+              <Col xs={24} md={8}>
+                <ProductCard 
+                  theme={theme}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => window.open('https://agent.aimatex.com', '_blank')}
+                >
+                  <CardIconWrapper 
+                    className="icon-wrapper"
+                    $bg={theme.mode === 'dark' ? 'rgba(139, 92, 246, 0.2)' : '#f5f3ff'}
+                    $color="#8b5cf6"
+                  >
+                    <ThunderboltOutlined />
+                  </CardIconWrapper>
+                  <Title level={3} style={{ color: theme.mode === 'dark' ? '#fff' : '#000' }}>
+                    <FormattedMessage id="home.products.openclaw4j.title" defaultMessage="OpenClaw4j" />
+                  </Title>
+                  <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
+                    <FormattedMessage 
+                      id="home.products.openclaw4j.description" 
+                      defaultMessage="Autonomous Agent platform — build and deploy intelligent agents with OpenForgeX." 
+                    />
+                  </Paragraph>
+                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#8b5cf6', fontWeight: 600 }}>
+                    <FormattedMessage id="home.products.openclaw4j.cta" defaultMessage="Try Agent" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
                   </div>
                 </ProductCard>
               </Col>

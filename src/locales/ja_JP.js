@@ -1361,6 +1361,10 @@ export default {
   'home.products.ai2obj.description': 'AI駆動の3Dオブジェクト生成・変換プラットフォーム、あなたの3D作成パートナー',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'グローバルな人型ロボット企業、パラメータ比較、業界インサイトを探索、あなたのロボット研究パートナー',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': '自律エージェントプラットフォーム — OpenForgeX でインテリジェントエージェントを構築・デプロイ',
+  'home.products.openclaw4j.cta': 'エージェントを試す',
   'home.products.learnMore': '詳細を見る',
   // ホーム機能セクション
   'home.features.title': 'オールインワン創作ワークショップ。',

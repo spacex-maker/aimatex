@@ -1341,6 +1341,10 @@ export default {
   'home.products.ai2obj.description': 'AI 기반 3D 객체 생성 및 변환 플랫폼, 당신의 3D 창작 파트너',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': '글로벌 휴머노이드 로봇 회사, 매개변수 비교 및 업계 인사이트 탐색, 당신의 로봇 연구 파트너',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': '자율 에이전트 플랫폼 — OpenForgeX로 지능형 에이전트 구축 및 배포',
+  'home.products.openclaw4j.cta': '에이전트 체험',
   'home.products.learnMore': '자세히 알아보기',
   // 홈 기능 섹션
   'home.features.title': '올인원 창작 작업실.',

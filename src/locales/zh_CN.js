@@ -1481,6 +1481,10 @@ export default {
   'home.products.ai2obj.description': 'AI驱动的3D对象生成与转换平台，您的3D创作伙伴',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': '探索全球人形机器人公司、参数对比与行业资讯，您的机器人研究伙伴',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': '自主智能体平台，基于 OpenForgeX 构建与部署智能体',
+  'home.products.openclaw4j.cta': '体验智能体',
   'home.products.learnMore': '了解更多',
   // 首页特性区域
   'home.features.title': '全能创作工坊。',

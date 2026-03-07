@@ -1287,6 +1287,10 @@ export default {
   'home.products.ai2obj.description': 'KI-gestützte 3D-Objektgenerierungs- und Konvertierungsplattform, Ihr 3D-Erstellungspartner',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'Erkunden Sie globale humanoide Roboterunternehmen, Parametervergleiche und Brancheneinblicke, Ihr Robotik-Forschungspartner',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': 'Autonome-Agenten-Plattform — intelligente Agenten mit OpenForgeX erstellen und bereitstellen.',
+  'home.products.openclaw4j.cta': 'Agent ausprobieren',
   'home.products.learnMore': 'Mehr erfahren',
   // Homepage-Funktionsbereich
   'home.features.title': 'All-in-One-Kreativwerkstatt.',

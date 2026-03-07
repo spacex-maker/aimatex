@@ -1216,6 +1216,10 @@ export default {
   'home.products.ai2obj.description': 'Платформа генерации и преобразования 3D-объектов на основе ИИ, ваш партнер по 3D-творчеству',
   'home.products.openrobotx.name': 'OpenRobotX',
   'home.products.openrobotx.description': 'Исследуйте глобальные компании гуманоидных роботов, сравнения параметров и отраслевую информацию, ваш партнер по исследованиям в робототехнике',
+  'home.products.openclaw4j.name': 'OpenClaw4j',
+  'home.products.openclaw4j.title': 'OpenClaw4j',
+  'home.products.openclaw4j.description': 'Платформа автономных агентов — создавайте и развертывайте интеллектуальных агентов с OpenForgeX.',
+  'home.products.openclaw4j.cta': 'Попробовать агента',
   'home.products.learnMore': 'Узнать больше',
   // Раздел функций главной страницы
   'home.features.title': 'Универсальная творческая мастерская.',
