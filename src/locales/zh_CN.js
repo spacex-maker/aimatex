@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': '返回官网',
   'header.workspace': '工作空间',
   'login.title': 'AIMATEX',
@@ -1313,6 +1313,8 @@ export default {
   'footer.openRobotX.visit': '前往 Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'AI 综合生成平台，提供多样化的数字内容创作工具',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': '个人云音乐空间：发现、歌单协作、正在听与云端音库',
   
   // 定价页面
   'pricing.title': '选择适合您的方案',
@@ -1485,6 +1487,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': '自主智能体平台，基于 OpenForgeX 构建与部署智能体',
   'home.products.openclaw4j.cta': '体验智能体',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': '个人云音乐空间：发现音乐、歌单协作、正在听与云端音库，一站式管理你的音乐',
+  'home.products.aimatexMusic.cta': '进入音乐站',
+  'home.music.eyebrow': 'AIMATEX 产品矩阵',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': '个人云音乐空间：发现、收藏、歌单协作与正在听，一站式管理你的音乐。',
+  'home.music.feature.discover.title': '发现音乐',
+  'home.music.feature.discover.desc': '搜索曲库，一键导入云端音库。',
+  'home.music.feature.playlist.title': '歌单协作',
+  'home.music.feature.playlist.desc': '创建与分享歌单，和好友一起听。',
+  'home.music.feature.nowPlaying.title': '正在听',
+  'home.music.feature.nowPlaying.desc': '同步听歌状态、喜欢与播放历史。',
+  'home.music.feature.cloud.title': '云端音库',
+  'home.music.feature.cloud.desc': '高品质音频安全存储在云端。',
+  'home.music.cta': '进入 AIMATEX-MUSIC',
   'home.products.learnMore': '了解更多',
   // 首页特性区域
   'home.features.title': '全能创作工坊。',

@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Página Inicial',
   'header.workspace': 'Espaço de Trabalho',
   'login.title': 'Seedance',
@@ -1111,6 +1111,8 @@ export default {
   'footer.openRobotX.visit': 'Visitar Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'Plataforma abrangente de geração com IA para criar diversos conteúdos digitais',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Música na nuvem: descobrir, playlists, a tocar e biblioteca',
   
   // Página de preços
   'pricing.title': 'Escolha o plano que funciona para você',
@@ -1283,6 +1285,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Plataforma de agentes autónomos — crie e implemente agentes inteligentes com OpenForgeX.',
   'home.products.openclaw4j.cta': 'Experimentar agente',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Espaço de música na nuvem pessoal — descobrir faixas, playlists colaborativas, a tocar agora e biblioteca na nuvem',
+  'home.products.aimatexMusic.cta': 'Entrar na Música',
+  'home.music.eyebrow': 'Suite AIMATEX',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'O seu espaço de música na nuvem — descobrir, colecionar e ouvir em conjunto.',
+  'home.music.feature.discover.title': 'Descobrir',
+  'home.music.feature.discover.desc': 'Pesquisar e importar faixas para a biblioteca.',
+  'home.music.feature.playlist.title': 'Playlists',
+  'home.music.feature.playlist.desc': 'Criar e partilhar playlists colaborativas.',
+  'home.music.feature.nowPlaying.title': 'A tocar',
+  'home.music.feature.nowPlaying.desc': 'Audição sincronizada, favoritos e histórico.',
+  'home.music.feature.cloud.title': 'Biblioteca cloud',
+  'home.music.feature.cloud.desc': 'Áudio de alta qualidade na nuvem.',
+  'home.music.cta': 'Abrir AIMATEX-MUSIC',
   'home.products.learnMore': 'Saiba mais',
   // Seção de recursos da página inicial
   'home.features.title': 'Oficina criativa tudo-em-um.',

@@ -9,7 +9,8 @@ import {
   MailOutlined,
   RightOutlined,
   RobotOutlined,
-  BlockOutlined
+  BlockOutlined,
+  CustomerServiceOutlined,
 } from '@ant-design/icons';
 import { ContentWrapper } from '../styles';
 
@@ -494,6 +495,28 @@ const FooterSectionComponent = () => {
                 </h4>
                 <p className="link-description">
                   {intl.formatMessage({ id: 'footer.ai2obj.description', defaultMessage: 'AI 综合生成平台，提供多样化的数字内容创作工具' })}
+                </p>
+              </div>
+              <RightOutlined className="link-arrow" />
+            </ExternalLinkCard>
+
+            <ExternalLinkCard
+              href={brandConfig.products.aimatexMusic}
+              target="_blank"
+              rel="noopener noreferrer"
+              theme={theme}
+              $iconBg={theme.mode === 'dark' ? 'rgba(244, 63, 94, 0.15)' : 'rgba(244, 63, 94, 0.1)'}
+              $iconColor="#f43f5e"
+            >
+              <div className="link-icon">
+                <CustomerServiceOutlined />
+              </div>
+              <div className="link-content">
+                <h4 className="link-title">
+                  {intl.formatMessage({ id: 'footer.aimatexMusic.title', defaultMessage: 'AIMATEX-MUSIC' })}
+                </h4>
+                <p className="link-description">
+                  {intl.formatMessage({ id: 'footer.aimatexMusic.description', defaultMessage: '个人云音乐空间：发现、歌单协作、正在听与云端音库' })}
                 </p>
               </div>
               <RightOutlined className="link-arrow" />

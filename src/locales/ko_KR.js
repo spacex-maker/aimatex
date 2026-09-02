@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': '홈페이지',
   'header.workspace': '작업 공간',
   'login.title': 'Seedance',
@@ -1173,6 +1173,8 @@ export default {
   'footer.openRobotX.visit': 'Open Robot X 방문',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': '다양한 디지털 콘텐츠 제작 도구를 제공하는 AI 종합 생성 플랫폼',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': '개인 클라우드 음악: 탐색, 플레이리스트, 재생 중, 클라우드 라이브러리',
   
   // 가격 페이지
   'pricing.title': '당신에게 맞는 플랜을 선택하세요',
@@ -1345,6 +1347,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': '자율 에이전트 플랫폼 — OpenForgeX로 지능형 에이전트 구축 및 배포',
   'home.products.openclaw4j.cta': '에이전트 체험',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': '개인 클라우드 음악 공간 — 곡 탐색, 협업 플레이리스트, 지금 재생 중, 클라우드 음원 라이브러리',
+  'home.products.aimatexMusic.cta': '음악 들어가기',
+  'home.music.eyebrow': 'AIMATEX 스위트',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': '개인 클라우드 음악 공간 — 탐색, 수집, 함께 듣기.',
+  'home.music.feature.discover.title': '발견',
+  'home.music.feature.discover.desc': '곡을 검색해 클라우드 라이브러리로 가져오기.',
+  'home.music.feature.playlist.title': '플레이리스트',
+  'home.music.feature.playlist.desc': '협업 플레이리스트 생성과 공유.',
+  'home.music.feature.nowPlaying.title': '지금 재생',
+  'home.music.feature.nowPlaying.desc': '동기화 청취, 좋아요, 재생 기록.',
+  'home.music.feature.cloud.title': '클라우드 라이브러리',
+  'home.music.feature.cloud.desc': '고음질 오디오를 클라우드에 안전하게 저장.',
+  'home.music.cta': 'AIMATEX-MUSIC 열기',
   'home.products.learnMore': '자세히 알아보기',
   // 홈 기능 섹션
   'home.features.title': '올인원 창작 작업실.',

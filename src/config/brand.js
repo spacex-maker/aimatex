@@ -36,6 +36,15 @@ const brandConfig = {
     twitter: 'https://twitter.com/aimatex',
     discord: 'https://discord.gg/aimatex',
   },
+
+  // 旗下产品外链
+  products: {
+    seedance2: 'https://seedance2.cn',
+    ai2obj: 'https://ai2obj.com',
+    openrobotx: 'https://openrobotx.com',
+    openclaw4j: 'https://agent.aimatex.com',
+    aimatexMusic: 'https://music.aimatex.com',
+  },
 };
 
 export default brandConfig;

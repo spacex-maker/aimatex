@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'ホームページ',
   'header.workspace': 'ワークスペース',
   'login.title': 'Seedance',
@@ -1193,6 +1193,8 @@ export default {
   'footer.openRobotX.visit': 'Open Robot X を訪問',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'AI総合生成プラットフォーム、多様なデジタルコンテンツ制作ツールを提供',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': '個人クラウド音楽：発見、プレイリスト、再生中、クラウド音庫',
   
   // 価格設定ページ
   'pricing.title': 'あなたに合ったプランを選択',
@@ -1365,6 +1367,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': '自律エージェントプラットフォーム — OpenForgeX でインテリジェントエージェントを構築・デプロイ',
   'home.products.openclaw4j.cta': 'エージェントを試す',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': '個人向けクラウド音楽スペース。楽曲発見、プレイリスト共有、再生中、クラウド音庫をひとつに',
+  'home.products.aimatexMusic.cta': '音楽へ',
+  'home.music.eyebrow': 'AIMATEX スイート',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': '個人向けクラウド音楽スペース。発見、収集、共有再生をひとつに。',
+  'home.music.feature.discover.title': '発見',
+  'home.music.feature.discover.desc': '楽曲を検索してクラウド音庫へ取り込み。',
+  'home.music.feature.playlist.title': 'プレイリスト',
+  'home.music.feature.playlist.desc': '共同プレイリストを作成・共有。',
+  'home.music.feature.nowPlaying.title': '再生中',
+  'home.music.feature.nowPlaying.desc': '同期再生、お気に入り、再生履歴。',
+  'home.music.feature.cloud.title': 'クラウド音庫',
+  'home.music.feature.cloud.desc': '高音質オーディオを安全に保存。',
+  'home.music.cta': 'AIMATEX-MUSIC を開く',
   'home.products.learnMore': '詳細を見る',
   // ホーム機能セクション
   'home.features.title': 'オールインワン創作ワークショップ。',

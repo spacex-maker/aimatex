@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Page d\'Accueil',
   'header.workspace': 'Espace de Travail',
   'login.title': 'Seedance',
@@ -1133,6 +1133,8 @@ export default {
   'footer.openRobotX.visit': 'Visiter Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'Plateforme de génération complète avec IA pour créer divers contenus numériques',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Musique cloud personnelle : découverte, playlists, lecture et bibliothèque',
   
   // Page de tarification
   'pricing.title': 'Choisissez le plan qui vous convient',
@@ -1305,6 +1307,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Plateforme d\'agents autonomes — créez et déployez des agents intelligents avec OpenForgeX.',
   'home.products.openclaw4j.cta': 'Essayer l\'agent',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Espace musique cloud personnel — découvrir des titres, playlists collaboratives, lecture en cours et bibliothèque cloud',
+  'home.products.aimatexMusic.cta': 'Entrer dans la musique',
+  'home.music.eyebrow': 'Suite AIMATEX',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'Votre espace musique cloud — découvrir, collectionner et écouter ensemble.',
+  'home.music.feature.discover.title': 'Découvrir',
+  'home.music.feature.discover.desc': 'Rechercher et importer des titres dans votre bibliothèque.',
+  'home.music.feature.playlist.title': 'Playlists',
+  'home.music.feature.playlist.desc': 'Créer et partager des playlists collaboratives.',
+  'home.music.feature.nowPlaying.title': 'En écoute',
+  'home.music.feature.nowPlaying.desc': 'Écoute synchronisée, favoris et historique.',
+  'home.music.feature.cloud.title': 'Bibliothèque cloud',
+  'home.music.feature.cloud.desc': 'Audio haute qualité stocké en toute sécurité.',
+  'home.music.cta': 'Ouvrir AIMATEX-MUSIC',
   'home.products.learnMore': 'En savoir plus',
   // Section des fonctionnalités de la page d'accueil
   'home.features.title': 'Atelier créatif tout-en-un.',

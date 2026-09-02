@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Главная Страница',
   'header.workspace': 'Рабочее Пространство',
   'login.title': 'Seedance',
@@ -1048,6 +1048,8 @@ export default {
   'footer.openRobotX.visit': 'Посетить Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'Комплексная платформа генерации с ИИ для создания разнообразного цифрового контента',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Облачная музыка: поиск, плейлисты, Now Playing и библиотека',
   
   // Страница цен
   'pricing.title': 'Выберите план, который вам подходит',
@@ -1220,6 +1222,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Платформа автономных агентов — создавайте и развертывайте интеллектуальных агентов с OpenForgeX.',
   'home.products.openclaw4j.cta': 'Попробовать агента',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Личное облачное музыкальное пространство — поиск треков, совместные плейлисты, Now Playing и облачная библиотека',
+  'home.products.aimatexMusic.cta': 'Открыть музыку',
+  'home.music.eyebrow': 'Линейка AIMATEX',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'Личное облачное музыкальное пространство — искать, собирать и слушать вместе.',
+  'home.music.feature.discover.title': 'Открытие',
+  'home.music.feature.discover.desc': 'Ищите и импортируйте треки в облачную библиотеку.',
+  'home.music.feature.playlist.title': 'Плейлисты',
+  'home.music.feature.playlist.desc': 'Создавайте и делитесь совместными плейлистами.',
+  'home.music.feature.nowPlaying.title': 'Сейчас играет',
+  'home.music.feature.nowPlaying.desc': 'Синхронное прослушивание, лайки и история.',
+  'home.music.feature.cloud.title': 'Облачная библиотека',
+  'home.music.feature.cloud.desc': 'Качественное аудио в облаке.',
+  'home.music.cta': 'Открыть AIMATEX-MUSIC',
   'home.products.learnMore': 'Узнать больше',
   // Раздел функций главной страницы
   'home.features.title': 'Универсальная творческая мастерская.',

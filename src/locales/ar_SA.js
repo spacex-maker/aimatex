@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'الصفحة الرئيسية',
   'header.workspace': 'مساحة العمل',
   'login.title': 'AIMATEX',
@@ -1064,6 +1064,8 @@ export default {
   'footer.openRobotX.visit': 'زيارة Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'منصة توليد شاملة مدعومة بالذكاء الاصطناعي لإنشاء محتوى رقمي متنوع',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'موسيقى سحابية شخصية: اكتشاف وقوائم تشغيل وتشغيل ومكتبة',
   
   // صفحة التسعير
   'pricing.title': 'اختر الخطة التي تناسبك',
@@ -1236,6 +1238,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'منصة الوكلاء المستقلين — بناء ونشر وكلاء أذكياء مع OpenForgeX.',
   'home.products.openclaw4j.cta': 'تجربة الوكيل',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'مساحة موسيقى سحابية شخصية — اكتشف المقاطع وقوائم التشغيل المشتركة والتشغيل الآن والمكتبة السحابية',
+  'home.products.aimatexMusic.cta': 'دخول الموسيقى',
+  'home.music.eyebrow': 'مجموعة AIMATEX',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'مساحتك الموسيقية السحابية — اكتشف واجمع واستمع معاً.',
+  'home.music.feature.discover.title': 'اكتشف',
+  'home.music.feature.discover.desc': 'ابحث واستورد المقاطع إلى مكتبتك السحابية.',
+  'home.music.feature.playlist.title': 'قوائم التشغيل',
+  'home.music.feature.playlist.desc': 'أنشئ وشارك قوائم تشغيل مشتركة.',
+  'home.music.feature.nowPlaying.title': 'قيد التشغيل',
+  'home.music.feature.nowPlaying.desc': 'استماع متزامن ومفضلة وسجل.',
+  'home.music.feature.cloud.title': 'مكتبة سحابية',
+  'home.music.feature.cloud.desc': 'صوت عالي الجودة محفوظ في السحابة.',
+  'home.music.cta': 'فتح AIMATEX-MUSIC',
   'home.products.learnMore': 'معرفة المزيد',
   // قسم ميزات الصفحة الرئيسية
   'home.features.title': 'ورشة إبداعية متكاملة.',

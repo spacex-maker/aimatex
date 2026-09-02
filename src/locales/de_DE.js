@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Startseite',
   'header.workspace': 'Arbeitsbereich',
   'login.title': 'AIMATEX',
@@ -1119,6 +1119,8 @@ export default {
   'footer.openRobotX.visit': 'Open Robot X besuchen',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'KI-gestützte umfassende Generierungsplattform zur Erstellung vielfältiger digitaler Inhalte',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Persönliche Cloud-Musik: Entdecken, Playlists, Now Playing und Bibliothek',
   
   // Preisgestaltungsseite
   'pricing.title': 'Wählen Sie den Plan, der zu Ihnen passt',
@@ -1291,6 +1293,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Autonome-Agenten-Plattform — intelligente Agenten mit OpenForgeX erstellen und bereitstellen.',
   'home.products.openclaw4j.cta': 'Agent ausprobieren',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Persönlicher Cloud-Musikraum — Tracks entdecken, kollaborative Playlists, Now Playing und Cloud-Bibliothek',
+  'home.products.aimatexMusic.cta': 'Musik öffnen',
+  'home.music.eyebrow': 'AIMATEX Suite',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'Ihr persönlicher Cloud-Musikraum — entdecken, sammeln und gemeinsam hören.',
+  'home.music.feature.discover.title': 'Entdecken',
+  'home.music.feature.discover.desc': 'Tracks suchen und in die Cloud-Bibliothek importieren.',
+  'home.music.feature.playlist.title': 'Playlists',
+  'home.music.feature.playlist.desc': 'Kollaborative Playlists erstellen und teilen.',
+  'home.music.feature.nowPlaying.title': 'Now Playing',
+  'home.music.feature.nowPlaying.desc': 'Synchrones Hören, Herzen und Verlauf.',
+  'home.music.feature.cloud.title': 'Cloud-Bibliothek',
+  'home.music.feature.cloud.desc': 'Hochwertige Audio sicher in der Cloud.',
+  'home.music.cta': 'AIMATEX-MUSIC öffnen',
   'home.products.learnMore': 'Mehr erfahren',
   // Homepage-Funktionsbereich
   'home.features.title': 'All-in-One-Kreativwerkstatt.',

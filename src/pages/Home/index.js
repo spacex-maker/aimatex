@@ -16,6 +16,11 @@ import {
   ArrowRightOutlined,
   PlayCircleOutlined,
   ThunderboltOutlined,
+  CustomerServiceOutlined,
+  HeartOutlined,
+  CloudOutlined,
+  TeamOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -317,6 +322,166 @@ const CardIconWrapper = styled.div`
   box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
 `;
 
+// --- AIMATEX-MUSIC showcase (dedicated section) ---
+
+const MusicSection = styled.section`
+  padding: 40px 32px 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 20px 24px 60px;
+  }
+`;
+
+const MusicPanel = styled(motion.div)`
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+  padding: clamp(40px, 6vw, 72px);
+  background: ${props => props.theme.mode === 'dark'
+    ? 'linear-gradient(135deg, rgba(40, 12, 20, 0.85) 0%, rgba(20, 20, 24, 0.9) 55%, rgba(12, 24, 36, 0.85) 100%)'
+    : 'linear-gradient(135deg, rgba(255, 241, 242, 0.95) 0%, rgba(255, 255, 255, 0.88) 50%, rgba(240, 249, 255, 0.92) 100%)'};
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid ${props => props.theme.mode === 'dark'
+    ? 'rgba(244, 63, 94, 0.25)'
+    : 'rgba(244, 63, 94, 0.18)'};
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    border-radius: 28px;
+  }
+`;
+
+const MusicEyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f43f5e;
+  margin-bottom: 16px;
+`;
+
+const MusicFeatureGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0 36px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const MusicFeature = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: ${props => props.theme.mode === 'dark'
+    ? 'rgba(255, 255, 255, 0.04)'
+    : 'rgba(255, 255, 255, 0.65)'};
+  border: 1px solid ${props => props.theme.mode === 'dark'
+    ? 'rgba(255, 255, 255, 0.06)'
+    : 'rgba(0, 0, 0, 0.04)'};
+
+  .icon {
+    color: #f43f5e;
+    font-size: 18px;
+    margin-top: 2px;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 14px;
+    color: ${props => props.theme.mode === 'dark' ? '#fff' : '#1d1d1f'};
+    margin-bottom: 2px;
+  }
+
+  .desc {
+    font-size: 13px;
+    line-height: 1.45;
+    color: ${props => props.theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73'};
+  }
+`;
+
+const MusicVisual = styled.div`
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 360px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ring {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    border: 1px solid ${props => props.theme.mode === 'dark'
+      ? 'rgba(244, 63, 94, 0.35)'
+      : 'rgba(244, 63, 94, 0.25)'};
+    animation: ${floatAnim} 6s ease-in-out infinite;
+  }
+
+  .ring-2 {
+    inset: 18%;
+    animation-delay: 0.8s;
+    opacity: 0.7;
+  }
+
+  .disc {
+    width: 58%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #4a4a4e 0%, #1a1a1c 55%, #0a0a0b 100%);
+    box-shadow: 0 20px 50px rgba(244, 63, 94, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: ${floatAnim} 5s ease-in-out infinite;
+
+    &::after {
+      content: '';
+      width: 18%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #f43f5e;
+      box-shadow: 0 0 0 6px rgba(26, 26, 28, 0.9);
+    }
+  }
+`;
+
+const MusicCta = styled(Button)`
+  && {
+    height: 52px;
+    padding: 0 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    border: none;
+    background: #f43f5e;
+    color: #fff;
+
+    &:hover {
+      background: #e11d48;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+  }
+`;
+
 const HomePage = () => {
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -565,6 +730,109 @@ const HomePage = () => {
               </Col>
             </Row>
           </ProductsSection>
+
+          {/* AIMATEX-MUSIC dedicated showcase */}
+          <MusicSection id="aimatex-music">
+            <MusicPanel
+              theme={theme}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            >
+              <div>
+                <MusicEyebrow>
+                  <CustomerServiceOutlined />
+                  <FormattedMessage id="home.music.eyebrow" defaultMessage="AIMATEX Suite" />
+                </MusicEyebrow>
+                <Title
+                  level={2}
+                  style={{
+                    fontSize: 'clamp(32px, 5vw, 48px)',
+                    marginBottom: 12,
+                    letterSpacing: '-0.02em',
+                    color: theme.mode === 'dark' ? '#fff' : '#000',
+                  }}
+                >
+                  <FormattedMessage id="home.music.title" defaultMessage="AIMATEX-MUSIC" />
+                </Title>
+                <Paragraph
+                  style={{
+                    fontSize: 18,
+                    maxWidth: 560,
+                    marginBottom: 0,
+                    color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73',
+                  }}
+                >
+                  <FormattedMessage
+                    id="home.music.subtitle"
+                    defaultMessage="Your personal cloud music space — discover, collect, and listen together."
+                  />
+                </Paragraph>
+
+                <MusicFeatureGrid>
+                  <MusicFeature theme={theme}>
+                    <SearchOutlined className="icon" />
+                    <div>
+                      <div className="label">
+                        <FormattedMessage id="home.music.feature.discover.title" defaultMessage="Discover" />
+                      </div>
+                      <div className="desc">
+                        <FormattedMessage id="home.music.feature.discover.desc" defaultMessage="Search and import tracks into your cloud library." />
+                      </div>
+                    </div>
+                  </MusicFeature>
+                  <MusicFeature theme={theme}>
+                    <TeamOutlined className="icon" />
+                    <div>
+                      <div className="label">
+                        <FormattedMessage id="home.music.feature.playlist.title" defaultMessage="Playlists" />
+                      </div>
+                      <div className="desc">
+                        <FormattedMessage id="home.music.feature.playlist.desc" defaultMessage="Create and share collaborative playlists." />
+                      </div>
+                    </div>
+                  </MusicFeature>
+                  <MusicFeature theme={theme}>
+                    <HeartOutlined className="icon" />
+                    <div>
+                      <div className="label">
+                        <FormattedMessage id="home.music.feature.nowPlaying.title" defaultMessage="Now Playing" />
+                      </div>
+                      <div className="desc">
+                        <FormattedMessage id="home.music.feature.nowPlaying.desc" defaultMessage="Synced listening, hearts, and play history." />
+                      </div>
+                    </div>
+                  </MusicFeature>
+                  <MusicFeature theme={theme}>
+                    <CloudOutlined className="icon" />
+                    <div>
+                      <div className="label">
+                        <FormattedMessage id="home.music.feature.cloud.title" defaultMessage="Cloud Library" />
+                      </div>
+                      <div className="desc">
+                        <FormattedMessage id="home.music.feature.cloud.desc" defaultMessage="High-quality audio stored securely in the cloud." />
+                      </div>
+                    </div>
+                  </MusicFeature>
+                </MusicFeatureGrid>
+
+                <MusicCta
+                  type="primary"
+                  icon={<PlayCircleOutlined />}
+                  onClick={() => window.open(brandConfig.products.aimatexMusic, '_blank')}
+                >
+                  <FormattedMessage id="home.music.cta" defaultMessage="Open AIMATEX-MUSIC" />
+                </MusicCta>
+              </div>
+
+              <MusicVisual theme={theme} aria-hidden>
+                <div className="ring" />
+                <div className="ring ring-2" />
+                <div className="disc" />
+              </MusicVisual>
+            </MusicPanel>
+          </MusicSection>
 
         </PageContent>
         <FooterSection />

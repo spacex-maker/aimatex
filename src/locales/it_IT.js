@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Homepage',
   'header.workspace': 'Area di Lavoro',
   'login.title': 'Seedance',
@@ -1068,6 +1068,8 @@ export default {
   'footer.openRobotX.visit': 'Visita Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'Piattaforma di generazione completa con IA per creare contenuti digitali diversificati',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Musica cloud personale: scopri, playlist, Now Playing e libreria',
   
   // Pagina dei prezzi
   'pricing.title': 'Scegli il piano adatto a te',
@@ -1240,6 +1242,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Piattaforma di agenti autonomi — crea e distribuisci agenti intelligenti con OpenForgeX.',
   'home.products.openclaw4j.cta': 'Prova agente',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Spazio musica cloud personale — scopri brani, playlist collaborative, Now Playing e libreria cloud',
+  'home.products.aimatexMusic.cta': 'Entra in Musica',
+  'home.music.eyebrow': 'Suite AIMATEX',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'Il tuo spazio musica cloud — scopri, colleziona e ascolta insieme.',
+  'home.music.feature.discover.title': 'Scopri',
+  'home.music.feature.discover.desc': 'Cerca e importa brani nella libreria cloud.',
+  'home.music.feature.playlist.title': 'Playlist',
+  'home.music.feature.playlist.desc': 'Crea e condividi playlist collaborative.',
+  'home.music.feature.nowPlaying.title': 'In riproduzione',
+  'home.music.feature.nowPlaying.desc': 'Ascolto sincronizzato, preferiti e cronologia.',
+  'home.music.feature.cloud.title': 'Libreria cloud',
+  'home.music.feature.cloud.desc': 'Audio di alta qualità salvato nel cloud.',
+  'home.music.cta': 'Apri AIMATEX-MUSIC',
   'home.products.learnMore': 'Scopri di più',
   // Sezione funzionalità homepage
   'home.features.title': 'Laboratorio creativo all-in-one.',

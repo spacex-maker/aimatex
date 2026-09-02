@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   'header.homepage': 'Homepage',
   'header.workspace': 'Workspace',
   'login.title': 'AIMATEX',
@@ -1242,6 +1242,8 @@ export default {
   'footer.openRobotX.visit': 'Visit Open Robot X',
   'footer.ai2obj.title': 'ai2obj',
   'footer.ai2obj.description': 'AI-powered comprehensive generation platform for creating diverse digital content',
+  'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'footer.aimatexMusic.description': 'Personal cloud music: discover, playlists, Now Playing, and cloud library',
   
   // Pricing page
   'pricing.title': 'Choose the Plan That Works for You',
@@ -1414,6 +1416,22 @@ export default {
   'home.products.openclaw4j.title': 'OpenClaw4j',
   'home.products.openclaw4j.description': 'Autonomous Agent platform — build and deploy intelligent agents with OpenForgeX.',
   'home.products.openclaw4j.cta': 'Try Agent',
+  'home.products.aimatexMusic.name': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.title': 'AIMATEX-MUSIC',
+  'home.products.aimatexMusic.description': 'Personal cloud music space — discover tracks, collaborative playlists, Now Playing, and your cloud library',
+  'home.products.aimatexMusic.cta': 'Enter Music',
+  'home.music.eyebrow': 'AIMATEX Suite',
+  'home.music.title': 'AIMATEX-MUSIC',
+  'home.music.subtitle': 'Your personal cloud music space — discover, collect, and listen together.',
+  'home.music.feature.discover.title': 'Discover',
+  'home.music.feature.discover.desc': 'Search and import tracks into your cloud library.',
+  'home.music.feature.playlist.title': 'Playlists',
+  'home.music.feature.playlist.desc': 'Create and share collaborative playlists.',
+  'home.music.feature.nowPlaying.title': 'Now Playing',
+  'home.music.feature.nowPlaying.desc': 'Synced listening, hearts, and play history.',
+  'home.music.feature.cloud.title': 'Cloud Library',
+  'home.music.feature.cloud.desc': 'High-quality audio stored securely in the cloud.',
+  'home.music.cta': 'Open AIMATEX-MUSIC',
   'home.products.learnMore': 'Learn More',
   'home.hero.cta.demo': 'Watch film',
   // Home Features Section
