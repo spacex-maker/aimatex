@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Layout, Button, Row, Col, Typography, Card } from 'antd';
+import { Layout, Button } from 'antd';
 import { Helmet } from 'react-helmet';
 import styled, { ThemeContext, keyframes, css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -7,15 +7,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { motion } from 'framer-motion'; // 必须确保已安装 framer-motion
 import SimpleHeader from 'components/headers/simple';
 import FooterSection from './components/FooterSection';
+import ProductShowcases from './components/ProductShowcases';
 import brandConfig from 'config/brand';
 import {
-  RobotOutlined,
-  VideoCameraOutlined,
-  BlockOutlined,
   RocketOutlined,
   ArrowRightOutlined,
   PlayCircleOutlined,
-  ThunderboltOutlined,
   CustomerServiceOutlined,
   HeartOutlined,
   CloudOutlined,
@@ -24,7 +21,6 @@ import {
 } from '@ant-design/icons';
 
 const { Content } = Layout;
-const { Title, Paragraph } = Typography;
 
 const BACKGROUND_VIDEO_URL =
   'https://public-1258150206.cos.accelerate.myqcloud.com/home/homevideo.mp4';
@@ -252,234 +248,336 @@ const GlassButton = styled(Button)`
   }
 `;
 
-// --- Products Section (Bento Grid Style) ---
+// --- AIMATEX-MUSIC showcase (bold stage + motion) ---
 
-const ProductsSection = styled.section`
-  padding: 100px 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-  
-  @media (max-width: 768px) {
-    padding: 60px 24px;
-  }
+const spinDisc = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 `;
 
-const SectionHeader = styled.div`
-  text-align: center;
-  margin-bottom: 80px;
+const eqPulse = keyframes`
+  0%, 100% { transform: scaleY(0.35); opacity: 0.55; }
+  50% { transform: scaleY(1); opacity: 1; }
 `;
 
-const ProductCard = styled(motion.div)`
-  height: 100%;
-  padding: 40px;
-  border-radius: 32px; // 更大的圆角
-  background: ${props => props.theme.mode === 'dark'
-    ? 'rgba(30, 30, 30, 0.6)'
-    : 'rgba(255, 255, 255, 0.8)'};
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid ${props => props.theme.mode === 'dark'
-    ? 'rgba(255, 255, 255, 0.08)'
-    : 'rgba(255, 255, 255, 0.4)'};
-  transition: all 0.4s ease;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  // Hover Glow Effect
-  &:hover {
-    transform: translateY(-10px);
-    border-color: ${props => props.theme.mode === 'dark'
-      ? 'rgba(255, 255, 255, 0.2)'
-      : 'rgba(0, 0, 0, 0.1)'};
-    box-shadow: ${props => props.theme.mode === 'dark'
-      ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-      : '0 25px 50px -12px rgba(0, 0, 0, 0.1)'};
-      
-    .icon-wrapper {
-      transform: scale(1.1) rotate(5deg);
-    }
-    
-    .arrow-icon {
-      transform: translateX(5px);
-      opacity: 1;
-    }
-  }
+const orbitSpin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 `;
 
-const CardIconWrapper = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin-bottom: 32px;
-  background: ${props => props.$bg};
-  color: ${props => props.$color};
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+const auroraDrift = keyframes`
+  0% { transform: translate(-8%, -4%) scale(1); }
+  50% { transform: translate(6%, 8%) scale(1.12); }
+  100% { transform: translate(-8%, -4%) scale(1); }
 `;
 
-// --- AIMATEX-MUSIC showcase (dedicated section) ---
+const sheen = keyframes`
+  0% { transform: translateX(-120%) skewX(-18deg); }
+  100% { transform: translateX(220%) skewX(-18deg); }
+`;
 
 const MusicSection = styled.section`
-  padding: 40px 32px 100px;
+  padding: 20px 24px 110px;
   max-width: 1400px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
-    padding: 20px 24px 60px;
+    padding: 8px 16px 72px;
   }
 `;
 
 const MusicPanel = styled(motion.div)`
   position: relative;
   overflow: hidden;
-  border-radius: 40px;
-  padding: clamp(40px, 6vw, 72px);
-  background: ${props => props.theme.mode === 'dark'
-    ? 'linear-gradient(135deg, rgba(40, 12, 20, 0.85) 0%, rgba(20, 20, 24, 0.9) 55%, rgba(12, 24, 36, 0.85) 100%)'
-    : 'linear-gradient(135deg, rgba(255, 241, 242, 0.95) 0%, rgba(255, 255, 255, 0.88) 50%, rgba(240, 249, 255, 0.92) 100%)'};
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid ${props => props.theme.mode === 'dark'
-    ? 'rgba(244, 63, 94, 0.25)'
-    : 'rgba(244, 63, 94, 0.18)'};
+  isolation: isolate;
+  border-radius: 36px;
+  min-height: clamp(520px, 62vh, 640px);
+  padding: clamp(36px, 5vw, 64px);
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 48px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(28px, 4vw, 56px);
   align-items: center;
+  color: #f5f5f7;
+  background:
+    radial-gradient(ellipse 80% 60% at 85% 20%, rgba(244, 63, 94, 0.28), transparent 55%),
+    radial-gradient(ellipse 55% 50% at 10% 90%, rgba(14, 165, 233, 0.18), transparent 50%),
+    linear-gradient(155deg, #0b0b0f 0%, #141018 42%, #0a1018 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 40px 80px -28px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     grid-template-columns: 1fr;
-    gap: 36px;
+    min-height: auto;
     border-radius: 28px;
   }
 `;
 
-const MusicEyebrow = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #f43f5e;
-  margin-bottom: 16px;
+const MusicAurora = styled.div`
+  pointer-events: none;
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 70% 30%, rgba(244, 63, 94, 0.35), transparent 42%),
+    radial-gradient(circle at 20% 70%, rgba(56, 189, 248, 0.2), transparent 40%);
+  filter: blur(48px);
+  animation: ${auroraDrift} 14s ease-in-out infinite;
+  opacity: 0.9;
 `;
 
-const MusicFeatureGrid = styled.div`
+const MusicGrid = styled.div`
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 75%);
+  opacity: 0.55;
+`;
+
+const MusicCopy = styled(motion.div)`
+  position: relative;
+  z-index: 2;
+`;
+
+const MusicEyebrow = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fda4af;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+`;
+
+const MusicTitle = styled(motion.h2)`
+  margin: 0 0 14px;
+  font-size: clamp(40px, 7vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  background: linear-gradient(105deg, #fff 10%, #fecdd3 48%, #f43f5e 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
+const MusicSubtitle = styled(motion.p)`
+  margin: 0;
+  max-width: 34rem;
+  font-size: clamp(16px, 2.2vw, 19px);
+  line-height: 1.55;
+  color: rgba(245, 245, 247, 0.72);
+`;
+
+const MusicFeatureGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 28px 0 36px;
+  gap: 12px;
+  margin: 32px 0 36px;
 
   @media (max-width: 560px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const MusicFeature = styled.div`
+const MusicFeature = styled(motion.div)`
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: ${props => props.theme.mode === 'dark'
-    ? 'rgba(255, 255, 255, 0.04)'
-    : 'rgba(255, 255, 255, 0.65)'};
-  border: 1px solid ${props => props.theme.mode === 'dark'
-    ? 'rgba(255, 255, 255, 0.06)'
-    : 'rgba(0, 0, 0, 0.04)'};
+  padding: 16px 16px 16px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
 
-  .icon {
-    color: #f43f5e;
-    font-size: 18px;
-    margin-top: 2px;
+  &:hover {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.35);
+    transform: translateY(-3px);
+  }
+
+  .icon-wrap {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fb7185;
+    background: rgba(244, 63, 94, 0.15);
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    font-size: 16px;
   }
 
   .label {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    color: ${props => props.theme.mode === 'dark' ? '#fff' : '#1d1d1f'};
-    margin-bottom: 2px;
+    color: #fff;
+    margin-bottom: 3px;
   }
 
   .desc {
     font-size: 13px;
     line-height: 1.45;
-    color: ${props => props.theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73'};
+    color: rgba(245, 245, 247, 0.58);
   }
 `;
 
-const MusicVisual = styled.div`
+const MusicCta = styled(motion.button)`
   position: relative;
-  aspect-ratio: 1;
-  max-width: 360px;
-  margin: 0 auto;
-  display: flex;
+  overflow: hidden;
+  height: 56px;
+  padding: 0 34px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(105deg, #f43f5e 0%, #e11d48 55%, #be123c 100%);
+  box-shadow: 0 12px 32px rgba(244, 63, 94, 0.4);
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
 
-  .ring {
+  &::after {
+    content: '';
     position: absolute;
-    inset: 8%;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    animation: ${sheen} 3.2s ease-in-out infinite;
+  }
+
+  &:hover {
+    filter: brightness(1.06);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const MusicStage = styled(motion.div)`
+  position: relative;
+  z-index: 2;
+  min-height: 340px;
+  display: grid;
+  place-items: center;
+
+  @media (max-width: 960px) {
+    min-height: 280px;
+    order: -1;
+  }
+`;
+
+const Orbit = styled.div`
+  position: absolute;
+  width: ${p => p.$size};
+  height: ${p => p.$size};
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  animation: ${orbitSpin} ${p => p.$duration} linear infinite;
+  animation-direction: ${p => p.$reverse || 'normal'};
+
+  .bead {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
     border-radius: 50%;
-    border: 1px solid ${props => props.theme.mode === 'dark'
-      ? 'rgba(244, 63, 94, 0.35)'
-      : 'rgba(244, 63, 94, 0.25)'};
-    animation: ${floatAnim} 6s ease-in-out infinite;
+    background: ${p => p.$bead || '#f43f5e'};
+    box-shadow: 0 0 16px ${p => p.$bead || '#f43f5e'};
   }
+`;
 
-  .ring-2 {
-    inset: 18%;
-    animation-delay: 0.8s;
-    opacity: 0.7;
-  }
+const Vinyl = styled(motion.div)`
+  position: relative;
+  width: min(72%, 280px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #1f1f22 0 14%, transparent 15%),
+    repeating-radial-gradient(circle at 50% 50%,
+      #141416 0 2px,
+      #1c1c1f 2px 4px);
+  box-shadow:
+    0 0 0 10px rgba(20, 20, 24, 0.9),
+    0 0 0 12px rgba(244, 63, 94, 0.35),
+    0 30px 60px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(244, 63, 94, 0.22);
+  animation: ${spinDisc} 10s linear infinite;
+  display: grid;
+  place-items: center;
 
-  .disc {
-    width: 58%;
+  .label {
+    width: 34%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #4a4a4e 0%, #1a1a1c 55%, #0a0a0b 100%);
-    box-shadow: 0 20px 50px rgba(244, 63, 94, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    animation: ${floatAnim} 5s ease-in-out infinite;
-
-    &::after {
-      content: '';
-      width: 18%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: #f43f5e;
-      box-shadow: 0 0 0 6px rgba(26, 26, 28, 0.9);
-    }
+    background: radial-gradient(circle at 35% 30%, #fb7185, #be123c 70%);
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: clamp(18px, 3vw, 24px);
   }
 `;
 
-const MusicCta = styled(Button)`
-  && {
-    height: 52px;
-    padding: 0 36px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 100px;
-    border: none;
-    background: #f43f5e;
-    color: #fff;
+const EqBars = styled.div`
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 42px;
+  z-index: 3;
 
-    &:hover {
-      background: #e11d48;
-      color: #fff;
-      transform: translateY(-2px);
-    }
+  span {
+    width: 5px;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #fda4af, #f43f5e);
+    transform-origin: bottom;
+    animation: ${eqPulse} 1.1s ease-in-out infinite;
+
+    &:nth-child(1) { animation-delay: 0s; }
+    &:nth-child(2) { animation-delay: 0.12s; }
+    &:nth-child(3) { animation-delay: 0.24s; }
+    &:nth-child(4) { animation-delay: 0.08s; }
+    &:nth-child(5) { animation-delay: 0.3s; }
+    &:nth-child(6) { animation-delay: 0.18s; }
+    &:nth-child(7) { animation-delay: 0.05s; }
   }
+`;
+
+const GlowOrb = styled(motion.div)`
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.45), transparent 70%);
+  filter: blur(8px);
+  z-index: 1;
 `;
 
 const HomePage = () => {
@@ -601,236 +699,154 @@ const HomePage = () => {
             </motion.div>
           </HeroSection>
 
-          {/* Products Section */}
-          <ProductsSection>
-            <SectionHeader>
-              <Title level={2} style={{ fontSize: '48px', marginBottom: '16px', letterSpacing: '-0.02em', color: theme.mode === 'dark' ? '#fff' : '#000' }}>
-                <FormattedMessage id="home.products.title" defaultMessage="Powerhouse Tools." />
-              </Title>
-              <Paragraph style={{ fontSize: '20px', color: theme.mode === 'dark' ? '#86868b' : '#6e6e73' }}>
-                <FormattedMessage id="home.products.subtitle" defaultMessage="Everything you need to create, compute, and connect." />
-              </Paragraph>
-            </SectionHeader>
-
-            <Row gutter={[32, 32]}>
-              <Col xs={24} md={8}>
-                <ProductCard 
-                  theme={theme}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open('https://seedance2.cn', '_blank')}
-                >
-                  <CardIconWrapper 
-                    className="icon-wrapper"
-                    $bg={theme.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : '#eef2ff'}
-                    $color="#3b82f6"
-                  >
-                    <VideoCameraOutlined />
-                  </CardIconWrapper>
-                  <Title level={3} style={{ color: theme.mode === 'dark' ? '#fff' : '#000' }}>
-                    <FormattedMessage id="home.products.seedance2.title" defaultMessage="Seedance2" />
-                  </Title>
-                  <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
-                    <FormattedMessage 
-                      id="home.products.seedance2.description" 
-                      defaultMessage="Turn static memories into moving experiences with our next-gen Image-to-Video engine." 
-                    />
-                  </Paragraph>
-                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#3b82f6', fontWeight: 600 }}>
-                    <FormattedMessage id="home.products.seedance2.cta" defaultMessage="Learn more" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
-                  </div>
-                </ProductCard>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <ProductCard 
-                  theme={theme}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open('https://ai2obj.com', '_blank')}
-                >
-                  <CardIconWrapper 
-                    className="icon-wrapper"
-                    $bg={theme.mode === 'dark' ? 'rgba(0, 212, 170, 0.2)' : '#ecfdf5'}
-                    $color="#00d4aa"
-                  >
-                    <BlockOutlined />
-                  </CardIconWrapper>
-                  <Title level={3} style={{ color: theme.mode === 'dark' ? '#fff' : '#000' }}>
-                    <FormattedMessage id="home.products.ai2obj.title" defaultMessage="AI2Obj" />
-                  </Title>
-                  <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
-                    <FormattedMessage 
-                      id="home.products.ai2obj.description" 
-                      defaultMessage="AI-powered comprehensive generation platform for creating diverse digital content." 
-                    />
-                  </Paragraph>
-                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#00d4aa', fontWeight: 600 }}>
-                    <FormattedMessage id="home.products.ai2obj.cta" defaultMessage="Visit Platform" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
-                  </div>
-                </ProductCard>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <ProductCard 
-                  theme={theme}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open('https://openrobotx.com', '_blank')}
-                >
-                  <CardIconWrapper 
-                    className="icon-wrapper"
-                    $bg={theme.mode === 'dark' ? 'rgba(255, 107, 107, 0.2)' : '#fef2f2'}
-                    $color="#ff6b6b"
-                  >
-                    <RobotOutlined />
-                  </CardIconWrapper>
-                  <Title level={3} style={{ color: theme.mode === 'dark' ? '#fff' : '#000' }}>
-                    <FormattedMessage id="home.products.openrobotx.title" defaultMessage="OpenRobotX" />
-                  </Title>
-                  <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
-                    <FormattedMessage 
-                      id="home.products.openrobotx.description" 
-                      defaultMessage="The global hub for Humanoid Robotics data, comparisons, and industry insights." 
-                    />
-                  </Paragraph>
-                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#ff6b6b', fontWeight: 600 }}>
-                    <FormattedMessage id="home.products.openrobotx.cta" defaultMessage="Explore Community" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
-                  </div>
-                </ProductCard>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <ProductCard 
-                  theme={theme}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open('https://agent.aimatex.com', '_blank')}
-                >
-                  <CardIconWrapper 
-                    className="icon-wrapper"
-                    $bg={theme.mode === 'dark' ? 'rgba(139, 92, 246, 0.2)' : '#f5f3ff'}
-                    $color="#8b5cf6"
-                  >
-                    <ThunderboltOutlined />
-                  </CardIconWrapper>
-                  <Title level={3} style={{ color: theme.mode === 'dark' ? '#fff' : '#000' }}>
-                    <FormattedMessage id="home.products.openclaw4j.title" defaultMessage="OpenClaw4j" />
-                  </Title>
-                  <Paragraph style={{ color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73', fontSize: '16px' }}>
-                    <FormattedMessage 
-                      id="home.products.openclaw4j.description" 
-                      defaultMessage="Autonomous Agent platform — build and deploy intelligent agents with OpenForgeX." 
-                    />
-                  </Paragraph>
-                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', color: '#8b5cf6', fontWeight: 600 }}>
-                    <FormattedMessage id="home.products.openclaw4j.cta" defaultMessage="Try Agent" /> <ArrowRightOutlined className="arrow-icon" style={{ marginLeft: 8, opacity: 0.6, transition: 'all 0.3s' }} />
-                  </div>
-                </ProductCard>
-              </Col>
-            </Row>
-          </ProductsSection>
+          <ProductShowcases dark={theme.mode === 'dark'} />
 
           {/* AIMATEX-MUSIC dedicated showcase */}
           <MusicSection id="aimatex-music">
             <MusicPanel
-              theme={theme}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              initial={{ opacity: 0, y: 56, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div>
-                <MusicEyebrow>
+              <MusicAurora aria-hidden />
+              <MusicGrid aria-hidden />
+
+              <MusicCopy
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
+                }}
+              >
+                <MusicEyebrow
+                  variants={{
+                    hidden: { opacity: 0, y: 16 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                  }}
+                >
                   <CustomerServiceOutlined />
                   <FormattedMessage id="home.music.eyebrow" defaultMessage="AIMATEX Suite" />
                 </MusicEyebrow>
-                <Title
-                  level={2}
-                  style={{
-                    fontSize: 'clamp(32px, 5vw, 48px)',
-                    marginBottom: 12,
-                    letterSpacing: '-0.02em',
-                    color: theme.mode === 'dark' ? '#fff' : '#000',
+
+                <MusicTitle
+                  variants={{
+                    hidden: { opacity: 0, y: 24 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
                   }}
                 >
                   <FormattedMessage id="home.music.title" defaultMessage="AIMATEX-MUSIC" />
-                </Title>
-                <Paragraph
-                  style={{
-                    fontSize: 18,
-                    maxWidth: 560,
-                    marginBottom: 0,
-                    color: theme.mode === 'dark' ? '#a1a1a6' : '#6e6e73',
+                </MusicTitle>
+
+                <MusicSubtitle
+                  variants={{
+                    hidden: { opacity: 0, y: 18 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
                   }}
                 >
                   <FormattedMessage
                     id="home.music.subtitle"
                     defaultMessage="Your personal cloud music space — discover, collect, and listen together."
                   />
-                </Paragraph>
+                </MusicSubtitle>
 
-                <MusicFeatureGrid>
-                  <MusicFeature theme={theme}>
-                    <SearchOutlined className="icon" />
-                    <div>
-                      <div className="label">
-                        <FormattedMessage id="home.music.feature.discover.title" defaultMessage="Discover" />
+                <MusicFeatureGrid
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.08 } },
+                  }}
+                >
+                  {[
+                    { icon: <SearchOutlined />, titleId: 'home.music.feature.discover.title', titleDef: 'Discover', descId: 'home.music.feature.discover.desc', descDef: 'Search and import tracks into your cloud library.' },
+                    { icon: <TeamOutlined />, titleId: 'home.music.feature.playlist.title', titleDef: 'Playlists', descId: 'home.music.feature.playlist.desc', descDef: 'Create and share collaborative playlists.' },
+                    { icon: <HeartOutlined />, titleId: 'home.music.feature.nowPlaying.title', titleDef: 'Now Playing', descId: 'home.music.feature.nowPlaying.desc', descDef: 'Synced listening, hearts, and play history.' },
+                    { icon: <CloudOutlined />, titleId: 'home.music.feature.cloud.title', titleDef: 'Cloud Library', descId: 'home.music.feature.cloud.desc', descDef: 'High-quality audio stored securely in the cloud.' },
+                  ].map((f) => (
+                    <MusicFeature
+                      key={f.titleId}
+                      variants={{
+                        hidden: { opacity: 0, y: 18, scale: 0.96 },
+                        visible: {
+                          opacity: 1,
+                          y: 0,
+                          scale: 1,
+                          transition: { type: 'spring', stiffness: 120, damping: 16 },
+                        },
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <div className="icon-wrap">{f.icon}</div>
+                      <div>
+                        <div className="label">
+                          <FormattedMessage id={f.titleId} defaultMessage={f.titleDef} />
+                        </div>
+                        <div className="desc">
+                          <FormattedMessage id={f.descId} defaultMessage={f.descDef} />
+                        </div>
                       </div>
-                      <div className="desc">
-                        <FormattedMessage id="home.music.feature.discover.desc" defaultMessage="Search and import tracks into your cloud library." />
-                      </div>
-                    </div>
-                  </MusicFeature>
-                  <MusicFeature theme={theme}>
-                    <TeamOutlined className="icon" />
-                    <div>
-                      <div className="label">
-                        <FormattedMessage id="home.music.feature.playlist.title" defaultMessage="Playlists" />
-                      </div>
-                      <div className="desc">
-                        <FormattedMessage id="home.music.feature.playlist.desc" defaultMessage="Create and share collaborative playlists." />
-                      </div>
-                    </div>
-                  </MusicFeature>
-                  <MusicFeature theme={theme}>
-                    <HeartOutlined className="icon" />
-                    <div>
-                      <div className="label">
-                        <FormattedMessage id="home.music.feature.nowPlaying.title" defaultMessage="Now Playing" />
-                      </div>
-                      <div className="desc">
-                        <FormattedMessage id="home.music.feature.nowPlaying.desc" defaultMessage="Synced listening, hearts, and play history." />
-                      </div>
-                    </div>
-                  </MusicFeature>
-                  <MusicFeature theme={theme}>
-                    <CloudOutlined className="icon" />
-                    <div>
-                      <div className="label">
-                        <FormattedMessage id="home.music.feature.cloud.title" defaultMessage="Cloud Library" />
-                      </div>
-                      <div className="desc">
-                        <FormattedMessage id="home.music.feature.cloud.desc" defaultMessage="High-quality audio stored securely in the cloud." />
-                      </div>
-                    </div>
-                  </MusicFeature>
+                    </MusicFeature>
+                  ))}
                 </MusicFeatureGrid>
 
                 <MusicCta
-                  type="primary"
-                  icon={<PlayCircleOutlined />}
+                  type="button"
+                  variants={{
+                    hidden: { opacity: 0, y: 16 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => window.open(brandConfig.products.aimatexMusic, '_blank')}
                 >
+                  <PlayCircleOutlined />
                   <FormattedMessage id="home.music.cta" defaultMessage="Open AIMATEX-MUSIC" />
+                  <ArrowRightOutlined />
                 </MusicCta>
-              </div>
+              </MusicCopy>
 
-              <MusicVisual theme={theme} aria-hidden>
-                <div className="ring" />
-                <div className="ring ring-2" />
-                <div className="disc" />
-              </MusicVisual>
+              <MusicStage
+                initial={{ opacity: 0, scale: 0.88 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                aria-hidden
+              >
+                <GlowOrb
+                  style={{ top: '12%', right: '18%' }}
+                  animate={{ scale: [1, 1.25, 1], opacity: [0.55, 0.9, 0.55] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <GlowOrb
+                  style={{ bottom: '16%', left: '14%', background: 'radial-gradient(circle, rgba(56,189,248,0.35), transparent 70%)' }}
+                  animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.4, 0.75, 0.4] }}
+                  transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
+                />
+
+                <Orbit $size="92%" $duration="28s" $bead="#38bdf8">
+                  <span className="bead" />
+                </Orbit>
+                <Orbit $size="74%" $duration="18s" $reverse="reverse" $bead="#fb7185">
+                  <span className="bead" />
+                </Orbit>
+                <Orbit $size="56%" $duration="12s" $bead="#fda4af">
+                  <span className="bead" />
+                </Orbit>
+
+                <Vinyl
+                  whileHover={{ scale: 1.04 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+                >
+                  <div className="label">
+                    <PlayCircleOutlined />
+                  </div>
+                </Vinyl>
+
+                <EqBars>
+                  <span /><span /><span /><span /><span /><span /><span />
+                </EqBars>
+              </MusicStage>
             </MusicPanel>
           </MusicSection>
 
