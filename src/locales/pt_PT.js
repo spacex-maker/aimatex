@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'Página Inicial',
   'header.workspace': 'Espaço de Trabalho',
   'login.title': 'Seedance',
@@ -15,6 +15,10 @@
   'login.success': 'Login realizado',
   'login.forgotPassword': 'Esqueceu a senha?',
   'login.forgotPassword.link': 'Redefinir aqui',
+  'login.rememberPassword': 'Lembrar senha',
+  'login.social.comingSoon': 'Este método de login estará disponível em breve',
+  'captcha.placeholder': 'Código captcha',
+  'captcha.refresh': 'Atualizar captcha',
   'auth.modal.title': 'Login necessário',
   'auth.modal.content': 'A sua sessão expirou ou não iniciou sessão. Por favor, inicie sessão para continuar.',
   'auth.modal.ok': 'Ir para login',
@@ -30,6 +34,7 @@
   'signup.email.placeholder': 'Digite o email',
   'signup.password.placeholder': 'Digite a senha',
   'signup.confirmPassword.placeholder': 'Confirme a senha',
+  'signup.inviteCode.placeholder': 'Código de convite (opcional)',
   'signup.button': 'Registrar',
   'signup.loading': 'Registrando...',
   'signup.login': 'Já tem uma conta?',

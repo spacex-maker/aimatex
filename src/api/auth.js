@@ -2,11 +2,13 @@ import axios from './axios';
 
 export const auth = {
   // 登录
-  login: async ({ email, password }) => {
+  login: async ({ email, password, captchaId, captchaCode }) => {
     try {
       const { data } = await axios.post('/productx/user/login', { 
         username: email, 
-        password 
+        password,
+        captchaId,
+        captchaCode,
       });
       
       if (data.success) {
@@ -24,7 +26,13 @@ export const auth = {
       }
       return data;
     } catch (error) {
-      return { success: false, message: error.response?.data?.message || '登录失败' };
+      return {
+        success: false,
+        message: error.response?.data?.message || '登录失败',
+        code: error.response?.data?.code,
+        isUserDisabled: error.isUserDisabled,
+        isIpBlocked: error.isIpBlocked,
+      };
     }
   },
 

@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'Главная Страница',
   'header.workspace': 'Рабочее Пространство',
   'login.title': 'Seedance',
@@ -15,6 +15,10 @@
   'login.success': 'Вход выполнен',
   'login.forgotPassword': 'Забыли пароль?',
   'login.forgotPassword.link': 'Сбросить здесь',
+  'login.rememberPassword': 'Запомнить пароль',
+  'login.social.comingSoon': 'Этот способ входа скоро появится',
+  'captcha.placeholder': 'Код капчи',
+  'captcha.refresh': 'Обновить капчу',
   'auth.modal.title': 'Требуется вход',
   'auth.modal.content': 'Сеанс истёк или вы не вошли в систему. Войдите, чтобы продолжить.',
   'auth.modal.ok': 'Перейти к входу',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': 'Введите email',
   'signup.password.placeholder': 'Введите пароль',
   'signup.confirmPassword.placeholder': 'Подтвердите пароль',
+  'signup.inviteCode.placeholder': 'Код приглашения (необязательно)',
   'signup.button': 'Зарегистрироваться',
   'signup.loading': 'Регистрация...',
   'signup.login': 'Уже есть аккаунт?',

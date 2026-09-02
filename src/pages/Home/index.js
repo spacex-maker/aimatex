@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
-import { Layout, Button } from 'antd';
+import { Layout } from 'antd';
 import { Helmet } from 'react-helmet';
-import styled, { ThemeContext, keyframes, css } from 'styled-components';
+import styled, { ThemeContext, keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { motion } from 'framer-motion'; // 必须确保已安装 framer-motion
+import { motion } from 'framer-motion';
 import SimpleHeader from 'components/headers/simple';
 import FooterSection from './components/FooterSection';
 import ProductShowcases from './components/ProductShowcases';
 import brandConfig from 'config/brand';
 import {
-  RocketOutlined,
   ArrowRightOutlined,
   PlayCircleOutlined,
   CustomerServiceOutlined,
@@ -32,10 +31,14 @@ const auroraAnim = keyframes`
   100% { background-position: 50% 50%, 50% 50%; }
 `;
 
-const floatAnim = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+const scrollCue = keyframes`
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50% { transform: translateY(8px); opacity: 0.9; }
+`;
+
+const brandSheen = keyframes`
+  0% { background-position: 120% 50%; }
+  100% { background-position: -40% 50%; }
 `;
 
 // --- Styled Components ---
@@ -50,10 +53,9 @@ const VideoBackdrop = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    // 使用径向渐变代替单一线性渐变，保留视频中心的清晰度，同时压暗四周
     background: ${props => props.theme.mode === 'dark'
-      ? 'radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%)'
-      : 'radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.8) 100%)'};
+      ? 'radial-gradient(ellipse 70% 60% at 50% 42%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.88) 100%)'
+      : 'radial-gradient(ellipse 70% 60% at 50% 42%, rgba(255,255,255,0.2) 0%, rgba(245,247,250,0.72) 70%, rgba(240,243,248,0.9) 100%)'};
     z-index: 1;
   }
 
@@ -61,22 +63,23 @@ const VideoBackdrop = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.05); // 轻微放大以防止边缘漏光
-    filter: ${props => props.theme.mode === 'dark' ? 'contrast(1.1) brightness(0.8)' : 'none'};
+    transform: scale(1.04);
+    filter: ${props => props.theme.mode === 'dark' ? 'contrast(1.08) brightness(0.72)' : 'contrast(1.02) brightness(1.02)'};
   }
 `;
 
-// 新增：极光背景层，增加科技氛围
 const AuroraOverlay = styled.div`
   position: absolute;
   inset: 0;
   z-index: 1;
-  opacity: ${props => props.theme.mode === 'dark' ? 0.4 : 0.6};
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(0, 212, 170, 0.3) 0px, transparent 50%);
-  filter: blur(80px);
+  opacity: ${props => props.theme.mode === 'dark' ? 0.35 : 0.45};
+  background-image:
+    radial-gradient(at 12% 18%, rgba(37, 99, 235, 0.28) 0px, transparent 48%),
+    radial-gradient(at 88% 12%, rgba(13, 148, 136, 0.22) 0px, transparent 46%);
+  filter: blur(72px);
   pointer-events: none;
+  animation: ${auroraAnim} 18s ease-in-out infinite;
+  background-size: 140% 140%;
 `;
 
 const PageWrapper = styled(Layout)`
@@ -89,162 +92,179 @@ const PageWrapper = styled(Layout)`
 const PageContent = styled(Content)`
   position: relative;
   z-index: 2;
-  margin-top: 72px;
+  margin-top: 0;
   width: 100%;
   overflow: visible;
   background: transparent;
 `;
 
-// --- Hero Section Redesign ---
-
 const HeroSection = styled.section`
   position: relative;
-  min-height: 85vh; // 增加高度，占据首屏
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0 24px;
-  perspective: 1000px;
-  
+  padding: 96px 24px 72px;
+  box-sizing: border-box;
+
   @media (max-width: 768px) {
-    min-height: 70vh;
+    min-height: 100svh;
+    padding: 104px 20px 64px;
   }
 `;
 
-const HeroBadge = styled(motion.div)`
-  display: inline-flex;
+const HeroInner = styled(motion.div)`
+  width: 100%;
+  max-width: 920px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 8px 24px;
-  border-radius: 100px;
-  // Glassmorphism Ultimate
-  background: ${props => props.theme.mode === 'dark'
-    ? 'rgba(255, 255, 255, 0.05)'
-    : 'rgba(255, 255, 255, 0.6)'};
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid ${props => props.theme.mode === 'dark'
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(255, 255, 255, 0.4)'};
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  margin-bottom: 32px;
-  cursor: default;
+`;
+
+const BrandMark = styled(motion.h1)`
+  margin: 0 0 28px;
+  font-family: 'Syne', 'Manrope', sans-serif;
+  font-size: clamp(56px, 14vw, 128px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+  color: ${props => props.theme.mode === 'dark' ? '#f4f7fb' : '#0b1220'};
+  position: relative;
 
   span {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    background: ${props => props.theme.mode === 'dark'
-      ? 'linear-gradient(90deg, #2997ff, #00d4aa)'
-      : 'linear-gradient(90deg, #007aff, #00b894)'};
+    display: inline-block;
+    background-image: linear-gradient(
+      105deg,
+      ${props => props.theme.mode === 'dark' ? '#f4f7fb' : '#0b1220'} 0%,
+      ${props => props.theme.mode === 'dark' ? '#f4f7fb' : '#0b1220'} 38%,
+      ${props => props.theme.mode === 'dark' ? '#7dd3fc' : '#2563eb'} 50%,
+      ${props => props.theme.mode === 'dark' ? '#f4f7fb' : '#0b1220'} 62%,
+      ${props => props.theme.mode === 'dark' ? '#f4f7fb' : '#0b1220'} 100%
+    );
+    background-size: 220% 100%;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: ${brandSheen} 5.5s ease-in-out infinite;
   }
 `;
 
-const HeroTitle = styled(motion.h1)`
-  font-size: clamp(48px, 10vw, 96px); // 极大的字体
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.04em; // Apple 风格的紧凑字间距
-  margin-bottom: 32px;
-  position: relative;
-  
-  // 高端渐变文字
-  background: ${props => props.theme.mode === 'dark'
-    ? 'linear-gradient(180deg, #FFFFFF 0%, #A5A5A5 100%)'
-    : 'linear-gradient(180deg, #1d1d1f 0%, #424245 100%)'};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  // 增加文字光晕，提升在复杂背景上的可读性
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
-
-  @media (max-width: 768px) {
-    font-size: 48px;
-  }
+const HeroHeadline = styled(motion.p)`
+  margin: 0 0 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(20px, 3.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: ${props => props.theme.mode === 'dark' ? 'rgba(244,247,251,0.92)' : 'rgba(11,18,32,0.9)'};
+  max-width: 18em;
 `;
 
-const HeroSubtitle = styled(motion.p)`
-  font-size: clamp(20px, 4vw, 28px);
-  color: ${props => props.theme.mode === 'dark' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.75)'};
-  max-width: 800px;
-  margin: 0 auto 48px;
+const HeroLead = styled(motion.p)`
+  margin: 0 0 40px;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(15px, 2vw, 18px);
   font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  line-height: 1.65;
+  color: ${props => props.theme.mode === 'dark' ? 'rgba(226,232,240,0.62)' : 'rgba(51,65,85,0.78)'};
+  max-width: 34rem;
 `;
 
 const HeroActions = styled(motion.div)`
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 14px;
   justify-content: center;
   align-items: center;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    width: 100%;
-    gap: 16px;
+`;
+
+const CtaButton = styled.button`
+  appearance: none;
+  height: 52px;
+  padding: 0 28px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: ${props => props.theme.mode === 'dark' ? '#061018' : '#f8fafc'};
+  background: ${props => props.theme.mode === 'dark' ? '#e8eef7' : '#0f172a'};
+  transition: transform 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: ${props => props.theme.mode === 'dark' ? '#ffffff' : '#1e293b'};
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
-// Primary Button - Apple Style "Call to Action"
-const CtaButton = styled(Button)`
-  && {
-    height: 64px;
-    padding: 0 48px;
-    font-size: 19px;
-    font-weight: 600;
-    border-radius: 100px;
-    border: none;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+const GhostButton = styled.button`
+  appearance: none;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: ${props => props.theme.mode === 'dark' ? 'rgba(248,250,252,0.92)' : 'rgba(15,23,42,0.88)'};
+  background: ${props => props.theme.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.45)'};
+  border: 1px solid ${props => props.theme.mode === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.12)'};
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 
-    // 背景逻辑
-    background: ${props => props.theme.mode === 'dark' ? '#fff' : '#1d1d1f'};
-    color: ${props => props.theme.mode === 'dark' ? '#000' : '#fff'};
+  &:hover {
+    transform: translateY(-2px);
+    background: ${props => props.theme.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)'};
+    border-color: ${props => props.theme.mode === 'dark' ? 'rgba(125,211,252,0.35)' : 'rgba(37,99,235,0.28)'};
+  }
 
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-      
-      &::after {
-        opacity: 1;
-      }
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
+  &:active {
+    transform: translateY(0);
   }
 `;
 
-// Secondary Button - Glass Style
-const GlassButton = styled(Button)`
-  && {
-    height: 64px;
-    padding: 0 48px;
-    font-size: 19px;
-    font-weight: 600;
-    border-radius: 100px;
-    background: rgba(255, 255, 255, 0.1); // 极度透明
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: ${props => props.theme.mode === 'dark' ? '#fff' : '#1d1d1f'};
-    transition: all 0.3s ease;
+const ScrollHint = styled(motion.div)`
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: ${props => props.theme.mode === 'dark' ? 'rgba(226,232,240,0.45)' : 'rgba(71,85,105,0.55)'};
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-2px);
-    }
+  .line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(
+      180deg,
+      ${props => props.theme.mode === 'dark' ? 'rgba(148,163,184,0.7)' : 'rgba(100,116,139,0.55)'},
+      transparent
+    );
+    animation: ${scrollCue} 1.8s ease-in-out infinite;
   }
 `;
 
@@ -615,7 +635,13 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>{brandConfig.name} - The Future of AI Interaction</title>
+        <title>{brandConfig.seo?.defaultTitle || `${brandConfig.name} - AI助手、伴侣、伙伴`}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
       
       {/* Background Layer */}
@@ -634,72 +660,103 @@ const HomePage = () => {
         <SimpleHeader />
         
         <PageContent>
-          {/* Hero Section with Framer Motion */}
           <HeroSection>
-            <motion.div
+            <HeroInner
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              style={{ width: '100%', maxWidth: '1200px' }}
             >
-              <HeroBadge theme={theme} variants={itemVariants}>
-                <span style={{ marginRight: 8 }}>✨</span>
+              <BrandMark theme={theme} variants={itemVariants}>
                 <span>
-                  <FormattedMessage id="home.hero.badge" defaultMessage="Introducing AIMATEX Intelligence" />
+                  <FormattedMessage id="home.hero.title" defaultMessage="AIMATEX" />
                 </span>
-              </HeroBadge>
+              </BrandMark>
 
-              <HeroTitle theme={theme} variants={itemVariants}>
-                <FormattedMessage id="home.hero.title" defaultMessage="Your AI Companion." />
-                <br />
-                <span style={{ 
-                  background: 'linear-gradient(90deg, #2997ff 0%, #d568fb 100%)', 
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  display: 'inline-block' 
-                }}>
-                  Reimagined.
-                </span>
-              </HeroTitle>
-
-              <HeroSubtitle theme={theme} variants={itemVariants}>
-                <FormattedMessage 
-                  id="home.hero.subtitle" 
-                  defaultMessage="Experience the next evolution of interaction. Seamlessly blending Classmate, Soulmate, and Teammate into one unified intelligence." 
+              <HeroHeadline theme={theme} variants={itemVariants}>
+                <FormattedMessage
+                  id="home.hero.subtitle"
+                  defaultMessage="Your Classmate, Soulmate, Teammate"
                 />
-              </HeroSubtitle>
+              </HeroHeadline>
+
+              <HeroLead theme={theme} variants={itemVariants}>
+                <FormattedMessage
+                  id="home.hero.lead"
+                  defaultMessage="通往旗下 AI 产品的入口。发现音乐、创作与智能工具，从这里开始。"
+                />
+              </HeroLead>
 
               <HeroActions variants={itemVariants}>
-                {isAuthenticated ? (
+                {isAuthenticated && brandConfig.showAuthEntries ? (
                   <CtaButton
                     theme={theme}
-                    icon={<RocketOutlined />}
+                    type="button"
                     onClick={() => navigate('/seedance-video')}
                   >
-                    <FormattedMessage id="home.hero.cta.workspace" defaultMessage="Launch Workspace" />
+                    <FormattedMessage id="home.hero.cta.workspace" defaultMessage="进入工作台" />
+                    <ArrowRightOutlined />
                   </CtaButton>
+                ) : brandConfig.showAuthEntries ? (
+                  <>
+                    <CtaButton
+                      theme={theme}
+                      type="button"
+                      onClick={() => navigate('/signup')}
+                    >
+                      <FormattedMessage id="home.hero.cta.signup" defaultMessage="免费开始" />
+                      <ArrowRightOutlined />
+                    </CtaButton>
+                    <GhostButton
+                      theme={theme}
+                      type="button"
+                      onClick={() => navigate('/login')}
+                    >
+                      <FormattedMessage id="home.hero.cta.login" defaultMessage="立即登录" />
+                    </GhostButton>
+                  </>
                 ) : (
                   <>
                     <CtaButton
                       theme={theme}
-                      onClick={() => navigate('/signup')}
+                      type="button"
+                      onClick={() => {
+                        document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
                     >
-                      <FormattedMessage id="home.hero.cta.signup" defaultMessage="Get Started Free" />
+                      <FormattedMessage id="home.hero.cta.explore" defaultMessage="探索产品" />
+                      <ArrowRightOutlined />
                     </CtaButton>
-                    <GlassButton
+                    <GhostButton
                       theme={theme}
-                      icon={<PlayCircleOutlined />}
-                      onClick={() => navigate('/login')}
+                      type="button"
+                      onClick={() => {
+                        window.open(brandConfig.products?.aimatexMusic || 'https://music.aimatex.com', '_blank', 'noopener,noreferrer');
+                      }}
                     >
-                      <FormattedMessage id="home.hero.cta.demo" defaultMessage="Watch Demo" />
-                    </GlassButton>
+                      <CustomerServiceOutlined />
+                      Music
+                    </GhostButton>
                   </>
                 )}
               </HeroActions>
-            </motion.div>
+            </HeroInner>
+
+            <ScrollHint
+              theme={theme}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.6 }}
+            >
+              <span>
+                <FormattedMessage id="home.hero.scroll" defaultMessage="向下浏览" />
+              </span>
+              <div className="line" />
+            </ScrollHint>
           </HeroSection>
 
-          <ProductShowcases dark={theme.mode === 'dark'} />
+          <div id="products">
+            <ProductShowcases dark={theme.mode === 'dark'} />
+          </div>
 
           {/* AIMATEX-MUSIC dedicated showcase */}
           <MusicSection id="aimatex-music">

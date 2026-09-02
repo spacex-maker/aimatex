@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'Startseite',
   'header.workspace': 'Arbeitsbereich',
   'login.title': 'AIMATEX',
@@ -15,6 +15,10 @@
   'login.success': 'Erfolgreich angemeldet',
   'login.forgotPassword': 'Passwort vergessen?',
   'login.forgotPassword.link': 'Hier zurücksetzen',
+  'login.rememberPassword': 'Passwort merken',
+  'login.social.comingSoon': 'Diese Anmeldemethode kommt bald',
+  'captcha.placeholder': 'Captcha-Code',
+  'captcha.refresh': 'Captcha aktualisieren',
   'auth.modal.title': 'Anmeldung erforderlich',
   'auth.modal.content': 'Ihre Sitzung ist abgelaufen oder Sie sind nicht angemeldet. Bitte melden Sie sich an, um fortzufahren.',
   'auth.modal.ok': 'Zur Anmeldung',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': 'E-Mail eingeben',
   'signup.password.placeholder': 'Passwort eingeben',
   'signup.confirmPassword.placeholder': 'Passwort bestätigen',
+  'signup.inviteCode.placeholder': 'Einladungscode (optional)',
   'signup.button': 'Registrieren',
   'signup.loading': 'Registrierung läuft...',
   'signup.login': 'Bereits ein Konto?',

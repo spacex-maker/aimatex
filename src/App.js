@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import 'antd/dist/reset.css';
 import GlobalStyles from './styles/GlobalStyles';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ConfigProvider, theme, message } from 'antd';
 import { ThemeProvider } from 'styled-components';
 import { LocaleProvider } from './contexts/LocaleContext';
@@ -26,6 +26,8 @@ import RechargeAgreementPage from './pages/RechargeAgreement';
 import LoginPage from './pages/Login';
 import SignupPage from './pages/Signup';
 import GoogleCallback from './pages/GoogleCallback';
+import AllManagePage from './pages/AllManage';
+import ResetPasswordPage from './pages/ResetPassword';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import jaJP from 'antd/locale/ja_JP';
@@ -42,7 +44,10 @@ const localeMap = {
 // 路由守卫组件
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('token');
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const location = useLocation();
+  if (isAuthenticated) return children;
+  const redirect = encodeURIComponent(`${location.pathname}${location.search}`);
+  return <Navigate to={`/login?redirect=${redirect}`} replace />;
 };
 
 export default function App() {
@@ -265,6 +270,7 @@ export default function App() {
               {/* 认证页面 */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/auth/google/callback" element={<GoogleCallback />} />
               {/* 账户设置 */}
               <Route path="/profile" element={
@@ -321,6 +327,8 @@ export default function App() {
               {/* 法律页面 */}
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+              {/* 综合中台：外链导航，鉴权在各子站 */}
+              <Route path="/all-manage" element={<AllManagePage />} />
             </Routes>
           </Router>
         </ConfigProvider>

@@ -361,19 +361,28 @@ const FooterSectionComponent = () => {
             <FooterSection theme={theme}>
               <h4>{intl.formatMessage({ id: 'footer.product.title', defaultMessage: '产品' })}</h4>
               <ul>
+                {brandConfig.showAuthEntries && (
+                  <>
+                    <li>
+                      <a href="#" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}>
+                        {intl.formatMessage({ id: 'footer.product.signup', defaultMessage: '注册账号' })}
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>
+                        {intl.formatMessage({ id: 'footer.product.login', defaultMessage: '登录' })}
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick={(e) => { e.preventDefault(); navigate('/works'); }}>
+                        {intl.formatMessage({ id: 'footer.product.works', defaultMessage: '我的作品' })}
+                      </a>
+                    </li>
+                  </>
+                )}
                 <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}>
-                    {intl.formatMessage({ id: 'footer.product.signup', defaultMessage: '注册账号' })}
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>
-                    {intl.formatMessage({ id: 'footer.product.login', defaultMessage: '登录' })}
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/works'); }}>
-                    {intl.formatMessage({ id: 'footer.product.works', defaultMessage: '我的作品' })}
+                  <a href={brandConfig.products?.aimatexMusic || 'https://music.aimatex.com'} target="_blank" rel="noopener noreferrer">
+                    AIMATEX Music
                   </a>
                 </li>
               </ul>

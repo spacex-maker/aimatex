@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'ホームページ',
   'header.workspace': 'ワークスペース',
   'login.title': 'Seedance',
@@ -15,6 +15,10 @@
   'login.success': 'ログインしました',
   'login.forgotPassword': 'パスワードをお忘れですか？',
   'login.forgotPassword.link': 'こちらでリセット',
+  'login.rememberPassword': 'パスワードを記憶',
+  'login.social.comingSoon': 'このログイン方式は準備中です',
+  'captcha.placeholder': '認証コード',
+  'captcha.refresh': '認証コードを更新',
   'auth.modal.title': 'ログインが必要です',
   'auth.modal.content': 'ログインの有効期限が切れたか、ログインしていません。続けるにはログインしてください。',
   'auth.modal.ok': 'ログインへ',
@@ -39,6 +43,7 @@
   'signup.email.placeholder': 'メールアドレスを入力',
   'signup.password.placeholder': 'パスワードを入力',
   'signup.confirmPassword.placeholder': 'パスワードを確認',
+  'signup.inviteCode.placeholder': '招待コード（任意）',
   'signup.button': '登録',
   'signup.loading': '登録中...',
   'signup.login': 'すでにアカウントをお持ちの方',

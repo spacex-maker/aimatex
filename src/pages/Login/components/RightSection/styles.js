@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { slideInFromRight, fadeInScale, marqueeGlow } from '../../styles';
 
-// 社交媒体的品牌颜色（Google 用白底+边框，与官方「通过 Google 登录」一致）
+// 绀句氦濯掍綋鐨勫搧鐗岄鑹诧紙Google 鐢ㄧ櫧搴?杈规锛屼笌瀹樻柟銆岄€氳繃 Google 鐧诲綍銆嶄竴鑷达級
 const SOCIAL_COLORS = {
   google: {
     color: '#ffffff',
@@ -30,7 +30,7 @@ const SOCIAL_COLORS = {
     color: '#0077B5',
     hoverColor: '#006399'
   },
-  // 中国社交媒体
+  // 涓浗绀句氦濯掍綋
   wechat: {
     color: '#07C160',
     hoverColor: '#06AD56'
@@ -65,13 +65,13 @@ const SOCIAL_COLORS = {
   }
 };
 
-// 默认颜色配置
+// 榛樿棰滆壊閰嶇疆
 const DEFAULT_SOCIAL_COLOR = {
   color: '#666666',
   hoverColor: '#444444'
 };
 
-// 获取社交媒体颜色，如果不存在则返回默认值
+// 鑾峰彇绀句氦濯掍綋棰滆壊锛屽鏋滀笉瀛樺湪鍒欒繑鍥為粯璁ゅ€?
 const getSocialColor = (type, property) => {
   const colorConfig = SOCIAL_COLORS[type] || DEFAULT_SOCIAL_COLOR;
   return colorConfig[property];
@@ -376,10 +376,11 @@ export const SocialButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  cursor: ${props => props.$unsupported ? 'not-allowed' : 'pointer'};
   transition: all 0.3s;
   font-size: 1.25rem;
-  opacity: 0;
+  opacity: ${props => props.$unsupported ? 0.45 : 0};
+  filter: ${props => props.$unsupported ? 'grayscale(1)' : 'none'};
   animation: ${fadeInScale} 0.5s ease-out forwards;
   animation-delay: ${props => props.index * 0.1 + 0.8}s;
 
@@ -388,15 +389,19 @@ export const SocialButton = styled.button`
     height: 20px;
   }
 
+  img {
+    display: block;
+  }
+
   &:hover {
     background: ${props => getSocialColor(props.socialType, 'hoverColor')};
     ${props => getSocialColor(props.socialType, 'hoverBorderColor') ? `border-color: ${getSocialColor(props.socialType, 'hoverBorderColor')};` : ''}
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transform: ${props => props.$unsupported ? 'none' : 'translateY(-2px)'};
+    box-shadow: ${props => props.$unsupported ? 'none' : '0 4px 8px rgba(0, 0, 0, 0.08)'};
   }
 
   &:active {
-    transform: translateY(0);
+    transform: ${props => props.$unsupported ? 'none' : 'translateY(0)'};
   }
 `;
 
@@ -423,17 +428,42 @@ export const ErrorText = styled.div`
   margin-top: 0.5rem;
 `;
 
+export const FormOptionsRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+`;
+
+export const RememberLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--ant-color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--ant-color-primary);
+  }
+`;
+
 export const ForgotPasswordLink = styled(Link)`
-  text-align: right;
   font-size: 0.875rem;
   color: var(--ant-color-text-secondary);
   text-decoration: none;
-  margin-top: 0.5rem;
-  display: block;
   padding: 0.25rem 0;
   transition: color 0.3s ease;
-  
+  white-space: nowrap;
+
   &:hover {
     color: var(--ant-color-primary);
   }
-`; 
+`;

@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': '返回官网',
   'header.workspace': '工作空间',
   'login.title': 'AIMATEX',
@@ -15,6 +15,10 @@
   'login.success': '登录成功',
   'login.forgotPassword': '忘记密码？',
   'login.forgotPassword.link': '点击这里重置',
+  'login.rememberPassword': '记住密码',
+  'login.social.comingSoon': '该登录方式正在开发中',
+  'captcha.placeholder': '人机验证码',
+  'captcha.refresh': '刷新验证码',
   'auth.modal.title': '需要登录',
   'auth.modal.content': '您的登录已过期或尚未登录，请登录后继续使用。',
   'auth.modal.ok': '去登录',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': '请输入邮箱',
   'signup.password.placeholder': '请输入密码',
   'signup.confirmPassword.placeholder': '请确认密码',
+  'signup.inviteCode.placeholder': '邀请码（选填）',
   'signup.button': '注册',
   'signup.loading': '注册中...',
   'signup.login': '已有账号？',
@@ -1470,10 +1475,13 @@
   'home.hero.badge': 'AI助手 · 伴侣 · 伙伴',
   'home.hero.title': 'AIMATEX',
   'home.hero.subtitle': '您的 Classmate、Soulmate、Teammate',
+  'home.hero.lead': '通往旗下 AI 产品的入口。发现音乐、创作与智能工具，从这里开始。',
   'home.hero.description': 'AIMATEX 是您的AI助手、学习伙伴、创作伴侣。我们提供全方位的AI解决方案，让AI成为您工作、学习、创作中的最佳伙伴。无论是课堂学习、创意协作，还是团队合作，AIMATEX都是您值得信赖的伙伴。',
   'home.hero.cta.signup': '免费开始',
   'home.hero.cta.login': '立即登录',
   'home.hero.cta.workspace': '进入工作台',
+  'home.hero.cta.explore': '探索产品',
+  'home.hero.scroll': '向下浏览',
   // 首页产品区域
   'home.products.title': '我们的产品',
   'home.products.subtitle': '探索AIMATEX旗下创新AI产品，每个产品都是您在不同场景下的最佳伙伴',

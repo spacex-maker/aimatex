@@ -16,6 +16,9 @@ const brandConfig = {
   // 网站信息
   siteUrl: 'https://aimatex.com',
   supportEmail: 'support@aimatex.com',
+
+  // 主导航是否展示登录/注册（路由仍保留，便于直链访问）
+  showAuthEntries: false,
   
   // SEO 默认信息
   seo: {

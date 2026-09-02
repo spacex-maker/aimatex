@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { auth } from "../../api/auth";
 import { base } from "../../api/base";
+import { loadRememberedLogin, saveRememberedLogin } from "../../utils/loginRemember";
+import { consumeLoginRedirect, persistLoginRedirect } from "../../utils/loginRedirect";
 import { message } from "antd";
 import { ThemeContext } from "styled-components";
 import { useLocale } from 'contexts/LocaleContext';
@@ -15,8 +17,10 @@ import { RightSection } from './components/RightSection';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberPassword, setRememberPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const theme = React.useContext(ThemeContext);
@@ -36,21 +40,47 @@ const LoginPage = () => {
     fetchLanguages();
   }, []);
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    const redirect = searchParams.get('redirect');
+    if (redirect) {
+      persistLoginRedirect(redirect);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const saved = loadRememberedLogin();
+    if (saved.remember) {
+      setEmail(saved.email);
+      setPassword(saved.password);
+      setRememberPassword(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e, captcha) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const result = await auth.login({ email, password });
+      const result = await auth.login({
+        email,
+        password,
+        captchaId: captcha?.captchaId,
+        captchaCode: captcha?.captchaCode,
+      });
       if (result.success) {
+        saveRememberedLogin(email, password, rememberPassword);
         message.success("登录成功");
-        navigate("/");
-      } else {
+        navigate(consumeLoginRedirect('/'));
+      } else if (!result.isUserDisabled && !result.isIpBlocked) {
         setError(result.message || "登录失败");
+        captcha?.refreshCaptcha?.();
       }
     } catch (error) {
-      setError("登录失败，请稍后重试");
+      if (!error?.isUserDisabled && !error?.isIpBlocked) {
+        setError(error.response?.data?.message || '登录失败，请稍后重试');
+        captcha?.refreshCaptcha?.();
+      }
     } finally {
       setLoading(false);
     }
@@ -87,6 +117,8 @@ const LoginPage = () => {
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
+          rememberPassword={rememberPassword}
+          setRememberPassword={setRememberPassword}
           error={error}
           loading={loading}
           handleSubmit={handleSubmit}

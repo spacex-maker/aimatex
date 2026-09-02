@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'الصفحة الرئيسية',
   'header.workspace': 'مساحة العمل',
   'login.title': 'AIMATEX',
@@ -15,6 +15,10 @@
   'login.success': 'تم تسجيل الدخول',
   'login.forgotPassword': 'نسيت كلمة المرور؟',
   'login.forgotPassword.link': 'إعادة تعيين هنا',
+  'login.rememberPassword': 'تذكر كلمة المرور',
+  'login.social.comingSoon': 'طريقة تسجيل الدخول هذه قيد التطوير',
+  'captcha.placeholder': 'رمز التحقق',
+  'captcha.refresh': 'تحديث رمز التحقق',
   'auth.modal.title': 'تسجيل الدخول مطلوب',
   'auth.modal.content': 'انتهت صلاحية جلستك أو أنك غير مسجل الدخول. يرجى تسجيل الدخول للمتابعة.',
   'auth.modal.ok': 'الذهاب لتسجيل الدخول',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': 'أدخل البريد الإلكتروني',
   'signup.password.placeholder': 'أدخل كلمة المرور',
   'signup.confirmPassword.placeholder': 'تأكيد كلمة المرور',
+  'signup.inviteCode.placeholder': 'رمز الدعوة (اختياري)',
   'signup.button': 'تسجيل',
   'signup.loading': 'جاري التسجيل...',
   'signup.login': 'لديك حساب بالفعل؟',

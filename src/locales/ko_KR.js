@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': '홈페이지',
   'header.workspace': '작업 공간',
   'login.title': 'Seedance',
@@ -15,6 +15,10 @@
   'login.success': '로그인 성공',
   'login.forgotPassword': '비밀번호를 잊으셨나요?',
   'login.forgotPassword.link': '여기서 재설정',
+  'login.rememberPassword': '비밀번호 기억',
+  'login.social.comingSoon': '해당 로그인 방식은 준비 중입니다',
+  'captcha.placeholder': '캡차 코드',
+  'captcha.refresh': '캡차 새로고침',
   'auth.modal.title': '로그인이 필요합니다',
   'auth.modal.content': '로그인이 만료되었거나 로그인되어 있지 않습니다. 계속하려면 로그인해 주세요.',
   'auth.modal.ok': '로그인하기',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': '이메일 입력',
   'signup.password.placeholder': '비밀번호 입력',
   'signup.confirmPassword.placeholder': '비밀번호 확인',
+  'signup.inviteCode.placeholder': '초대 코드 (선택)',
   'signup.button': '가입하기',
   'signup.loading': '가입 중...',
   'signup.login': '이미 계정이 있으신가요?',

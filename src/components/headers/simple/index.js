@@ -10,6 +10,7 @@ import Logo from './Logo';
 import DarkModeToggle from './DarkModeToggle';
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
+import brandConfig from 'config/brand';
 import {
   Header,
   HeaderContent,
@@ -211,7 +212,7 @@ const SimpleHeader = () => {
                 onLogout={handleLogout}
               />
             </>
-          ) : (
+          ) : brandConfig.showAuthEntries ? (
             <>
               <NavLink to="/login">
                 <FormattedMessage id="login.button" defaultMessage="登录" />
@@ -220,7 +221,7 @@ const SimpleHeader = () => {
                 <FormattedMessage id="signup.button" defaultMessage="注册" />
               </PrimaryLink>
             </>
-          )}
+          ) : null}
         </RightSection>
       </HeaderContent>
     </Header>

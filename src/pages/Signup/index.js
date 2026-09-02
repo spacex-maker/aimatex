@@ -11,7 +11,8 @@ import SimpleHeader from 'components/headers/simple';
 import FooterSection from 'pages/Home/components/FooterSection';
 import { RightSection } from './components/RightSection';
 import { PageContainer } from './styles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import brandConfig from 'config/brand';
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
@@ -34,7 +35,19 @@ const SignupPage = () => {
   const [code, setCode] = useState('');
   const [countdown, setCountdown] = useState(0);
   const [isSending, setIsSending] = useState(false);
+  const [inviteCode, setInviteCode] = useState('');
+  const [captchaId, setCaptchaId] = useState('');
+  const [captchaCode, setCaptchaCode] = useState('');
+  const captchaRefreshRef = useRef(null);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const codeFromUrl = searchParams.get('inviteCode');
+    if (codeFromUrl) {
+      setInviteCode(codeFromUrl);
+    }
+  }, [searchParams]);
 
   // 获取支持的语言列表
   useEffect(() => {
@@ -58,32 +71,30 @@ const SignupPage = () => {
           
           // 语言与首选国家的映射
           const languageCountryMap = {
-            'en': 'US',  // 英语 -> 美国
-            'zh': 'CN',  // 中文 -> 中国
-            'ja': 'JP',  // 日语 -> 日本
-            'fr': 'FR',  // 法语 -> 法国
-            'de': 'DE',  // 德语 -> 德国
-            'es': 'ES',  // 西班牙语 -> 西班牙
-            'it': 'IT',  // 意大利语 -> 意大利
-            'pt': 'PT',  // 葡萄牙语 -> 葡萄牙
-            'ru': 'RU',  // 俄语 -> 俄罗斯
-            'ko': 'KR',  // 韩语 -> 韩国
-            'ar': 'SA'   // 阿拉伯语 -> 沙特阿拉伯
+            'en': 'US',
+            'zh': 'CN',
+            'ja': 'JP',
+            'fr': 'FR',
+            'de': 'DE',
+            'es': 'ES',
+            'it': 'IT',
+            'pt': 'PT',
+            'ru': 'RU',
+            'ko': 'KR',
+            'ar': 'SA'
           };
           
-          // 获取当前语言对应的首选国家代码
           const getPreferredCountryCode = () => {
             for (const [langPrefix, countryCode] of Object.entries(languageCountryMap)) {
               if (locale.startsWith(langPrefix)) {
                 return countryCode;
               }
             }
-            return 'CN'; // 默认中国
+            return 'CN';
           };
           
           const preferredCountryCode = getPreferredCountryCode();
           
-          // 将首选国家排在第一位
           countriesList = countriesList.sort((a, b) => {
             if (a.code === preferredCountryCode) return -1;
             if (b.code === preferredCountryCode) return 1;
@@ -92,7 +103,6 @@ const SignupPage = () => {
           
           setCountries(countriesList);
           
-          // 默认选中首选国家
           const preferredCountry = countriesList.find(country => country.code === preferredCountryCode);
           if (preferredCountry) {
             setCountryCode(preferredCountry.code);
@@ -108,7 +118,7 @@ const SignupPage = () => {
   }, [locale]);
 
   const startCountdown = () => {
-    setCountdown(300); // 5分钟 = 300秒
+    setCountdown(300);
     const timer = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
@@ -126,7 +136,6 @@ const SignupPage = () => {
       return;
     }
 
-    // 验证邮箱格式
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError(intl.formatMessage({ id: 'signup.error.emailInvalid' }));
@@ -138,17 +147,22 @@ const SignupPage = () => {
     try {
       const response = await axios.post('/base/productx/user/register-send-email', {
         email,
-        locale: locale
+        locale: locale,
+        captchaId,
+        captchaCode,
       });
 
       if (response.data.success) {
         message.success(intl.formatMessage({ id: 'signup.verificationCode.success' }));
         startCountdown();
+        captchaRefreshRef.current?.();
       } else {
         setError(response.data.message || intl.formatMessage({ id: 'signup.verificationCode.error' }));
+        captchaRefreshRef.current?.();
       }
     } catch (error) {
       setError(error.response?.data?.message || intl.formatMessage({ id: 'signup.verificationCode.error' }));
+      captchaRefreshRef.current?.();
     } finally {
       setIsSending(false);
     }
@@ -168,20 +182,17 @@ const SignupPage = () => {
       return;
     }
 
-    // 验证用户名长度
     if (username.length < 4 || username.length > 10) {
       setError(intl.formatMessage({ id: 'signup.username.rule.length' }));
       return;
     }
 
-    // 验证邮箱格式
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError(intl.formatMessage({ id: 'signup.error.emailInvalid' }));
       return;
     }
 
-    // 验证验证码长度
     if (code.length !== 6) {
       setError(intl.formatMessage({ id: 'signup.verificationCode.invalid' }));
       return;
@@ -195,7 +206,8 @@ const SignupPage = () => {
         email,
         password,
         countryCode,
-        code
+        code,
+        inviteCode: inviteCode?.trim() || undefined,
       });
 
       if (result.success) {
@@ -216,7 +228,7 @@ const SignupPage = () => {
     <>
       <Helmet>
         <title>{intl.formatMessage({ id: 'signup.page.title' })}</title>
-        <meta name="description" content="注册 Seedance，开始您的 AI 创作" />
+        <meta name="description" content={`注册 ${brandConfig.name}，开始您的 AI 创作`} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Helmet>
       <SimpleHeader />
@@ -249,6 +261,13 @@ const SignupPage = () => {
           isSending={isSending}
           handleSendCode={handleSendCode}
           handleSubmit={handleSubmit}
+          inviteCode={inviteCode}
+          setInviteCode={setInviteCode}
+          captchaId={captchaId}
+          captchaCode={captchaCode}
+          onCaptchaIdChange={setCaptchaId}
+          onCaptchaCodeChange={setCaptchaCode}
+          onRegisterCaptchaRefresh={(fn) => { captchaRefreshRef.current = fn; }}
         />
       </PageContainer>
       <FooterSection />

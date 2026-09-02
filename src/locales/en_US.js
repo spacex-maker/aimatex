@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   'header.homepage': 'Homepage',
   'header.workspace': 'Workspace',
   'login.title': 'AIMATEX',
@@ -15,6 +15,10 @@
   'login.success': 'Login successful',
   'login.forgotPassword': 'Forgot password?',
   'login.forgotPassword.link': 'Click here to reset',
+  'login.rememberPassword': 'Remember password',
+  'login.social.comingSoon': 'This login method is coming soon',
+  'captcha.placeholder': 'Captcha code',
+  'captcha.refresh': 'Refresh captcha',
   'auth.modal.title': 'Login Required',
   'auth.modal.content': 'Your session has expired or you are not logged in. Please log in to continue.',
   'auth.modal.ok': 'Go to Login',
@@ -31,6 +35,7 @@
   'signup.email.placeholder': 'Enter email',
   'signup.password.placeholder': 'Enter password',
   'signup.confirmPassword.placeholder': 'Confirm password',
+  'signup.inviteCode.placeholder': 'Invite code (optional)',
   'signup.button': 'Sign Up',
   'signup.loading': 'Signing up...',
   'signup.login': 'Already have an account?',
@@ -1399,10 +1404,13 @@
   'home.hero.badge': 'AI Assistant · Companion · Partner',
   'home.hero.title': 'AIMATEX',
   'home.hero.subtitle': 'Your Classmate, Soulmate, Teammate',
+  'home.hero.lead': 'A gateway to our AI products. Discover music, creation, and intelligent tools from here.',
   'home.hero.description': 'AIMATEX is your AI assistant, learning partner, and creative companion. We provide comprehensive AI solutions, making AI your best partner in work, study, and creation. Whether it\'s classroom learning, creative collaboration, or team cooperation, AIMATEX is your trusted partner.',
   'home.hero.cta.signup': 'Get Started Free',
   'home.hero.cta.login': 'Sign In',
   'home.hero.cta.workspace': 'Go to Workspace',
+  'home.hero.cta.explore': 'Explore products',
+  'home.hero.scroll': 'Scroll',
   // Home Products Section
   'home.products.title': 'Our Products',
   'home.products.subtitle': 'Explore innovative AI products under AIMATEX, each product is your best partner in different scenarios',

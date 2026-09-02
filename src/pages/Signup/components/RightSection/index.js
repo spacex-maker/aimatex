@@ -27,6 +27,7 @@ import {
   VerifyCodeButton,
   RuleHint
 } from './styles';
+import CaptchaField from 'components/security/CaptchaField';
 
 // 邮箱后缀列表
 const emailSuffixes = [
@@ -67,7 +68,14 @@ export const RightSection = ({
   countdown,
   isSending,
   handleSendCode,
-  handleSubmit
+  handleSubmit,
+  inviteCode,
+  setInviteCode,
+  captchaId,
+  captchaCode,
+  onCaptchaIdChange,
+  onCaptchaCodeChange,
+  onRegisterCaptchaRefresh,
 }) => {
   const intl = useIntl();
   const [usernameFocused, setUsernameFocused] = React.useState(false);
@@ -76,6 +84,7 @@ export const RightSection = ({
   const [confirmPasswordFocused, setConfirmPasswordFocused] = React.useState(false);
   const [countryFocused, setCountryFocused] = React.useState(false);
   const [codeFocused, setCodeFocused] = React.useState(false);
+  const [inviteCodeFocused, setInviteCodeFocused] = React.useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = React.useState(false);
   const [usernameRules, setUsernameRules] = React.useState({
     length: false,
@@ -319,6 +328,16 @@ export const RightSection = ({
             </InputWrapper>
           </FormItem>
 
+          <FormItem index={2.5}>
+            <CaptchaField
+              captchaId={captchaId}
+              captchaCode={captchaCode}
+              onCaptchaIdChange={onCaptchaIdChange}
+              onCaptchaCodeChange={onCaptchaCodeChange}
+              onRegisterRefresh={onRegisterCaptchaRefresh}
+            />
+          </FormItem>
+
           <FormItem index={3}>
             <InputWrapper>
               <Input
@@ -415,14 +434,31 @@ export const RightSection = ({
             </InputWrapper>
           </FormItem>
 
+          <FormItem index={6}>
+            <InputWrapper>
+              <Input
+                type="text"
+                value={inviteCode}
+                onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                placeholder={intl.formatMessage({ id: 'signup.inviteCode.placeholder' })}
+                autoComplete="off"
+                onFocus={() => setInviteCodeFocused(true)}
+                onBlur={() => setInviteCodeFocused(false)}
+              />
+              <BorderGlow className={inviteCodeFocused ? 'active' : ''} />
+            </InputWrapper>
+          </FormItem>
+
           {error && <ErrorText>{error}</ErrorText>}
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? (
-              <FormattedMessage id="signup.loading" />
-            ) : (
-              <FormattedMessage id="signup.button" />
-            )}
+            <span>
+              {loading ? (
+                <FormattedMessage id="signup.loading" />
+              ) : (
+                <FormattedMessage id="signup.button" />
+              )}
+            </span>
           </SubmitButton>
         </Form>
         <Footer>
