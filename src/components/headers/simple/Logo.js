@@ -56,9 +56,11 @@ const BrandContainer = styled.div`
 `;
 
 const BrandText = styled.div`
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Syne', 'Manrope', sans-serif;
   font-weight: 800;
   font-size: 1.75rem;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
   position: relative;
   z-index: 2;
   padding: 0;
