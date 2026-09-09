@@ -1249,6 +1249,8 @@ export default {
   'footer.ai2obj.description': 'AI-powered comprehensive generation platform for creating diverse digital content',
   'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
   'footer.aimatexMusic.description': 'Personal cloud music: discover, playlists, Now Playing, and cloud library',
+  'footer.aimatexNas.title': 'AIMATEX-NAS / Cloud',
+  'footer.aimatexNas.description': 'Personal data warehouse & cloud drive — files, local share, AI-ready',
   
   // Pricing page
   'pricing.title': 'Choose the Plan That Works for You',
@@ -1440,6 +1442,20 @@ export default {
   'home.music.feature.cloud.title': 'Cloud Library',
   'home.music.feature.cloud.desc': 'High-quality audio stored securely in the cloud.',
   'home.music.cta': 'Open AIMATEX-MUSIC',
+
+  'home.nas.eyebrow': 'AIMATEX Suite',
+  'home.nas.title': 'AIMATEX-NAS / Cloud',
+  'home.nas.subtitle': 'Your personal data warehouse and cloud drive — unify cloud and local data, then let AI become your data steward.',
+  'home.nas.feature.cloud.title': 'Cloud Drive',
+  'home.nas.feature.cloud.desc': 'Isolated personal space — upload anytime, access anywhere.',
+  'home.nas.feature.local.title': 'Local Share',
+  'home.nas.feature.local.desc': 'Connect home folders via the client; manage them from the web.',
+  'home.nas.feature.warehouse.title': 'Data Warehouse',
+  'home.nas.feature.warehouse.desc': 'Metadata, tags, and timelines turn scattered files into assets.',
+  'home.nas.feature.ai.title': 'AI Data Expert',
+  'home.nas.feature.ai.desc': 'Ask, organize, and search — within clear permission boundaries.',
+  'home.nas.cta': 'Try AIMATEX-NAS',
+
   'home.showcase.seedance2.eyebrow': 'Image to Video',
   'home.showcase.seedance2.title': 'Seedance2',
   'home.showcase.seedance2.subtitle': 'Turn still frames into cinematic motion with a next-gen creation engine.',
@@ -1488,6 +1504,20 @@ export default {
   'home.showcase.openclaw4j.f4.title': 'One-click Deploy',
   'home.showcase.openclaw4j.f4.desc': 'From prototype to live service fast.',
   'home.showcase.openclaw4j.cta': 'Try Agent',
+
+  'home.showcase.aimatexNas.eyebrow': 'Personal Warehouse',
+  'home.showcase.aimatexNas.title': 'AIMATEX-NAS',
+  'home.showcase.aimatexNas.subtitle': 'Cloud drive and local share — toward a personal data warehouse with an AI steward.',
+  'home.showcase.aimatexNas.f1.title': 'Cloud Drive',
+  'home.showcase.aimatexNas.f1.desc': 'Private space with familiar file management.',
+  'home.showcase.aimatexNas.f2.title': 'Local Share',
+  'home.showcase.aimatexNas.f2.desc': 'Bring home folders online with the desktop client.',
+  'home.showcase.aimatexNas.f3.title': 'Data Layer',
+  'home.showcase.aimatexNas.f3.desc': 'Tags, timelines, and searchable metadata.',
+  'home.showcase.aimatexNas.f4.title': 'AI Data Expert',
+  'home.showcase.aimatexNas.f4.desc': 'Understand and organize your data within policy bounds.',
+  'home.showcase.aimatexNas.cta': 'Open AIMATEX-NAS',
+
   'home.products.learnMore': 'Learn More',
   'home.hero.cta.demo': 'Watch film',
   // Home Features Section

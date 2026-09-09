@@ -18,6 +18,9 @@ import {
   ClusterOutlined,
   DeploymentUnitOutlined,
   RadarChartOutlined,
+  CloudServerOutlined,
+  HardDriveOutlined,
+  DatabaseOutlined,
 } from '@ant-design/icons';
 
 const auroraDrift = keyframes`
@@ -440,6 +443,49 @@ const NodeNet = styled.div`
   }
 `;
 
+/* --- NAS visual: vault --- */
+const VaultMini = styled.div`
+  position: relative;
+  width: min(78%, 280px);
+  aspect-ratio: 1;
+  border-radius: 24px;
+  padding: 18px;
+  background: linear-gradient(160deg, rgba(16, 36, 30, 0.95), rgba(8, 16, 20, 0.92));
+  border: 1px solid rgba(62, 224, 176, 0.3);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45), 0 0 48px rgba(62, 224, 176, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: ${floatY} 5.5s ease-in-out infinite;
+
+  .row {
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(90deg, rgba(62, 224, 176, 0.16), rgba(255, 255, 255, 0.04));
+  }
+  .row:nth-child(2) {
+    width: 90%;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.16), rgba(255, 255, 255, 0.04));
+  }
+  .row:nth-child(3) {
+    width: 78%;
+  }
+  .core {
+    margin-top: auto;
+    align-self: flex-end;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    color: #052018;
+    font-size: 20px;
+    background: linear-gradient(145deg, #3ee0b0, #0ea5e9);
+    box-shadow: 0 10px 24px rgba(62, 224, 176, 0.35);
+  }
+`;
+
 const PRODUCTS = [
   {
     id: 'seedance2',
@@ -521,6 +567,26 @@ const PRODUCTS = [
     Icon: ThunderboltOutlined,
     visual: 'nodes',
   },
+  {
+    id: 'aimatexNas',
+    href: brandConfig.products.aimatexNas,
+    flip: false,
+    accent: '#3ee0b0',
+    accentSoft: '#7dd3fc',
+    accentBg: 'rgba(62,224,176,0.14)',
+    accentBorder: 'rgba(62,224,176,0.35)',
+    glow: 'rgba(62,224,176,0.26)',
+    glow2: 'rgba(56,189,248,0.16)',
+    auroraA: 'rgba(62,224,176,0.32)',
+    auroraB: 'rgba(56,189,248,0.18)',
+    titleGrad: 'linear-gradient(105deg, #fff 8%, #e8fff6 40%, #3ee0b0 72%, #38bdf8 100%)',
+    ctaGrad: 'linear-gradient(105deg, #14b8a6 0%, #0d9488 50%, #0284c7 100%)',
+    ctaShadow: 'rgba(13,148,136,0.4)',
+    hoverBg: 'rgba(62,224,176,0.1)',
+    hoverBorder: 'rgba(62,224,176,0.35)',
+    Icon: CloudServerOutlined,
+    visual: 'vault',
+  },
 ];
 
 const FEATURE_ICONS = {
@@ -528,6 +594,7 @@ const FEATURE_ICONS = {
   ai2obj: [<BlockOutlined />, <DeploymentUnitOutlined />, <ApiOutlined />, <ClusterOutlined />],
   openrobotx: [<GlobalOutlined />, <RadarChartOutlined />, <ApartmentOutlined />, <RobotOutlined />],
   openclaw4j: [<ThunderboltOutlined />, <ApiOutlined />, <ClusterOutlined />, <DeploymentUnitOutlined />],
+  aimatexNas: [<CloudServerOutlined />, <HardDriveOutlined />, <DatabaseOutlined />, <RobotOutlined />],
 };
 
 function Visual({ type, Icon }) {
@@ -556,6 +623,16 @@ function Visual({ type, Icon }) {
       <Radar>
         <div className="core"><Icon /></div>
       </Radar>
+    );
+  }
+  if (type === 'vault') {
+    return (
+      <VaultMini>
+        <div className="row" />
+        <div className="row" />
+        <div className="row" />
+        <div className="core"><CloudServerOutlined /></div>
+      </VaultMini>
     );
   }
   return (

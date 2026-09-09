@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import SimpleHeader from 'components/headers/simple';
 import FooterSection from './components/FooterSection';
 import ProductShowcases from './components/ProductShowcases';
+import AimatexNasShowcase from './components/AimatexNasShowcase';
 import brandConfig from 'config/brand';
 import {
   ArrowRightOutlined,
@@ -17,6 +18,7 @@ import {
   CloudOutlined,
   TeamOutlined,
   SearchOutlined,
+  CloudServerOutlined,
 } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -730,6 +732,16 @@ const HomePage = () => {
                       theme={theme}
                       type="button"
                       onClick={() => {
+                        document.getElementById('aimatex-nas')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <CloudServerOutlined />
+                      NAS
+                    </GhostButton>
+                    <GhostButton
+                      theme={theme}
+                      type="button"
+                      onClick={() => {
                         window.open(brandConfig.products?.aimatexMusic || 'https://music.aimatex.com', '_blank', 'noopener,noreferrer');
                       }}
                     >
@@ -906,6 +918,8 @@ const HomePage = () => {
               </MusicStage>
             </MusicPanel>
           </MusicSection>
+
+          <AimatexNasShowcase />
 
         </PageContent>
         <FooterSection />

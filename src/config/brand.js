@@ -47,6 +47,7 @@ const brandConfig = {
     openrobotx: 'https://openrobotx.com',
     openclaw4j: 'https://agent.aimatex.com',
     aimatexMusic: 'https://music.aimatex.com',
+    aimatexNas: 'https://nas.aimatex.com',
   },
 };
 

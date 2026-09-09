@@ -1320,6 +1320,8 @@ export default {
   'footer.ai2obj.description': 'AI 综合生成平台，提供多样化的数字内容创作工具',
   'footer.aimatexMusic.title': 'AIMATEX-MUSIC',
   'footer.aimatexMusic.description': '个人云音乐空间：发现、歌单协作、正在听与云端音库',
+  'footer.aimatexNas.title': 'AIMATEX-NAS / Cloud',
+  'footer.aimatexNas.description': '个人数仓与云盘：云端文件、本地共享，通往 AI 数据管家',
   
   // 定价页面
   'pricing.title': '选择适合您的方案',
@@ -1511,6 +1513,20 @@ export default {
   'home.music.feature.cloud.title': '云端音库',
   'home.music.feature.cloud.desc': '高品质音频安全存储在云端。',
   'home.music.cta': '进入 AIMATEX-MUSIC',
+
+  'home.nas.eyebrow': 'AIMATEX 产品矩阵',
+  'home.nas.title': 'AIMATEX-NAS / Cloud',
+  'home.nas.subtitle': '个人数仓与云盘：把云端与本地数据汇成一座只属于你的仓库，让 AI 成为你的数据管理专家。',
+  'home.nas.feature.cloud.title': '官方云盘',
+  'home.nas.feature.cloud.desc': '隔离的个人空间，文件随手上云、随处可取。',
+  'home.nas.feature.local.title': '本地共享',
+  'home.nas.feature.local.desc': '客户端接入家里电脑文件夹，网页远程管理。',
+  'home.nas.feature.warehouse.title': '个人数仓',
+  'home.nas.feature.warehouse.desc': '元数据、标签与时间线，让散落数据成为资产。',
+  'home.nas.feature.ai.title': 'AI 数据专家',
+  'home.nas.feature.ai.desc': '问答、整理与检索——在权限边界内帮你打理数据。',
+  'home.nas.cta': '体验 AIMATEX-NAS',
+
   'home.showcase.seedance2.eyebrow': '图生视频',
   'home.showcase.seedance2.title': 'Seedance2',
   'home.showcase.seedance2.subtitle': '把静态画面变成电影级动态影像，下一站创作引擎。',
@@ -1559,6 +1575,20 @@ export default {
   'home.showcase.openclaw4j.f4.title': '一键部署',
   'home.showcase.openclaw4j.f4.desc': '从原型到可用服务快速上线。',
   'home.showcase.openclaw4j.cta': '体验智能体',
+
+  'home.showcase.aimatexNas.eyebrow': '个人数仓',
+  'home.showcase.aimatexNas.title': 'AIMATEX-NAS',
+  'home.showcase.aimatexNas.subtitle': '云盘与本地一体，迈向个人数据仓库与 AI 数据管家。',
+  'home.showcase.aimatexNas.f1.title': '官方云盘',
+  'home.showcase.aimatexNas.f1.desc': '独立空间，标准文件管理体验。',
+  'home.showcase.aimatexNas.f2.title': '本地共享',
+  'home.showcase.aimatexNas.f2.desc': '客户端把家里文件夹接上云端。',
+  'home.showcase.aimatexNas.f3.title': '数据层演进',
+  'home.showcase.aimatexNas.f3.desc': '标签、时间线与可检索元数据。',
+  'home.showcase.aimatexNas.f4.title': 'AI 数据专家',
+  'home.showcase.aimatexNas.f4.desc': '在权限边界内理解与整理你的数据。',
+  'home.showcase.aimatexNas.cta': '进入 AIMATEX-NAS',
+
   'home.products.learnMore': '了解更多',
   // 首页特性区域
   'home.features.title': '全能创作工坊。',
