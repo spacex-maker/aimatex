@@ -19,7 +19,7 @@ import {
   DeploymentUnitOutlined,
   RadarChartOutlined,
   CloudServerOutlined,
-  HardDriveOutlined,
+  HddOutlined,
   DatabaseOutlined,
 } from '@ant-design/icons';
 
@@ -594,7 +594,7 @@ const FEATURE_ICONS = {
   ai2obj: [<BlockOutlined />, <DeploymentUnitOutlined />, <ApiOutlined />, <ClusterOutlined />],
   openrobotx: [<GlobalOutlined />, <RadarChartOutlined />, <ApartmentOutlined />, <RobotOutlined />],
   openclaw4j: [<ThunderboltOutlined />, <ApiOutlined />, <ClusterOutlined />, <DeploymentUnitOutlined />],
-  aimatexNas: [<CloudServerOutlined />, <HardDriveOutlined />, <DatabaseOutlined />, <RobotOutlined />],
+  aimatexNas: [<CloudServerOutlined />, <HddOutlined />, <DatabaseOutlined />, <RobotOutlined />],
 };
 
 function Visual({ type, Icon }) {

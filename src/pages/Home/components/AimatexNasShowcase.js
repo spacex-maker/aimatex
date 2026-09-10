@@ -7,7 +7,7 @@ import {
   ArrowRightOutlined,
   CloudServerOutlined,
   DatabaseOutlined,
-  HardDriveOutlined,
+  HddOutlined,
   RobotOutlined,
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
@@ -410,7 +410,7 @@ const FEATURES = [
     descDef: '隔离的个人空间，文件随手上云、随处可取。',
   },
   {
-    icon: <HardDriveOutlined />,
+    icon: <HddOutlined />,
     titleId: 'home.nas.feature.local.title',
     titleDef: '本地共享',
     descId: 'home.nas.feature.local.desc',
