@@ -1576,19 +1576,6 @@ export default {
   'home.showcase.openclaw4j.f4.desc': '从原型到可用服务快速上线。',
   'home.showcase.openclaw4j.cta': '体验智能体',
 
-  'home.showcase.aimatexNas.eyebrow': '个人数仓',
-  'home.showcase.aimatexNas.title': 'AIMATEX-NAS',
-  'home.showcase.aimatexNas.subtitle': '云盘与本地一体，迈向个人数据仓库与 AI 数据管家。',
-  'home.showcase.aimatexNas.f1.title': '官方云盘',
-  'home.showcase.aimatexNas.f1.desc': '独立空间，标准文件管理体验。',
-  'home.showcase.aimatexNas.f2.title': '本地共享',
-  'home.showcase.aimatexNas.f2.desc': '客户端把家里文件夹接上云端。',
-  'home.showcase.aimatexNas.f3.title': '数据层演进',
-  'home.showcase.aimatexNas.f3.desc': '标签、时间线与可检索元数据。',
-  'home.showcase.aimatexNas.f4.title': 'AI 数据专家',
-  'home.showcase.aimatexNas.f4.desc': '在权限边界内理解与整理你的数据。',
-  'home.showcase.aimatexNas.cta': '进入 AIMATEX-NAS',
-
   'home.products.learnMore': '了解更多',
   // 首页特性区域
   'home.features.title': '全能创作工坊。',
