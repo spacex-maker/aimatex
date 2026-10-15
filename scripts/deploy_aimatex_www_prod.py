@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Deploy aimatex.com SPA to Chengdu (139.155.130.167).
+"""Deploy aimatex.com SPA with geo split:
 
-Replaces Netlify:
-  aimatex.com / www.aimatex.com → static SPA (/home/ubuntu/web/aimatex)
-  API remains https://api.ai2obj.com (frontend axios prod baseURL)
-
-DNS: A records @ + www → 139.155.130.167
-TLS: certbot --nginx + certbot.timer auto-renew
+  境内 DNS → Chengdu nginx  (/home/ubuntu/web/aimatex)
+  境外 DNS → Netlify        (aimatex.netlify.app / apex 75.2.60.5)
 
 Usage:
   py -3 scripts/deploy_aimatex_www_prod.py
-  DEPLOY_SKIP_BUILD=1 py -3 scripts/deploy_aimatex_www_prod.py   # reuse existing build/
-  DEPLOY_SKIP_DNS=1  py -3 scripts/deploy_aimatex_www_prod.py
+  DEPLOY_SKIP_BUILD=1 py -3 scripts/deploy_aimatex_www_prod.py
+  DEPLOY_SKIP_DNS=1   py -3 scripts/deploy_aimatex_www_prod.py
+  DEPLOY_SKIP_NETLIFY=1 / DEPLOY_SKIP_CHENGDU=1
+  DEPLOY_FRONTEND_ONLY=1   # Chengdu: upload static only (no apt/certbot)
+
+Netlify auth (optional but needed for CLI publish):
+  NETLIFY_AUTH_TOKEN=...   # Personal Access Token
+  NETLIFY_SITE_ID=aimatex  # site name or UUID (default: aimatex)
 """
 from __future__ import annotations
 
@@ -28,9 +30,23 @@ HOST = "139.155.130.167"
 WEB_DOMAIN = "aimatex.com"
 WWW_DOMAIN = "www.aimatex.com"
 DNS_DOMAIN = "aimatex.com"
-# DNSPod apex = "@"
-DNS_RECORDS = ["@", "www"]
-DNS_VALUE = HOST
+
+# Netlify external DNS (apex A + www CNAME)
+NETLIFY_APEX_IP = "75.2.60.5"
+NETLIFY_SITE_HOST = "aimatex.netlify.app"
+NETLIFY_SITE_DEFAULT = "aimatex"
+
+# DNSPod 智能解析：境内→成都，境外/默认境外兜底→Netlify
+# 默认也指成都，国内未命中「境内」线路时仍走国内；境外线路明确走 Netlify。
+DNS_DESIRED: list[tuple[str, str, str, str]] = [
+    # (subdomain, type, line, value)
+    ("@", "A", "境内", HOST),
+    ("@", "A", "境外", NETLIFY_APEX_IP),
+    ("@", "A", "默认", HOST),
+    ("www", "A", "境内", HOST),
+    ("www", "CNAME", "境外", NETLIFY_SITE_HOST),
+    ("www", "A", "默认", HOST),
+]
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB_DIST = ROOT / "build"
@@ -44,7 +60,6 @@ DEPLOY_ENV_CANDIDATES = (
 REMOTE_WEB = "/home/ubuntu/web/aimatex"
 SITE_FILE = "aimatex.com"
 
-# HTTP bootstrap (certbot will add 443 + redirect)
 NGINX_APEX = f"""server {{
     listen 80;
     server_name {WEB_DOMAIN};
@@ -58,7 +73,6 @@ NGINX_APEX = f"""server {{
         root /var/www/certbot;
     }}
 
-    # CRA hashed assets
     location /static/ {{
         expires 30d;
         add_header Cache-Control "public, immutable";
@@ -120,6 +134,10 @@ def env_get(data: dict[str, str], *keys: str, default: str = "") -> str:
     return default
 
 
+def env_flag(name: str) -> bool:
+    return os.environ.get(name, "").strip().lower() in ("1", "true", "yes")
+
+
 def run(ssh: paramiko.SSHClient, cmd: str, check: bool = True, timeout: int = 300) -> tuple[int, str]:
     print(f"\n>>> {cmd[:220]}")
     _, stdout, _ = ssh.exec_command(cmd, get_pty=True, timeout=timeout)
@@ -153,7 +171,15 @@ def fqdn(name: str) -> str:
     return DNS_DOMAIN if name in ("@", "") else f"{name}.{DNS_DOMAIN}"
 
 
-def ensure_dns(tc_sid: str, tc_skey: str) -> None:
+def _norm_dns_value(record_type: str, value: str) -> str:
+    v = (value or "").strip().rstrip(".")
+    if record_type.upper() == "CNAME":
+        return v.lower()
+    return v
+
+
+def ensure_geo_dns(tc_sid: str, tc_skey: str) -> None:
+    """Upsert DNSPod geo lines for apex + www. Does not delete unrelated records."""
     from tencentcloud.common import credential
     from tencentcloud.common.profile.client_profile import ClientProfile
     from tencentcloud.common.profile.http_profile import HttpProfile
@@ -168,53 +194,73 @@ def ensure_dns(tc_sid: str, tc_skey: str) -> None:
     req.Limit = 3000
     try:
         resp = client.DescribeRecordList(req)
-        existing = {r.Name: r for r in (resp.RecordList or [])}
+        records = list(resp.RecordList or [])
     except Exception as e:
         print("DescribeRecordList failed, try Create anyway:", e)
-        existing = {}
+        records = []
 
-    for name in DNS_RECORDS:
+    # key: (Name, Type, Line) — same name can exist on multiple lines
+    by_key: dict[tuple[str, str, str], object] = {}
+    for r in records:
+        name = getattr(r, "Name", "") or "@"
+        rtype = getattr(r, "Type", "") or ""
+        line = getattr(r, "Line", "") or "默认"
+        by_key[(name, rtype, line)] = r
+
+    for name, rtype, line, value in DNS_DESIRED:
         label = fqdn(name)
-        if name in existing:
-            rec = existing[name]
-            if getattr(rec, "Value", None) == DNS_VALUE and getattr(rec, "Type", None) == "A":
-                print(f"DNS OK {label} -> {DNS_VALUE}")
+        want = _norm_dns_value(rtype, value)
+        key = (name, rtype, line)
+        existing = by_key.get(key)
+
+        # www 境外用 CNAME：若同线路已有 A，先删掉以免冲突
+        if name == "www" and rtype == "CNAME" and line == "境外":
+            a_key = ("www", "A", "境外")
+            a_rec = by_key.get(a_key)
+            if a_rec is not None:
+                dreq = models.DeleteRecordRequest()
+                dreq.Domain = DNS_DOMAIN
+                dreq.RecordId = a_rec.RecordId
+                client.DeleteRecord(dreq)
+                print(f"DNS DELETED www A {line} (replace with CNAME)")
+                by_key.pop(a_key, None)
+
+        if existing is not None:
+            cur = _norm_dns_value(rtype, getattr(existing, "Value", "") or "")
+            if cur == want and getattr(existing, "Type", None) == rtype:
+                print(f"DNS OK {label} [{line}] {rtype} -> {want}")
                 continue
             ureq = models.ModifyRecordRequest()
             ureq.Domain = DNS_DOMAIN
-            ureq.RecordId = rec.RecordId
-            ureq.RecordType = "A"
-            ureq.RecordLine = "默认"
-            ureq.Value = DNS_VALUE
+            ureq.RecordId = existing.RecordId
+            ureq.RecordType = rtype
+            ureq.RecordLine = line
+            ureq.Value = want
             ureq.SubDomain = name
             ureq.TTL = 600
             client.ModifyRecord(ureq)
-            print(f"DNS UPDATED {label} -> {DNS_VALUE}")
+            print(f"DNS UPDATED {label} [{line}] {rtype} -> {want}")
         else:
             creq = models.CreateRecordRequest()
             creq.Domain = DNS_DOMAIN
             creq.SubDomain = name
-            creq.RecordType = "A"
-            creq.RecordLine = "默认"
-            creq.Value = DNS_VALUE
+            creq.RecordType = rtype
+            creq.RecordLine = line
+            creq.Value = want
             creq.TTL = 600
             client.CreateRecord(creq)
-            print(f"DNS CREATED {label} -> {DNS_VALUE}")
+            print(f"DNS CREATED {label} [{line}] {rtype} -> {want}")
 
 
 def local_build() -> None:
-    skip = os.environ.get("DEPLOY_SKIP_BUILD", "").strip().lower() in ("1", "true", "yes")
-    if skip and WEB_DIST.exists() and (WEB_DIST / "index.html").exists():
+    if env_flag("DEPLOY_SKIP_BUILD") and WEB_DIST.exists() and (WEB_DIST / "index.html").exists():
         print(f"Skip build, reuse {WEB_DIST}")
         return
 
     env = os.environ.copy()
-    # CRA treats CI=true as fail-on-warning; keep false for Windows-friendly builds
     env["CI"] = "false"
     yarn = shutil.which("yarn")
     npm = shutil.which("npm")
-    # Prefer calling react-scripts directly — package.json used to prefix "CI=false"
-    # which breaks under Windows cmd.
     if yarn:
         print("Building with yarn react-scripts ...")
         subprocess.check_call(
@@ -238,27 +284,62 @@ def local_build() -> None:
         raise RuntimeError(f"build missing index.html: {WEB_DIST}")
 
 
-def main() -> int:
-    data = load_merged()
+def deploy_netlify(data: dict[str, str]) -> None:
+    if env_flag("DEPLOY_SKIP_NETLIFY"):
+        print("Skip Netlify (DEPLOY_SKIP_NETLIFY=1)")
+        return
+
+    token = env_get(data, "NETLIFY_AUTH_TOKEN", "NETLIFY_TOKEN")
+    site = env_get(data, "NETLIFY_SITE_ID", "NETLIFY_SITE", default=NETLIFY_SITE_DEFAULT)
+    if not token:
+        print(
+            "WARN: 未配置 NETLIFY_AUTH_TOKEN，跳过 Netlify 发布。"
+            "请把 token 写入 secrets/deploy.env 或环境变量后重跑；"
+            f"境外仍解析到 {NETLIFY_SITE_HOST}（可能是旧包）。",
+            file=sys.stderr,
+        )
+        return
+
+    env = os.environ.copy()
+    env["NETLIFY_AUTH_TOKEN"] = token
+    env["CI"] = "true"
+    npx = shutil.which("npx")
+    if not npx:
+        raise RuntimeError("npx not found; cannot deploy to Netlify")
+
+    print(f"Deploying to Netlify site={site} ...")
+    subprocess.check_call(
+        [
+            npx,
+            "--yes",
+            "netlify-cli",
+            "deploy",
+            "--prod",
+            "--dir",
+            str(WEB_DIST),
+            "--site",
+            site,
+            "--message",
+            "aimatex geo dual-deploy",
+        ],
+        cwd=str(ROOT),
+        env=env,
+        shell=False,
+    )
+    print(f"Netlify OK → https://{NETLIFY_SITE_HOST} / overseas https://{WEB_DOMAIN}")
+
+
+def deploy_chengdu(data: dict[str, str]) -> None:
+    if env_flag("DEPLOY_SKIP_CHENGDU"):
+        print("Skip Chengdu (DEPLOY_SKIP_CHENGDU=1)")
+        return
+
     user = env_get(data, "DEPLOY_SSH_USER", default="ubuntu")
     password = env_get(data, "DEPLOY_SSH_PASSWORD")
     if not password:
-        print("缺少 DEPLOY_SSH_PASSWORD（可用 ~/.aimatex-music-deploy.env）", file=sys.stderr)
-        return 1
+        raise RuntimeError("缺少 DEPLOY_SSH_PASSWORD（可用 ~/.aimatex-music-deploy.env）")
 
-    tc_sid = env_get(data, "TENCENTCLOUD_SECRET_ID")
-    tc_skey = env_get(data, "TENCENTCLOUD_SECRET_KEY")
-    if not tc_sid or not tc_skey:
-        print("缺少 TENCENTCLOUD_SECRET_ID/KEY（用于 DNSPod）", file=sys.stderr)
-        return 1
-
-    skip_dns = os.environ.get("DEPLOY_SKIP_DNS", "").strip().lower() in ("1", "true", "yes")
-
-    local_build()
-
-    if not skip_dns:
-        print("Ensuring DNS ...")
-        ensure_dns(tc_sid, tc_skey)
+    frontend_only = env_flag("DEPLOY_FRONTEND_ONLY")
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -272,12 +353,14 @@ def main() -> int:
         look_for_keys=False,
     )
 
-    run(
-        ssh,
-        "sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive "
-        "apt-get install -y -qq nginx certbot python3-certbot-nginx curl",
-        timeout=600,
-    )
+    if not frontend_only:
+        run(
+            ssh,
+            "sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive "
+            "apt-get install -y -qq nginx certbot python3-certbot-nginx curl",
+            timeout=600,
+        )
+
     run(ssh, f"mkdir -p {REMOTE_WEB}")
     run(ssh, "sudo mkdir -p /var/www/certbot/.well-known/acme-challenge && sudo chmod -R 755 /var/www/certbot")
     run(ssh, "sudo chmod 755 /home/ubuntu")
@@ -288,6 +371,13 @@ def main() -> int:
     sftp_put_dir(sftp, WEB_DIST, REMOTE_WEB)
     sftp.close()
     run(ssh, f"chmod 755 /home/ubuntu /home/ubuntu/web {REMOTE_WEB}")
+
+    if frontend_only:
+        run(ssh, "sudo nginx -t && sudo systemctl reload nginx", check=False)
+        run(ssh, f"curl -sfI https://{WEB_DOMAIN}/ | head -10", check=False)
+        ssh.close()
+        print("Chengdu frontend-only deploy finished.")
+        return
 
     apex_b64 = base64.b64encode(NGINX_APEX.encode()).decode()
     www_b64 = base64.b64encode(NGINX_WWW.encode()).decode()
@@ -304,7 +394,6 @@ def main() -> int:
         f"sudo ln -sfn /etc/nginx/sites-available/{SITE_FILE} /etc/nginx/sites-enabled/{SITE_FILE} && "
         f"sudo ln -sfn /etc/nginx/sites-available/{WWW_DOMAIN} /etc/nginx/sites-enabled/{WWW_DOMAIN}",
     )
-    # drop leftover default site if it steals aimatex.com
     run(ssh, "sudo rm -f /etc/nginx/sites-enabled/default", check=False)
     run(ssh, "sudo nginx -t && sudo systemctl reload nginx")
     run(
@@ -313,61 +402,52 @@ def main() -> int:
         check=False,
     )
 
-    run(ssh, f"curl -sfI http://127.0.0.1/ -H 'Host: {WEB_DOMAIN}' | head -8", check=False)
-
-    # Wait briefly — LE validators may still see old Netlify A/AAAA after DNS cutover
-    print("Waiting for DNS cutover (20s) ...")
-    run(ssh, "sleep 20", check=False)
-
-    print("Issuing / renewing TLS certificates ...")
-    # Apex first (more reliable right after leaving Netlify), then expand www
+    # Geo-DNS 下 HTTP-01 可能从境外打到 Netlify；已有证书时不强制重签
     run(
         ssh,
-        f"sudo certbot --nginx -d {WEB_DOMAIN} "
-        f"--non-interactive --agree-tos --register-unsafely-without-email --redirect",
-        check=False,
-        timeout=180,
-    )
-    run(
-        ssh,
-        f"sudo certbot --nginx -d {WEB_DOMAIN} -d {WWW_DOMAIN} "
-        f"--expand --non-interactive --agree-tos --register-unsafely-without-email --redirect",
-        check=False,
-        timeout=180,
-    )
-    # Re-assert www → https apex (certbot may rewrite server blocks)
-    www_b64_final = base64.b64encode(NGINX_WWW.encode()).decode()
-    run(
-        ssh,
-        f"echo {www_b64_final} | base64 -d | sudo tee /etc/nginx/sites-available/{WWW_DOMAIN} >/dev/null",
+        f"test -f /etc/letsencrypt/live/{WEB_DOMAIN}/fullchain.pem && echo CERT_OK || echo CERT_MISSING",
         check=False,
     )
-    # If certbot added a 443 block for www, keep ACME + redirect to apex
-    run(
-        ssh,
-        f"sudo certbot install --cert-name {WEB_DOMAIN} --nginx -d {WWW_DOMAIN} "
-        f"--redirect --non-interactive 2>/dev/null || true",
-        check=False,
-    )
-    run(ssh, "sudo nginx -t && sudo systemctl reload nginx", check=False)
-    run(
-        ssh,
-        "sudo systemctl enable --now certbot.timer 2>/dev/null || "
-        "sudo systemctl enable --now snap.certbot.renew.timer 2>/dev/null || true",
-        check=False,
-    )
+    if env_flag("DEPLOY_FORCE_CERT"):
+        print("DEPLOY_FORCE_CERT=1 — attempting certbot (may fail under geo DNS) ...")
+        run(
+            ssh,
+            f"sudo certbot --nginx -d {WEB_DOMAIN} -d {WWW_DOMAIN} "
+            f"--non-interactive --agree-tos --register-unsafely-without-email --redirect",
+            check=False,
+            timeout=180,
+        )
+        run(ssh, "sudo nginx -t && sudo systemctl reload nginx", check=False)
 
     run(ssh, f"curl -sfI https://{WEB_DOMAIN}/ | head -10", check=False)
-    run(ssh, f"curl -sfI https://{WWW_DOMAIN}/ | head -10", check=False)
-    run(ssh, "systemctl list-timers 'certbot*' --no-pager 2>/dev/null | head -5 || true", check=False)
-
     ssh.close()
-    print("\nDeploy finished.")
-    print(f"  Web:  https://{WEB_DOMAIN}")
-    print(f"  WWW:  https://{WWW_DOMAIN}  (should redirect to apex)")
-    print(f"  Path: {REMOTE_WEB}")
-    print("  TLS:  certbot.timer enabled for auto-renew")
-    print("  Note: API still https://api.ai2obj.com — Netlify no longer required")
+    print("Chengdu deploy finished.")
+
+
+def main() -> int:
+    data = load_merged()
+
+    tc_sid = env_get(data, "TENCENTCLOUD_SECRET_ID")
+    tc_skey = env_get(data, "TENCENTCLOUD_SECRET_KEY")
+    skip_dns = env_flag("DEPLOY_SKIP_DNS")
+
+    if not skip_dns and (not tc_sid or not tc_skey):
+        print("缺少 TENCENTCLOUD_SECRET_ID/KEY（用于 DNSPod 智能解析）", file=sys.stderr)
+        return 1
+
+    local_build()
+
+    if not skip_dns:
+        print("Ensuring geo DNS (境内→成都, 境外→Netlify) ...")
+        ensure_geo_dns(tc_sid, tc_skey)
+
+    deploy_chengdu(data)
+    deploy_netlify(data)
+
+    print("\nDeploy finished (geo split).")
+    print(f"  境内: https://{WEB_DOMAIN}  → {HOST}")
+    print(f"  境外: https://{WEB_DOMAIN}  → Netlify ({NETLIFY_APEX_IP} / {NETLIFY_SITE_HOST})")
+    print("  Tip: 配置 NETLIFY_AUTH_TOKEN 后重跑可同步境外包；证书续期建议 DNS-01。")
     return 0
 
 
