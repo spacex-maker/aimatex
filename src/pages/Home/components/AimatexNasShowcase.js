@@ -9,396 +9,279 @@ import {
   DatabaseOutlined,
   HddOutlined,
   RobotOutlined,
-  SafetyCertificateOutlined,
 } from '@ant-design/icons';
 
-const auroraDrift = keyframes`
-  0% { transform: translate(-6%, -3%) scale(1); }
-  50% { transform: translate(5%, 7%) scale(1.1); }
-  100% { transform: translate(-6%, -3%) scale(1); }
-`;
-
-const orbitSpin = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`;
-
-const sheen = keyframes`
-  0% { transform: translateX(-120%) skewX(-18deg); }
-  100% { transform: translateX(220%) skewX(-18deg); }
-`;
-
-const floatY = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-`;
-
-const pulseCore = keyframes`
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50% { opacity: 0.95; transform: scale(1.06); }
-`;
-
 const scanLine = keyframes`
-  0% { top: 12%; opacity: 0; }
-  15% { opacity: 0.7; }
-  85% { opacity: 0.7; }
-  100% { top: 78%; opacity: 0; }
+  0% { top: 10%; opacity: 0; }
+  12% { opacity: 0.8; }
+  88% { opacity: 0.8; }
+  100% { top: 86%; opacity: 0; }
+`;
+
+const pulse = keyframes`
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 `;
 
 const Section = styled.section`
-  padding: 12px 24px 110px;
-  max-width: 1400px;
-  margin: 0 auto;
+  position: relative;
+  margin: 0;
+  color: #e8f4ef;
+  background: #06110d;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%);
+  margin-top: -1px;
 
   @media (max-width: 768px) {
-    padding: 4px 16px 72px;
+    clip-path: polygon(0 0, 100% 2%, 100% 100%, 0 98%);
   }
 `;
 
-const Panel = styled(motion.div)`
+const Shell = styled.div`
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  border-radius: 36px;
-  min-height: clamp(520px, 62vh, 640px);
-  padding: clamp(36px, 5vw, 64px);
+  z-index: 1;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(28px, 4vw, 56px);
-  align-items: center;
-  color: #eef5f1;
-  background:
-    radial-gradient(ellipse 75% 55% at 88% 18%, rgba(62, 224, 176, 0.22), transparent 55%),
-    radial-gradient(ellipse 50% 45% at 8% 88%, rgba(56, 189, 248, 0.16), transparent 50%),
-    linear-gradient(155deg, #070c0a 0%, #0d1613 42%, #081018 100%);
-  border: 1px solid rgba(180, 205, 190, 0.12);
-  box-shadow:
-    0 40px 80px -28px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  min-height: clamp(560px, 72vh, 720px);
 
   @media (max-width: 960px) {
     grid-template-columns: 1fr;
     min-height: auto;
-    border-radius: 28px;
   }
 `;
 
-const Aurora = styled.div`
-  pointer-events: none;
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
+const Rail = styled(motion.aside)`
+  position: relative;
+  padding: clamp(64px, 9vw, 100px) clamp(20px, 3.5vw, 40px) clamp(72px, 8vw, 96px);
   background:
-    radial-gradient(circle at 72% 28%, rgba(62, 224, 176, 0.32), transparent 42%),
-    radial-gradient(circle at 18% 72%, rgba(56, 189, 248, 0.18), transparent 40%);
-  filter: blur(48px);
-  animation: ${auroraDrift} 15s ease-in-out infinite;
-  opacity: 0.9;
-`;
-
-const Grid = styled.div`
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 75%);
-  opacity: 0.55;
-`;
-
-const Copy = styled(motion.div)`
-  position: relative;
-  z-index: 2;
-`;
-
-const Eyebrow = styled(motion.div)`
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #7dd3fc;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  margin-bottom: 20px;
-  backdrop-filter: blur(12px);
-`;
-
-const Title = styled(motion.h2)`
-  margin: 0 0 14px;
-  font-family: Syne, system-ui, sans-serif;
-  font-size: clamp(36px, 6.5vw, 58px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  font-weight: 800;
-  background: linear-gradient(105deg, #fff 8%, #e8fff6 38%, #3ee0b0 72%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
-
-const Subtitle = styled(motion.p)`
-  margin: 0;
-  max-width: 36rem;
-  font-size: clamp(15px, 2.1vw, 18px);
-  line-height: 1.65;
-  color: rgba(238, 245, 241, 0.72);
-`;
-
-const FeatureGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 32px 0 36px;
-
-  @media (max-width: 560px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const Feature = styled(motion.div)`
+    linear-gradient(180deg, rgba(62, 224, 176, 0.08), transparent 40%),
+    #07140f;
+  border-right: 1px solid rgba(62, 224, 176, 0.18);
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 16px 16px 16px 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  flex-direction: column;
+  justify-content: center;
 
-  &:hover {
-    background: rgba(62, 224, 176, 0.1);
-    border-color: rgba(62, 224, 176, 0.35);
-    transform: translateY(-3px);
+  @media (max-width: 960px) {
+    border-right: none;
+    border-bottom: 1px solid rgba(62, 224, 176, 0.18);
   }
-
-  .icon-wrap {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    color: #3ee0b0;
-    background: rgba(62, 224, 176, 0.14);
-    border: 1px solid rgba(62, 224, 176, 0.28);
-    font-size: 16px;
-  }
-
-  .label {
-    font-weight: 700;
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 3px;
-  }
-
-  .desc {
-    font-size: 13px;
-    line-height: 1.45;
-    color: rgba(238, 245, 241, 0.58);
-  }
-`;
-
-const Cta = styled(motion.button)`
-  position: relative;
-  overflow: hidden;
-  height: 56px;
-  padding: 0 34px;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  color: #052018;
-  background: linear-gradient(105deg, #3ee0b0 0%, #2dd4a8 55%, #0ea5e9 100%);
-  box-shadow: 0 12px 32px rgba(62, 224, 176, 0.35);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
 
   &::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 40%;
+    right: 0;
+    width: 28px;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: ${sheen} 3.2s ease-in-out infinite;
-  }
+    background: linear-gradient(90deg, transparent, rgba(62, 224, 176, 0.06));
+    clip-path: polygon(100% 0, 0 8%, 0 92%, 100% 100%);
+    pointer-events: none;
 
-  &:hover {
-    filter: brightness(1.06);
+    @media (max-width: 960px) {
+      display: none;
+    }
   }
 `;
 
-const Stage = styled(motion.div)`
+const Deck = styled(motion.div)`
   position: relative;
-  z-index: 2;
-  min-height: 340px;
-  display: grid;
-  place-items: center;
-  animation: ${floatY} 7s ease-in-out infinite;
-
-  @media (max-width: 960px) {
-    min-height: 280px;
-    order: -1;
-  }
+  padding: clamp(56px, 8vw, 88px) clamp(20px, 4vw, 48px);
+  background-image:
+    linear-gradient(rgba(62, 224, 176, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 224, 176, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-color: #081812;
+  overflow: hidden;
 `;
 
-const Orbit = styled.div`
+const Watermark = styled.div`
+  pointer-events: none;
   position: absolute;
-  width: ${p => p.$size};
-  height: ${p => p.$size};
-  border-radius: 50%;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-  animation: ${orbitSpin} ${p => p.$duration} linear infinite;
-  animation-direction: ${p => p.$reverse || 'normal'};
+  left: 4%;
+  bottom: 6%;
+  font-family: Syne, ui-monospace, monospace;
+  font-size: clamp(72px, 14vw, 160px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  color: rgba(62, 224, 176, 0.05);
+  z-index: 0;
+`;
 
-  .bead {
-    position: absolute;
-    top: 0;
-    left: 50%;
+const Index = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #3ee0b0;
+
+  .tick {
     width: 8px;
     height: 8px;
-    margin: -4px 0 0 -4px;
-    border-radius: 50%;
-    background: ${p => p.$bead || '#3ee0b0'};
-    box-shadow: 0 0 16px ${p => p.$bead || '#3ee0b0'};
+    background: #3ee0b0;
+    animation: ${pulse} 2.4s ease-in-out infinite;
+  }
+`;
+
+const Title = styled(motion.h2)`
+  margin: 0 0 14px;
+  font-family: Syne, system-ui, sans-serif;
+  font-size: clamp(34px, 5.5vw, 52px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  color: #fff;
+`;
+
+const Subtitle = styled(motion.p)`
+  margin: 0 0 28px;
+  max-width: 28rem;
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(232, 244, 239, 0.62);
+`;
+
+const Cta = styled(motion.button)`
+  align-self: flex-start;
+  height: 50px;
+  padding: 0 22px;
+  border: 1px solid #3ee0b0;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #04140f;
+  background: #3ee0b0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: transparent;
+    color: #3ee0b0;
+  }
+`;
+
+const DeckHead = styled(motion.div)`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(62, 224, 176, 0.25);
+
+  .kicker {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(62, 224, 176, 0.7);
+  }
+
+  .meta {
+    font-size: 12px;
+    color: rgba(232, 244, 239, 0.4);
+  }
+`;
+
+const Rows = styled(motion.div)`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 20px 0 20px 14px;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid rgba(62, 224, 176, 0.12);
+  transition: border-color 0.25s ease, background 0.25s ease, padding-left 0.25s ease;
+
+  &:hover {
+    border-left-color: #3ee0b0;
+    background: rgba(62, 224, 176, 0.05);
+    padding-left: 18px;
+  }
+
+  .code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: #3ee0b0;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(232, 244, 239, 0.55);
+    max-width: 36rem;
+  }
+
+  .ico {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    color: #3ee0b0;
+    font-size: 18px;
+    background: rgba(62, 224, 176, 0.08);
+    clip-path: polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%);
   }
 `;
 
 const Vault = styled(motion.div)`
-  position: relative;
-  width: min(78%, 300px);
-  aspect-ratio: 1;
-  border-radius: 28px;
-  background:
-    linear-gradient(160deg, rgba(20, 40, 34, 0.95), rgba(8, 16, 20, 0.92));
-  border: 1px solid rgba(62, 224, 176, 0.28);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 28px 60px rgba(0, 0, 0, 0.5),
-    0 0 70px rgba(62, 224, 176, 0.16);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 18px 16px;
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  width: min(42%, 220px);
+  aspect-ratio: 1.15;
+  z-index: 0;
+  opacity: 0.55;
+  background: linear-gradient(160deg, rgba(12, 32, 26, 0.9), rgba(6, 17, 13, 0.95));
+  border: 1px solid rgba(62, 224, 176, 0.22);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 86% 100%, 0 100%);
+  padding: 14px;
+  display: none;
+
+  @media (min-width: 1100px) {
+    display: block;
+  }
 
   .scan {
     position: absolute;
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(62, 224, 176, 0.85), transparent);
-    animation: ${scanLine} 3.8s ease-in-out infinite;
-  }
-
-  .head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    z-index: 1;
-  }
-
-  .badge {
-    font-family: Syne, system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.16em;
-    color: #052018;
-    background: linear-gradient(105deg, #3ee0b0, #38bdf8);
-    padding: 4px 8px;
-    border-radius: 8px;
-  }
-
-  .ai {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: rgba(238, 245, 241, 0.55);
-    text-transform: uppercase;
-  }
-
-  .layers {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #3ee0b0, transparent);
+    animation: ${scanLine} 4s ease-in-out infinite;
   }
 
   .layer {
-    height: 42px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(90deg, rgba(62, 224, 176, 0.14), rgba(255, 255, 255, 0.04));
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 12px;
-    color: rgba(238, 245, 241, 0.8);
-    font-size: 12px;
-    font-weight: 600;
+    height: 28px;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, rgba(62, 224, 176, 0.16), transparent);
+    border-left: 2px solid #3ee0b0;
   }
-
-  .layer span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #3ee0b0;
-    box-shadow: 0 0 10px rgba(62, 224, 176, 0.7);
-  }
-
-  .layer:nth-child(2) {
-    width: 92%;
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.16), rgba(255, 255, 255, 0.04));
-  }
-
-  .layer:nth-child(2) span {
-    background: #38bdf8;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
-  }
-
-  .layer:nth-child(3) {
-    width: 84%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-  }
-
-  .core {
-    position: absolute;
-    right: 14%;
-    bottom: 16%;
-    width: 54px;
-    height: 54px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    color: #052018;
-    font-size: 22px;
-    background: linear-gradient(145deg, #3ee0b0, #0ea5e9);
-    box-shadow: 0 12px 28px rgba(62, 224, 176, 0.35);
-    animation: ${pulseCore} 3.2s ease-in-out infinite;
-    z-index: 2;
-  }
-`;
-
-const GlowOrb = styled(motion.div)`
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(62, 224, 176, 0.35), transparent 70%);
-  filter: blur(8px);
-  pointer-events: none;
 `;
 
 const FEATURES = [
@@ -435,76 +318,77 @@ const FEATURES = [
 export default function AimatexNasShowcase() {
   return (
     <Section id="aimatex-nas">
-      <Panel
-        initial={{ opacity: 0, y: 56, scale: 0.98 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Aurora aria-hidden />
-        <Grid aria-hidden />
-
-        <Copy
-          initial="hidden"
-          whileInView="visible"
+      <Shell>
+        <Rail
+          initial={{ opacity: 0, x: -36 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
-          }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Eyebrow
-            variants={{
-              hidden: { opacity: 0, y: 16 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-            }}
-          >
-            <SafetyCertificateOutlined />
+          <Index>
+            <span className="tick" />
+            <span>02</span>
+            <span>/</span>
             <FormattedMessage id="home.nas.eyebrow" defaultMessage="AIMATEX Suite" />
-          </Eyebrow>
+          </Index>
 
-          <Title
-            variants={{
-              hidden: { opacity: 0, y: 24 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
-            }}
-          >
+          <Title>
             <FormattedMessage id="home.nas.title" defaultMessage="AIMATEX-NAS / Cloud" />
           </Title>
 
-          <Subtitle
-            variants={{
-              hidden: { opacity: 0, y: 18 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-            }}
-          >
+          <Subtitle>
             <FormattedMessage
               id="home.nas.subtitle"
               defaultMessage="个人数仓与云盘：把云端与本地数据汇成一座只属于你的仓库，让 AI 成为你的数据管理专家。"
             />
           </Subtitle>
 
-          <FeatureGrid
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.08 } },
-            }}
+          <Cta
+            type="button"
+            whileHover={{ x: 3 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open(brandConfig.products.aimatexNas, '_blank', 'noopener,noreferrer')}
           >
-            {FEATURES.map((f) => (
-              <Feature
+            <CloudServerOutlined />
+            <FormattedMessage id="home.nas.cta" defaultMessage="体验 AIMATEX-NAS" />
+            <ArrowRightOutlined />
+          </Cta>
+        </Rail>
+
+        <Deck
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.65, delay: 0.08 }}
+        >
+          <Watermark aria-hidden>NAS</Watermark>
+          <Vault aria-hidden>
+            <div className="scan" />
+            <div className="layer" />
+            <div className="layer" style={{ width: '88%' }} />
+            <div className="layer" style={{ width: '72%' }} />
+          </Vault>
+
+          <DeckHead>
+            <div className="kicker">DATA LAYERS // ONLINE</div>
+            <div className="meta">AI READY</div>
+          </DeckHead>
+
+          <Rows
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+          >
+            {FEATURES.map((f, i) => (
+              <Row
                 key={f.titleId}
                 variants={{
-                  hidden: { opacity: 0, y: 18, scale: 0.96 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    transition: { type: 'spring', stiffness: 120, damping: 16 },
-                  },
+                  hidden: { opacity: 0, x: 18 },
+                  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
                 }}
-                whileHover={{ scale: 1.02 }}
               >
-                <div className="icon-wrap">{f.icon}</div>
+                <span className="code">L{i + 1}</span>
                 <div>
                   <div className="label">
                     <FormattedMessage id={f.titleId} defaultMessage={f.titleDef} />
@@ -513,75 +397,12 @@ export default function AimatexNasShowcase() {
                     <FormattedMessage id={f.descId} defaultMessage={f.descDef} />
                   </div>
                 </div>
-              </Feature>
+                <div className="ico">{f.icon}</div>
+              </Row>
             ))}
-          </FeatureGrid>
-
-          <Cta
-            type="button"
-            variants={{
-              hidden: { opacity: 0, y: 16 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-            }}
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => window.open(brandConfig.products.aimatexNas, '_blank', 'noopener,noreferrer')}
-          >
-            <CloudServerOutlined />
-            <FormattedMessage id="home.nas.cta" defaultMessage="体验 AIMATEX-NAS" />
-            <ArrowRightOutlined />
-          </Cta>
-        </Copy>
-
-        <Stage
-          initial={{ opacity: 0, scale: 0.88 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          aria-hidden
-        >
-          <GlowOrb
-            style={{ top: '10%', right: '16%' }}
-            animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.85, 0.5] }}
-            transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <GlowOrb
-            style={{
-              bottom: '14%',
-              left: '12%',
-              background: 'radial-gradient(circle, rgba(56,189,248,0.32), transparent 70%)',
-            }}
-            animate={{ scale: [1.1, 0.92, 1.1], opacity: [0.4, 0.75, 0.4] }}
-            transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          <Orbit $size="92%" $duration="30s" $bead="#38bdf8">
-            <span className="bead" />
-          </Orbit>
-          <Orbit $size="74%" $duration="20s" $reverse="reverse" $bead="#3ee0b0">
-            <span className="bead" />
-          </Orbit>
-          <Orbit $size="56%" $duration="13s" $bead="#7dd3fc">
-            <span className="bead" />
-          </Orbit>
-
-          <Vault whileHover={{ scale: 1.03 }} transition={{ type: 'spring', stiffness: 200, damping: 18 }}>
-            <div className="scan" />
-            <div className="head">
-              <span className="badge">NAS</span>
-              <span className="ai">AI Ready</span>
-            </div>
-            <div className="layers">
-              <div className="layer"><span /> Cloud Drive</div>
-              <div className="layer"><span /> Local Share</div>
-              <div className="layer"><span /> Data Layer</div>
-            </div>
-            <div className="core">
-              <RobotOutlined />
-            </div>
-          </Vault>
-        </Stage>
-      </Panel>
+          </Rows>
+        </Deck>
+      </Shell>
     </Section>
   );
 }

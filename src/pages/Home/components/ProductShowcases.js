@@ -60,60 +60,66 @@ const nodePulse = keyframes`
 `;
 
 const Section = styled.section`
-  padding: 12px 24px 28px;
-  max-width: 1400px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    padding: 8px 16px 20px;
-  }
+  padding: 0;
+  margin: 0;
 `;
 
 const Intro = styled.div`
-  text-align: center;
-  padding: 48px 16px 36px;
+  text-align: left;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 56px clamp(20px, 4vw, 48px) 28px;
 
   h2 {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
+    font-family: Syne, system-ui, sans-serif;
     font-size: clamp(32px, 5vw, 48px);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     color: ${p => (p.$dark ? '#fff' : '#000')};
   }
 
   p {
-    margin: 0 auto;
+    margin: 0;
     max-width: 36rem;
-    font-size: 18px;
+    font-size: 17px;
     color: ${p => (p.$dark ? '#86868b' : '#6e6e73')};
   }
 `;
 
-const Panel = styled(motion.div)`
+const Band = styled(motion.div)`
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 36px;
-  min-height: clamp(480px, 56vh, 600px);
-  padding: clamp(32px, 4.5vw, 56px);
+  color: #f5f5f7;
+  background:
+    radial-gradient(ellipse 75% 55% at ${p => (p.$flip ? '12%' : '88%')} 16%, ${p => p.$glow}, transparent 55%),
+    radial-gradient(ellipse 50% 45% at ${p => (p.$flip ? '88%' : '10%')} 88%, ${p => p.$glow2}, transparent 50%),
+    linear-gradient(155deg, #0b0b0f 0%, #12141a 45%, #0a1018 100%);
+  clip-path: ${p => (p.$flip
+    ? 'polygon(0 0, 100% 3%, 100% 100%, 0 97%)'
+    : 'polygon(0 3%, 100% 0, 100% 97%, 0 100%)')};
+  margin-top: -1px;
+
+  @media (max-width: 960px) {
+    clip-path: none;
+  }
+`;
+
+const Panel = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: clamp(480px, 58vh, 620px);
+  padding: clamp(48px, 7vw, 88px) clamp(20px, 4vw, 48px);
   display: grid;
   grid-template-columns: ${p => (p.$flip ? '0.95fr 1.05fr' : '1.05fr 0.95fr')};
   gap: clamp(24px, 4vw, 52px);
   align-items: center;
-  color: #f5f5f7;
-  background:
-    radial-gradient(ellipse 75% 55% at ${p => (p.$flip ? '15%' : '85%')} 18%, ${p => p.$glow}, transparent 55%),
-    radial-gradient(ellipse 50% 45% at ${p => (p.$flip ? '85%' : '12%')} 88%, ${p => p.$glow2}, transparent 50%),
-    linear-gradient(155deg, #0b0b0f 0%, #12141a 45%, #0a1018 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 36px 72px -28px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  margin-bottom: 28px;
 
   @media (max-width: 960px) {
     grid-template-columns: 1fr;
     min-height: auto;
-    border-radius: 28px;
   }
 `;
 
@@ -154,17 +160,20 @@ const Copy = styled(motion.div)`
 const Eyebrow = styled(motion.div)`
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  border-radius: 999px;
+  gap: 12px;
+  margin-bottom: 18px;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: ${p => p.$accentSoft};
-  background: ${p => p.$accentBg};
-  border: 1px solid ${p => p.$accentBorder};
-  margin-bottom: 18px;
+
+  .rule {
+    width: 36px;
+    height: 1px;
+    background: ${p => p.$accentSoft};
+    opacity: 0.7;
+  }
 `;
 
 const Title = styled(motion.h3)`
@@ -187,44 +196,39 @@ const Subtitle = styled(motion.p)`
   color: rgba(245, 245, 247, 0.7);
 `;
 
-const FeatureGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+const FeatureGrid = styled(motion.ol)`
+  list-style: none;
   margin: 28px 0 32px;
-
-  @media (max-width: 560px) {
-    grid-template-columns: 1fr;
-  }
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-const Feature = styled(motion.div)`
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 14px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+const Feature = styled(motion.li)`
+  display: grid;
+  grid-template-columns: 36px 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.25s ease, padding-left 0.25s ease;
 
   &:hover {
     background: ${p => p.$hoverBg};
-    border-color: ${p => p.$hoverBorder};
-    transform: translateY(-3px);
+    padding-left: 6px;
+  }
+
+  .idx {
+    font-family: Syne, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: ${p => p.$accent};
+    padding-top: 2px;
   }
 
   .icon-wrap {
-    flex-shrink: 0;
-    width: 34px;
-    height: 34px;
-    border-radius: 11px;
-    display: grid;
-    place-items: center;
     color: ${p => p.$accent};
-    background: ${p => p.$accentBg};
-    border: 1px solid ${p => p.$accentBorder};
     font-size: 15px;
+    padding-top: 1px;
   }
 
   .label {
@@ -244,19 +248,21 @@ const Feature = styled(motion.div)`
 const Cta = styled(motion.button)`
   position: relative;
   overflow: hidden;
-  height: 52px;
-  padding: 0 28px;
+  height: 50px;
+  padding: 0 24px;
   border: none;
-  border-radius: 999px;
+  border-radius: 0;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
+  letter-spacing: 0.03em;
   color: #fff;
   background: ${p => p.$grad};
-  box-shadow: 0 12px 28px ${p => p.$shadow};
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+  padding-right: 34px;
 
   &::after {
     content: '';
@@ -265,7 +271,7 @@ const Cta = styled(motion.button)`
     left: 0;
     width: 38%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
     animation: ${sheen} 3.4s ease-in-out infinite;
   }
 `;
@@ -581,19 +587,19 @@ function ShowcaseCard({ product, dark }) {
   };
 
   return (
-    <Panel
+    <Band
       $flip={product.flip}
       $glow={product.glow}
       $glow2={product.glow2}
-      initial={{ opacity: 0, y: 52, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-90px' }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       id={`product-${id}`}
     >
       <Aurora $a={product.auroraA} $b={product.auroraB} aria-hidden />
       <Grid aria-hidden />
-
+      <Panel $flip={product.flip}>
       <Copy
         $flip={product.flip}
         initial="hidden"
@@ -603,11 +609,10 @@ function ShowcaseCard({ product, dark }) {
       >
         <Eyebrow
           $accentSoft={product.accentSoft}
-          $accentBg={product.accentBg}
-          $accentBorder={product.accentBorder}
           variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
         >
           <Icon />
+          <span className="rule" />
           <FormattedMessage id={`home.showcase.${id}.eyebrow`} defaultMessage="AIMATEX Product" />
         </Eyebrow>
 
@@ -631,11 +636,9 @@ function ShowcaseCard({ product, dark }) {
               key={n}
               variants={item}
               $accent={product.accent}
-              $accentBg={product.accentBg}
-              $accentBorder={product.accentBorder}
               $hoverBg={product.hoverBg}
-              $hoverBorder={product.hoverBorder}
             >
+              <span className="idx">0{n}</span>
               <div className="icon-wrap">{FEATURE_ICONS[id][i]}</div>
               <div>
                 <div className="label">
@@ -673,7 +676,8 @@ function ShowcaseCard({ product, dark }) {
       >
         <Visual type={product.visual} Icon={Icon} />
       </Stage>
-    </Panel>
+      </Panel>
+    </Band>
   );
 }
 

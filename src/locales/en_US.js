@@ -1251,6 +1251,8 @@ export default {
   'footer.aimatexMusic.description': 'Personal cloud music: discover, playlists, Now Playing, and cloud library',
   'footer.aimatexNas.title': 'AIMATEX-NAS / Cloud',
   'footer.aimatexNas.description': 'Personal data warehouse & cloud drive — files, local share, AI-ready',
+  'footer.aimatexSoul.title': 'AIMATEX Soul',
+  'footer.aimatexSoul.description': 'Inject a soul into your AI — remembers you across tools, and grows with you',
   
   // Pricing page
   'pricing.title': 'Choose the Plan That Works for You',
@@ -1455,6 +1457,21 @@ export default {
   'home.nas.feature.ai.title': 'AI Data Expert',
   'home.nas.feature.ai.desc': 'Ask, organize, and search — within clear permission boundaries.',
   'home.nas.cta': 'Try AIMATEX-NAS',
+
+  'home.soul.eyebrow': 'AIMATEX Suite',
+  'home.soul.title': 'AIMATEX Soul',
+  'home.soul.subtitle': 'Inject a soul into your AI. Cursor, Claude, ChatGPT, DeepSeek, WorkBuddy, Gemini, Copilot, and any agent — the same you wakes up.',
+  'home.soul.compat.label': 'Works with leading AI',
+  'home.soul.compat.more': '+ Any Agent',
+  'home.soul.feature.soul.title': 'A living soul',
+  'home.soul.feature.soul.desc': 'Remembers who you are and what you care about — not just the last chat.',
+  'home.soul.feature.inject.title': 'Injectable',
+  'home.soul.feature.inject.desc': 'Any AI / Agent wakes the same soul via one protocol.',
+  'home.soul.feature.grow.title': 'Grows with you',
+  'home.soul.feature.grow.desc': 'Confirmed conclusions and commitments settle in — not raw chat dumps.',
+  'home.soul.feature.cross.title': 'Cross-tool continuity',
+  'home.soul.feature.cross.desc': 'Cursor, Claude, ChatGPT, DeepSeek, WorkBuddy, Kimi, Qwen… leading AI and custom agents — one self everywhere.',
+  'home.soul.cta': 'Start injecting',
 
   'home.showcase.seedance2.eyebrow': 'Image to Video',
   'home.showcase.seedance2.title': 'Seedance2',

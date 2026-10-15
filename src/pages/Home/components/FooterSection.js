@@ -12,6 +12,7 @@ import {
   BlockOutlined,
   CustomerServiceOutlined,
   CloudServerOutlined,
+  HeartOutlined,
 } from '@ant-design/icons';
 import { ContentWrapper } from '../styles';
 
@@ -391,6 +392,11 @@ const FooterSectionComponent = () => {
                     AIMATEX NAS
                   </a>
                 </li>
+                <li>
+                  <a href={brandConfig.products?.aimatexSoul || 'https://soul.aimatex.com'} target="_blank" rel="noopener noreferrer">
+                    AIMATEX Soul
+                  </a>
+                </li>
               </ul>
             </FooterSection>
           </Col>
@@ -554,6 +560,28 @@ const FooterSectionComponent = () => {
                 </h4>
                 <p className="link-description">
                   {intl.formatMessage({ id: 'footer.aimatexNas.description', defaultMessage: '个人数仓与云盘：云端文件、本地共享，通往 AI 数据管家' })}
+                </p>
+              </div>
+              <RightOutlined className="link-arrow" />
+            </ExternalLinkCard>
+
+            <ExternalLinkCard
+              href={brandConfig.products.aimatexSoul}
+              target="_blank"
+              rel="noopener noreferrer"
+              theme={theme}
+              $iconBg={theme.mode === 'dark' ? 'rgba(61, 224, 208, 0.15)' : 'rgba(61, 224, 208, 0.1)'}
+              $iconColor="#3de0d0"
+            >
+              <div className="link-icon">
+                <HeartOutlined />
+              </div>
+              <div className="link-content">
+                <h4 className="link-title">
+                  {intl.formatMessage({ id: 'footer.aimatexSoul.title', defaultMessage: 'AIMATEX Soul' })}
+                </h4>
+                <p className="link-description">
+                  {intl.formatMessage({ id: 'footer.aimatexSoul.description', defaultMessage: '给 AI 注入灵魂：跨工具记得你，并随你成长' })}
                 </p>
               </div>
               <RightOutlined className="link-arrow" />

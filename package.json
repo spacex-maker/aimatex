@@ -67,10 +67,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "CI=false yarn build && netlify deploy --prod --dir=build"
+    "deploy": "py -3 scripts/deploy_aimatex_www_prod.py"
   },
   "eslintConfig": {
     "extends": "react-app",

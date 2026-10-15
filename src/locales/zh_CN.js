@@ -1322,6 +1322,8 @@ export default {
   'footer.aimatexMusic.description': '个人云音乐空间：发现、歌单协作、正在听与云端音库',
   'footer.aimatexNas.title': 'AIMATEX-NAS / Cloud',
   'footer.aimatexNas.description': '个人数仓与云盘：云端文件、本地共享，通往 AI 数据管家',
+  'footer.aimatexSoul.title': 'AIMATEX Soul',
+  'footer.aimatexSoul.description': '给 AI 注入灵魂：跨工具记得你，并随你成长',
   
   // 定价页面
   'pricing.title': '选择适合您的方案',
@@ -1526,6 +1528,21 @@ export default {
   'home.nas.feature.ai.title': 'AI 数据专家',
   'home.nas.feature.ai.desc': '问答、整理与检索——在权限边界内帮你打理数据。',
   'home.nas.cta': '体验 AIMATEX-NAS',
+
+  'home.soul.eyebrow': 'AIMATEX 产品矩阵',
+  'home.soul.title': 'AIMATEX Soul',
+  'home.soul.subtitle': '给 AI 注入灵魂。Cursor、Claude、ChatGPT、DeepSeek、WorkBuddy、Gemini、Copilot 等主流 AI 与任意 Agent——唤醒的是同一个你。',
+  'home.soul.compat.label': '可接入主流 AI',
+  'home.soul.compat.more': '+ 任意 Agent',
+  'home.soul.feature.soul.title': '有灵魂',
+  'home.soul.feature.soul.desc': '记得你是谁、你在意什么，而不只是上次聊了啥。',
+  'home.soul.feature.inject.title': '可注入',
+  'home.soul.feature.inject.desc': '任意 AI / Agent 用同一协议唤醒同一颗灵魂。',
+  'home.soul.feature.grow.title': '可成长',
+  'home.soul.feature.grow.desc': '你确认过的结论与承诺会沉淀，不是无脑灌聊天记录。',
+  'home.soul.feature.cross.title': '跨工具延续',
+  'home.soul.feature.cross.desc': 'Cursor、Claude、ChatGPT、DeepSeek、WorkBuddy、Kimi、通义…主流 AI 与自建 Agent——唤醒的都是同一个你。',
+  'home.soul.cta': '开始注入',
 
   'home.showcase.seedance2.eyebrow': '图生视频',
   'home.showcase.seedance2.title': 'Seedance2',
