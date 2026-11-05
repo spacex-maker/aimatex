@@ -1,17 +1,41 @@
 import axios from './axios';
 
+/** AIMATEX Account 统一语言目录（超管在 account-admin → 语言支持 配置） */
+const ACCOUNT_LANGUAGES_URL = 'https://account-api.aimatex.com/api/site/languages';
+const ACCOUNT_PLATFORMS_URL = 'https://account-api.aimatex.com/api/site/platforms';
+
 export const base = {
-  // 获取系统支持的语言列表
+  // 获取系统支持的语言列表（对接 Account，不再走已下线的 ai2obj productx）
   getEnabledLanguages: async () => {
     try {
-      const { data } = await axios.get('/base/productx/sys-languages/enabled');
-      return data;
+      const { data } = await axios.get(ACCOUNT_LANGUAGES_URL);
+      const items = Array.isArray(data?.items) ? data.items : [];
+      // LocaleContext 使用短码（zh/en）；LanguageSelector 用 languageCode 匹配
+      const mapped = items.map((it, index) => ({
+        languageCode: it.code || String(it.languageCode || '').split(/[-_]/)[0],
+        languageNameNative: it.languageNameNative || it.languageNameZh || it.code,
+        languageNameZh: it.languageNameZh,
+        languageNameEn: it.languageNameEn,
+        bcp47: it.languageCode,
+        usageCount: items.length - index,
+      }));
+      return { success: true, data: mapped, defaultCode: data?.defaultCode || 'zh' };
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.response?.data?.message || '获取语言列表失败' 
+      return {
+        success: false,
+        message: error.response?.data?.message || '获取语言列表失败',
       };
     }
+  },
+
+  /** 统一登录中心已启用（对外可见）的子平台。停用的不会出现在列表里。 */
+  getPublicPlatforms: async () => {
+    const response = await fetch(ACCOUNT_PLATFORMS_URL);
+    if (!response.ok) {
+      throw new Error(`platforms ${response.status}`);
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
   },
 
   // 获取站点设置

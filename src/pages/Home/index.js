@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { Helmet } from 'react-helmet';
 import styled, { ThemeContext, keyframes } from 'styled-components';
@@ -11,11 +11,17 @@ import ProductShowcases from './components/ProductShowcases';
 import AimatexMusicShowcase from './components/AimatexMusicShowcase';
 import AimatexNasShowcase from './components/AimatexNasShowcase';
 import AimatexSoulShowcase from './components/AimatexSoulShowcase';
+import AimatexRankShowcase from './components/AimatexRankShowcase';
+import AimatexAimodelShowcase from './components/AimatexAimodelShowcase';
 import brandConfig from 'config/brand';
+import { base } from 'api/base';
+import { isSectionVisible } from './platformVisibility';
 import {
+  ApiOutlined,
   ArrowRightOutlined,
   CustomerServiceOutlined,
   CloudServerOutlined,
+  TableOutlined,
 } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -270,8 +276,29 @@ const ScrollHint = styled(motion.div)`
 const HomePage = () => {
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
+  const [platformGate, setPlatformGate] = useState({ loaded: false, failed: false, codes: new Set() });
   
   const isAuthenticated = localStorage.getItem('token');
+
+  useEffect(() => {
+    let cancelled = false;
+    base.getPublicPlatforms()
+      .then((rows) => {
+        if (cancelled) return;
+        const codes = new Set(
+          rows.map((row) => String(row?.code || '').trim().toLowerCase()).filter(Boolean)
+        );
+        setPlatformGate({ loaded: true, failed: false, codes });
+      })
+      .catch(() => {
+        if (!cancelled) setPlatformGate({ loaded: true, failed: true, codes: new Set() });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const show = (section) => isSectionVisible(section, platformGate);
   
   // Animation Variants
   const containerVariants = {
@@ -392,26 +419,54 @@ const HomePage = () => {
                       <FormattedMessage id="home.hero.cta.explore" defaultMessage="探索产品" />
                       <ArrowRightOutlined />
                     </CtaButton>
-                    <GhostButton
-                      theme={theme}
-                      type="button"
-                      onClick={() => {
-                        document.getElementById('aimatex-nas')?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                    >
-                      <CloudServerOutlined />
-                      NAS
-                    </GhostButton>
-                    <GhostButton
-                      theme={theme}
-                      type="button"
-                      onClick={() => {
-                        window.open(brandConfig.products?.aimatexMusic || 'https://music.aimatex.com', '_blank', 'noopener,noreferrer');
-                      }}
-                    >
-                      <CustomerServiceOutlined />
-                      Music
-                    </GhostButton>
+                    {show('nas') && (
+                      <GhostButton
+                        theme={theme}
+                        type="button"
+                        onClick={() => {
+                          document.getElementById('aimatex-nas')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <CloudServerOutlined />
+                        NAS
+                      </GhostButton>
+                    )}
+                    {show('music') && (
+                      <GhostButton
+                        theme={theme}
+                        type="button"
+                        onClick={() => {
+                          window.open(brandConfig.products?.aimatexMusic || 'https://music.aimatex.com', '_blank', 'noopener,noreferrer');
+                        }}
+                      >
+                        <CustomerServiceOutlined />
+                        Music
+                      </GhostButton>
+                    )}
+                    {show('rank') && (
+                      <GhostButton
+                        theme={theme}
+                        type="button"
+                        onClick={() => {
+                          document.getElementById('aimatex-rank')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <TableOutlined />
+                        Rank
+                      </GhostButton>
+                    )}
+                    {show('aimodel') && (
+                      <GhostButton
+                        theme={theme}
+                        type="button"
+                        onClick={() => {
+                          document.getElementById('aimatex-aimodel')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <ApiOutlined />
+                        Aimodel
+                      </GhostButton>
+                    )}
                   </>
                 )}
               </HeroActions>
@@ -431,17 +486,21 @@ const HomePage = () => {
           </HeroSection>
 
           <div id="products">
-            <ProductShowcases dark={theme.mode === 'dark'} />
+            <ProductShowcases dark={theme.mode === 'dark'} platformGate={platformGate} />
           </div>
 
-          <AimatexMusicShowcase />
+          {show('music') && <AimatexMusicShowcase />}
 
-          <AimatexNasShowcase />
+          {show('nas') && <AimatexNasShowcase />}
 
-          <AimatexSoulShowcase />
+          {show('soul') && <AimatexSoulShowcase />}
+
+          {show('rank') && <AimatexRankShowcase />}
+
+          {show('aimodel') && <AimatexAimodelShowcase />}
 
         </PageContent>
-        <FooterSection />
+        <FooterSection platformGate={platformGate} />
       </PageWrapper>
     </>
   );

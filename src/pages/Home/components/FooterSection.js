@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import brandConfig from 'config/brand';
 import {
+  ApiOutlined,
   GithubOutlined,
   MailOutlined,
   RightOutlined,
@@ -13,8 +14,11 @@ import {
   CustomerServiceOutlined,
   CloudServerOutlined,
   HeartOutlined,
+  SafetyCertificateOutlined,
+  TableOutlined,
 } from '@ant-design/icons';
 import { ContentWrapper } from '../styles';
+import { isSectionVisible } from '../platformVisibility';
 
 // X (Twitter) 图标组件
 const XIcon = ({ className, style }) => (
@@ -318,10 +322,11 @@ const BrandHeader = styled.div`
   }
 `;
 
-const FooterSectionComponent = () => {
+const FooterSectionComponent = ({ platformGate }) => {
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   const intl = useIntl();
+  const show = (section) => isSectionVisible(section, platformGate);
 
   const currentYear = new Date().getFullYear();
 
@@ -383,20 +388,49 @@ const FooterSectionComponent = () => {
                   </>
                 )}
                 <li>
+                  <a
+                    href={brandConfig.products?.account || 'https://account.aimatex.com'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {intl.formatMessage({ id: 'footer.product.accountCenter', defaultMessage: '统一登录中心' })}
+                  </a>
+                </li>
+                {show('music') && (
+                <li>
                   <a href={brandConfig.products?.aimatexMusic || 'https://music.aimatex.com'} target="_blank" rel="noopener noreferrer">
                     AIMATEX Music
                   </a>
                 </li>
+                )}
+                {show('nas') && (
                 <li>
                   <a href={brandConfig.products?.aimatexNas || 'https://nas.aimatex.com'} target="_blank" rel="noopener noreferrer">
                     AIMATEX NAS
                   </a>
                 </li>
+                )}
+                {show('soul') && (
                 <li>
                   <a href={brandConfig.products?.aimatexSoul || 'https://soul.aimatex.com'} target="_blank" rel="noopener noreferrer">
                     AIMATEX Soul
                   </a>
                 </li>
+                )}
+                {show('rank') && (
+                <li>
+                  <a href={brandConfig.products?.aimatexRank || 'https://rank.aimatex.com'} target="_blank" rel="noopener noreferrer">
+                    AIMATEX Rank
+                  </a>
+                </li>
+                )}
+                {show('aimodel') && (
+                <li>
+                  <a href={brandConfig.products?.aimatexAimodel || 'https://aimodel.aimatex.com'} target="_blank" rel="noopener noreferrer">
+                    AIMATEX Aimodel
+                  </a>
+                </li>
+                )}
               </ul>
             </FooterSection>
           </Col>
@@ -455,13 +489,17 @@ const FooterSectionComponent = () => {
               <h4>{intl.formatMessage({ id: 'footer.resources.title', defaultMessage: '资源' })}</h4>
               <ul>
                 <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/invite'); }}>
-                    {intl.formatMessage({ id: 'footer.resources.invite', defaultMessage: '邀请好友' })}
+                  <a
+                    href={brandConfig.products?.account || 'https://account.aimatex.com'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {intl.formatMessage({ id: 'footer.resources.accountCenter', defaultMessage: '统一登录中心' })}
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/billing'); }}>
-                    {intl.formatMessage({ id: 'footer.resources.account', defaultMessage: '账户管理' })}
+                  <a href="#" onClick={(e) => { e.preventDefault(); navigate('/invite'); }}>
+                    {intl.formatMessage({ id: 'footer.resources.invite', defaultMessage: '邀请好友' })}
                   </a>
                 </li>
                 <li>
@@ -478,7 +516,33 @@ const FooterSectionComponent = () => {
         <ExternalLinksSection>
           <ExternalLinksGrid>
             <ExternalLinkCard
-              href="https://openrobotx.com"
+              href={brandConfig.products.account}
+              target="_blank"
+              rel="noopener noreferrer"
+              theme={theme}
+              $iconBg={theme.mode === 'dark' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99, 102, 241, 0.1)'}
+              $iconColor="#6366f1"
+            >
+              <div className="link-icon">
+                <SafetyCertificateOutlined />
+              </div>
+              <div className="link-content">
+                <h4 className="link-title">
+                  {intl.formatMessage({ id: 'footer.accountCenter.title', defaultMessage: '统一登录中心' })}
+                </h4>
+                <p className="link-description">
+                  {intl.formatMessage({
+                    id: 'footer.accountCenter.description',
+                    defaultMessage: 'AIMATEX Account：一套账号登录全系产品',
+                  })}
+                </p>
+              </div>
+              <RightOutlined className="link-arrow" />
+            </ExternalLinkCard>
+
+            {show('openrobotx') && (
+            <ExternalLinkCard
+              href={brandConfig.products.openrobotx || 'https://openrobotx.aimatex.com'}
               target="_blank"
               rel="noopener noreferrer"
               theme={theme}
@@ -498,6 +562,7 @@ const FooterSectionComponent = () => {
               </div>
               <RightOutlined className="link-arrow" />
             </ExternalLinkCard>
+            )}
 
             <ExternalLinkCard
               href="https://ai2obj.com"
@@ -521,6 +586,7 @@ const FooterSectionComponent = () => {
               <RightOutlined className="link-arrow" />
             </ExternalLinkCard>
 
+            {show('music') && (
             <ExternalLinkCard
               href={brandConfig.products.aimatexMusic}
               target="_blank"
@@ -542,7 +608,9 @@ const FooterSectionComponent = () => {
               </div>
               <RightOutlined className="link-arrow" />
             </ExternalLinkCard>
+            )}
 
+            {show('nas') && (
             <ExternalLinkCard
               href={brandConfig.products.aimatexNas}
               target="_blank"
@@ -564,7 +632,57 @@ const FooterSectionComponent = () => {
               </div>
               <RightOutlined className="link-arrow" />
             </ExternalLinkCard>
+            )}
 
+            {show('rank') && (
+            <ExternalLinkCard
+              href={brandConfig.products.aimatexRank}
+              target="_blank"
+              rel="noopener noreferrer"
+              theme={theme}
+              $iconBg={theme.mode === 'dark' ? 'rgba(61, 206, 194, 0.15)' : 'rgba(61, 206, 194, 0.1)'}
+              $iconColor="#3dcec2"
+            >
+              <div className="link-icon">
+                <TableOutlined />
+              </div>
+              <div className="link-content">
+                <h4 className="link-title">
+                  {intl.formatMessage({ id: 'footer.aimatexRank.title', defaultMessage: 'AIMATEX Rank' })}
+                </h4>
+                <p className="link-description">
+                  {intl.formatMessage({ id: 'footer.aimatexRank.description', defaultMessage: '多行业产品对照：同一张表看清型号与参数' })}
+                </p>
+              </div>
+              <RightOutlined className="link-arrow" />
+            </ExternalLinkCard>
+            )}
+
+            {show('aimodel') && (
+            <ExternalLinkCard
+              href={brandConfig.products.aimatexAimodel || 'https://aimodel.aimatex.com'}
+              target="_blank"
+              rel="noopener noreferrer"
+              theme={theme}
+              $iconBg={theme.mode === 'dark' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.1)'}
+              $iconColor="#3b82f6"
+            >
+              <div className="link-icon">
+                <ApiOutlined />
+              </div>
+              <div className="link-content">
+                <h4 className="link-title">
+                  {intl.formatMessage({ id: 'footer.aimatexAimodel.title', defaultMessage: 'AIMATEX Aimodel' })}
+                </h4>
+                <p className="link-description">
+                  {intl.formatMessage({ id: 'footer.aimatexAimodel.description', defaultMessage: '多模型视频生成 API 网关：统一接入、Key 自助与按量计费' })}
+                </p>
+              </div>
+              <RightOutlined className="link-arrow" />
+            </ExternalLinkCard>
+            )}
+
+            {show('soul') && (
             <ExternalLinkCard
               href={brandConfig.products.aimatexSoul}
               target="_blank"
@@ -586,6 +704,7 @@ const FooterSectionComponent = () => {
               </div>
               <RightOutlined className="link-arrow" />
             </ExternalLinkCard>
+            )}
           </ExternalLinksGrid>
         </ExternalLinksSection>
 

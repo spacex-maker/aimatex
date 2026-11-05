@@ -60,6 +60,7 @@ DEPLOY_ENV_CANDIDATES = (
 REMOTE_WEB = "/home/ubuntu/web/aimatex"
 SITE_FILE = "aimatex.com"
 
+# HTTP-only (used before cert exists). Prefer NGINX_SSL once /etc/nginx/ssl/aimatex.com is present.
 NGINX_APEX = f"""server {{
     listen 80;
     server_name {WEB_DOMAIN};
@@ -97,6 +98,72 @@ NGINX_WWW = f"""server {{
     location / {{
         return 301 https://{WEB_DOMAIN}$request_uri;
     }}
+}}
+"""
+
+# Installed by scripts/fix_aimatex_www_ssl.py (acme.sh DNS-01 → /etc/nginx/ssl/aimatex.com).
+NGINX_SSL = f"""server {{
+    listen 80;
+    server_name {WEB_DOMAIN};
+
+    location ^~ /.well-known/acme-challenge/ {{
+        default_type "text/plain";
+        root /var/www/certbot;
+    }}
+
+    location / {{
+        return 301 https://$host$request_uri;
+    }}
+}}
+
+server {{
+    listen 443 ssl http2;
+    server_name {WEB_DOMAIN};
+
+    ssl_certificate /etc/nginx/ssl/{WEB_DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{WEB_DOMAIN}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+
+    root {REMOTE_WEB};
+    index index.html;
+    client_max_body_size 32m;
+
+    location /static/ {{
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }}
+
+    location / {{
+        try_files $uri $uri/ /index.html;
+    }}
+}}
+
+server {{
+    listen 80;
+    server_name {WWW_DOMAIN};
+
+    location ^~ /.well-known/acme-challenge/ {{
+        default_type "text/plain";
+        root /var/www/certbot;
+    }}
+
+    location / {{
+        return 301 https://{WEB_DOMAIN}$request_uri;
+    }}
+}}
+
+server {{
+    listen 443 ssl http2;
+    server_name {WWW_DOMAIN};
+
+    ssl_certificate /etc/nginx/ssl/{WEB_DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{WEB_DOMAIN}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+
+    return 301 https://{WEB_DOMAIN}$request_uri;
 }}
 """
 
@@ -379,21 +446,38 @@ def deploy_chengdu(data: dict[str, str]) -> None:
         print("Chengdu frontend-only deploy finished.")
         return
 
-    apex_b64 = base64.b64encode(NGINX_APEX.encode()).decode()
-    www_b64 = base64.b64encode(NGINX_WWW.encode()).decode()
-    run(
+    # Prefer SSL vhost when cert already installed (acme.sh DNS-01 / fix_aimatex_www_ssl.py)
+    _, cert_out = run(
         ssh,
-        f"echo {apex_b64} | base64 -d | sudo tee /etc/nginx/sites-available/{SITE_FILE} >/dev/null",
+        f"test -f /etc/nginx/ssl/{WEB_DOMAIN}/fullchain.pem && echo CERT_OK || echo CERT_MISSING",
+        check=False,
     )
-    run(
-        ssh,
-        f"echo {www_b64} | base64 -d | sudo tee /etc/nginx/sites-available/{WWW_DOMAIN} >/dev/null",
-    )
-    run(
-        ssh,
-        f"sudo ln -sfn /etc/nginx/sites-available/{SITE_FILE} /etc/nginx/sites-enabled/{SITE_FILE} && "
-        f"sudo ln -sfn /etc/nginx/sites-available/{WWW_DOMAIN} /etc/nginx/sites-enabled/{WWW_DOMAIN}",
-    )
+    has_ssl = "CERT_OK" in cert_out
+    if has_ssl:
+        print(f"Using SSL nginx site (cert at /etc/nginx/ssl/{WEB_DOMAIN})")
+        tee = base64.b64encode(NGINX_SSL.encode()).decode()
+        run(ssh, f"echo {tee} | base64 -d | sudo tee /etc/nginx/sites-available/{SITE_FILE} >/dev/null")
+        run(ssh, f"sudo rm -f /etc/nginx/sites-enabled/{WWW_DOMAIN}", check=False)
+        run(
+            ssh,
+            f"sudo ln -sfn /etc/nginx/sites-available/{SITE_FILE} /etc/nginx/sites-enabled/{SITE_FILE}",
+        )
+    else:
+        apex_b64 = base64.b64encode(NGINX_APEX.encode()).decode()
+        www_b64 = base64.b64encode(NGINX_WWW.encode()).decode()
+        run(
+            ssh,
+            f"echo {apex_b64} | base64 -d | sudo tee /etc/nginx/sites-available/{SITE_FILE} >/dev/null",
+        )
+        run(
+            ssh,
+            f"echo {www_b64} | base64 -d | sudo tee /etc/nginx/sites-available/{WWW_DOMAIN} >/dev/null",
+        )
+        run(
+            ssh,
+            f"sudo ln -sfn /etc/nginx/sites-available/{SITE_FILE} /etc/nginx/sites-enabled/{SITE_FILE} && "
+            f"sudo ln -sfn /etc/nginx/sites-available/{WWW_DOMAIN} /etc/nginx/sites-enabled/{WWW_DOMAIN}",
+        )
     run(ssh, "sudo rm -f /etc/nginx/sites-enabled/default", check=False)
     run(ssh, "sudo nginx -t && sudo systemctl reload nginx")
     run(
@@ -402,14 +486,15 @@ def deploy_chengdu(data: dict[str, str]) -> None:
         check=False,
     )
 
-    # Geo-DNS 下 HTTP-01 可能从境外打到 Netlify；已有证书时不强制重签
-    run(
-        ssh,
-        f"test -f /etc/letsencrypt/live/{WEB_DOMAIN}/fullchain.pem && echo CERT_OK || echo CERT_MISSING",
-        check=False,
-    )
+    # Geo-DNS: HTTP-01 常失败；缺证时请跑 scripts/fix_aimatex_www_ssl.py（acme.sh DNS-01）
+    if not has_ssl:
+        print(
+            f"WARN: 缺少 /etc/nginx/ssl/{WEB_DOMAIN}/fullchain.pem — "
+            "境内 https 会落到其它站点证书。请执行: py -3 scripts/fix_aimatex_www_ssl.py",
+            file=sys.stderr,
+        )
     if env_flag("DEPLOY_FORCE_CERT"):
-        print("DEPLOY_FORCE_CERT=1 — attempting certbot (may fail under geo DNS) ...")
+        print("DEPLOY_FORCE_CERT=1 — attempting certbot HTTP-01 (may fail under geo DNS) ...")
         run(
             ssh,
             f"sudo certbot --nginx -d {WEB_DOMAIN} -d {WWW_DOMAIN} "

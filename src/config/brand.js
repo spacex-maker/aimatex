@@ -44,11 +44,14 @@ const brandConfig = {
   products: {
     seedance2: 'https://seedance2.cn',
     ai2obj: 'https://ai2obj.com',
-    openrobotx: 'https://openrobotx.com',
+    openrobotx: 'https://openrobotx.aimatex.com',
     openclaw4j: 'https://chat.aimatex.com',
     aimatexMusic: 'https://music.aimatex.com',
     aimatexNas: 'https://nas.aimatex.com',
     aimatexSoul: 'https://soul.aimatex.com',
+    aimatexRank: 'https://rank.aimatex.com',
+    aimatexAimodel: 'https://aimodel.aimatex.com',
+    account: 'https://account.aimatex.com',
   },
 };
 

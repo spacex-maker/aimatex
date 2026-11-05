@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { motion } from 'framer-motion';
 import brandConfig from 'config/brand';
+import { isSectionVisible } from '../platformVisibility';
 import {
   ArrowRightOutlined,
   BlockOutlined,
@@ -681,7 +682,8 @@ function ShowcaseCard({ product, dark }) {
   );
 }
 
-export default function ProductShowcases({ dark }) {
+export default function ProductShowcases({ dark, platformGate }) {
+  const products = PRODUCTS.filter((p) => isSectionVisible(p.id, platformGate));
   return (
     <>
       <Intro $dark={dark}>
@@ -696,7 +698,7 @@ export default function ProductShowcases({ dark }) {
         </p>
       </Intro>
       <Section>
-        {PRODUCTS.map((p) => (
+        {products.map((p) => (
           <ShowcaseCard key={p.id} product={p} dark={dark} />
         ))}
       </Section>
