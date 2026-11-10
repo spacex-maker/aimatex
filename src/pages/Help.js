@@ -557,6 +557,7 @@ const HelpContent = () => {
 
   return (
     <PageLayout $token={token}>
+      <SEO {...SEOConfigs.help} />
       <SimpleHeader />
       <ContentContainer
         initial={{ opacity: 0, y: 20 }}

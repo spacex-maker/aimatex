@@ -1,17 +1,23 @@
-# Seedance
-# https://seedance.example.com
+# AIMATEX
+# https://aimatex.com
 
-# 允许所有搜索引擎爬虫
 User-agent: *
 
-# 允许访问的路径
 Allow: /
 
-# 禁止爬取的路径（用户私有内容和敏感页面）
 Disallow: /api/
 Disallow: /*.json$
 Disallow: /*?*token=
 Disallow: /*?*password=
+Disallow: /profile
+Disallow: /settings
+Disallow: /billing
+Disallow: /orders
+Disallow: /recharge
+Disallow: /works
+Disallow: /notifications
+Disallow: /invite
+Disallow: /all-manage
+Disallow: /auth/
 
-# Sitemap 位置
-Sitemap: https://seedance.example.com/sitemap.xml
+Sitemap: https://aimatex.com/sitemap.xml

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import SimpleHeader from "components/headers/simple";
 import FooterSection from "../Home/components/FooterSection";
 import { base } from "api/base";
+import SEO, { SEOConfigs } from "components/SEO";
 import axios from "api/axios";
 import {
   Button,
@@ -388,6 +389,7 @@ const FeedbackContent = () => {
 
   return (
     <PageLayout $token={token}>
+      <SEO {...SEOConfigs.feedback} />
       <SimpleHeader />
 
       <ContentContainer

@@ -96,8 +96,8 @@ const SEO: React.FC<SEOProps> = ({
 export const SEOConfigs = {
   home: {
     title: undefined, // 使用默认标题
-    description: `${brandConfig.name} 是一站式 AI 图生视频平台，提供专业的视频生成服务。`,
-    keywords: `${brandConfig.name}, AI创作, 图生视频, 视频生成, AI视频, 图生图`,
+    description: brandConfig.seo.defaultDescription,
+    keywords: `${brandConfig.name}, AI助手, AI伴侣, AI伙伴, 人工智能`,
     url: '/',
   },
   
@@ -212,7 +212,7 @@ export const generateArticleStructuredData = (params: {
       name: brandConfig.name,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://ai2obj.com/logo192.ico',
+        url: 'https://aimatex.com/logo192.ico',
       },
     },
   };

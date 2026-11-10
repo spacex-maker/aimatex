@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from 'antd';
-import { Helmet } from 'react-helmet';
 import styled, { ThemeContext, keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -14,6 +13,7 @@ import AimatexSoulShowcase from './components/AimatexSoulShowcase';
 import AimatexRankShowcase from './components/AimatexRankShowcase';
 import AimatexAimodelShowcase from './components/AimatexAimodelShowcase';
 import brandConfig from 'config/brand';
+import SEO, { SEOConfigs } from 'components/SEO';
 import { base } from 'api/base';
 import { isSectionVisible } from './platformVisibility';
 import {
@@ -327,15 +327,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{brandConfig.seo?.defaultTitle || `${brandConfig.name} - AI助手、伴侣、伙伴`}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
-          rel="stylesheet"
-        />
-      </Helmet>
+      <SEO {...SEOConfigs.home} />
       
       {/* Background Layer */}
       <VideoBackdrop theme={theme}>

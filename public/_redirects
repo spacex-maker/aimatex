@@ -1,1 +1,3 @@
+https://aimatex.netlify.app/*  https://aimatex.com/:splat  301!
+https://www.aimatex.com/*      https://aimatex.com/:splat  301!
 /*  /index.html  200
